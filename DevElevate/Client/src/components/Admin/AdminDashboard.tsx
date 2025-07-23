@@ -35,6 +35,7 @@ import {
   Award,
   Target
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard: React.FC = () => {
   const { state: authState, loadUsers, updateUser, deleteUser } = useAuth();
@@ -43,9 +44,9 @@ const AdminDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showAddNews, setShowAddNews] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [courses, setCourses] = useState([]);
-  const [newsArticles, setNewsArticles] = useState([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
   const [systemSettings, setSystemSettings] = useState({
     siteName: 'DevElevate',
     maintenanceMode: false,
@@ -54,6 +55,7 @@ const AdminDashboard: React.FC = () => {
     maxUsersPerCourse: 1000,
     sessionTimeout: 30
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadUsers();
@@ -64,7 +66,7 @@ const AdminDashboard: React.FC = () => {
   const loadCourses = () => {
     const savedCourses = JSON.parse(localStorage.getItem('adminCourses') || '[]');
     if (savedCourses.length === 0) {
-      const defaultCourses = [
+      const defaultCourses: Course[] = [
         {
           id: '1',
           title: 'Data Structures & Algorithms',
@@ -115,7 +117,7 @@ const AdminDashboard: React.FC = () => {
   const loadNewsArticles = () => {
     const savedNews = JSON.parse(localStorage.getItem('adminNews') || '[]');
     if (savedNews.length === 0) {
-      const defaultNews = [
+      const defaultNews: NewsArticle[] = [
         {
           id: '1',
           title: 'New AI Course Launch',
@@ -1286,7 +1288,19 @@ const AdminDashboard: React.FC = () => {
           <p className={`text-lg ${globalState.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Comprehensive platform management and analytics
           </p>
-        </div>
+          {/* 🌙 Dark Mode Toggle Button */}
+            <button
+            onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
+            className={`flex items-center px-4 py-2 rounded-lg border transition-colors ${
+              globalState.darkMode
+              ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
+              : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-100'
+            }`}
+            title="Toggle Dark Mode"
+          >
+          {globalState.darkMode ? '☀ Light' : '🌙 Dark'}
+          </button>
+      </div>
 
         {/* Tab Navigation */}
         <div className="mb-8">
