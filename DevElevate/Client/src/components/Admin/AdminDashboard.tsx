@@ -55,6 +55,14 @@ const AdminDashboard: React.FC = () => {
     maxUsersPerCourse: 1000,
     sessionTimeout: 30
   });
+  const [showFilter, setShowFilter] = useState(false);
+  const [filter, setFilter] = useState({
+    role: '',
+    dateFrom: '',
+    dateTo: '',
+    minProgress: '',
+    maxProgress: ''
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -187,10 +195,23 @@ const AdminDashboard: React.FC = () => {
     }
   ];
 
-  const filteredUsers = authState.users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter logic
+  const filteredUsers = authState.users
+    .filter(user =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(user => {
+      // Role filter
+      if (filter.role && user.role !== filter.role) return false;
+      // Date filter
+      if (filter.dateFrom && new Date(user.joinDate) < new Date(filter.dateFrom)) return false;
+      if (filter.dateTo && new Date(user.joinDate) > new Date(filter.dateTo)) return false;
+      // Progress filter
+      if (filter.minProgress && user.progress.totalPoints < Number(filter.minProgress)) return false;
+      if (filter.maxProgress && user.progress.totalPoints > Number(filter.maxProgress)) return false;
+      return true;
+    });
 
   const addCourse = (courseData) => {
     const newCourse = {
@@ -432,8 +453,139 @@ const AdminDashboard: React.FC = () => {
             <Mail className="w-4 h-4" />
             <span>Send Email</span>
           </button>
+          <button
+            className="flex items-center space-x-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            onClick={() => setShowFilter(true)}
+          >
+            <Filter className="w-4 h-4" />
+            <span>Filter</span>
+          </button>
         </div>
       </div>
+
+      {/* Filter Modal */}
+      {showFilter && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className={`${globalState.darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 w-full max-w-md mx-4`}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className={`text-lg font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Filter Users
+              </h3>
+              <button onClick={() => setShowFilter(false)} className="text-gray-500 hover:text-gray-700">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                setShowFilter(false);
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className={`block text-sm font-medium mb-1 ${globalState.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Role</label>
+                <select
+                  value={filter.role}
+                  onChange={e => setFilter(f => ({ ...f, role: e.target.value }))}
+                  className={`w-full px-3 py-2 rounded-lg border ${
+                    globalState.darkMode
+                      ? 'bg-gray-700 border-gray-600 text-white'
+                      : 'bg-white border-gray-300 text-gray-900'
+                  }`}
+                >
+                  <option value="">All</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                  <option value="moderator">Moderator</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={`block text-sm font-medium mb-1 ${globalState.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Joined After</label>
+                  <input
+                    type="date"
+                    value={filter.dateFrom}
+                    onChange={e => setFilter(f => ({ ...f, dateFrom: e.target.value }))}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? 'bg-gray-700 border-gray-600 text-white'
+                        : 'bg-white border-gray-300 text-gray-900'
+                    }`}
+                  />
+                </div>
+                <div>
+                  <label className={`block text-sm font-medium mb-1 ${globalState.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Joined Before</label>
+                  <input
+                    type="date"
+                    value={filter.dateTo}
+                    onChange={e => setFilter(f => ({ ...f, dateTo: e.target.value }))}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? 'bg-gray-700 border-gray-600 text-white'
+                        : 'bg-white border-gray-300 text-gray-900'
+                    }`}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={`block text-sm font-medium mb-1 ${globalState.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Min Progress</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={filter.minProgress}
+                    onChange={e => setFilter(f => ({ ...f, minProgress: e.target.value }))}
+                    placeholder="Points"
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? 'bg-gray-700 border-gray-600 text-white'
+                        : 'bg-white border-gray-300 text-gray-900'
+                    }`}
+                  />
+                </div>
+                <div>
+                  <label className={`block text-sm font-medium mb-1 ${globalState.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Max Progress</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={filter.maxProgress}
+                    onChange={e => setFilter(f => ({ ...f, maxProgress: e.target.value }))}
+                    placeholder="Points"
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? 'bg-gray-700 border-gray-600 text-white'
+                        : 'bg-white border-gray-300 text-gray-900'
+                    }`}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end space-x-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilter({
+                      role: '',
+                      dateFrom: '',
+                      dateTo: '',
+                      minProgress: '',
+                      maxProgress: ''
+                    });
+                  }}
+                  className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                >
+                  Reset
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                >
+                  Apply
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -1559,7 +1711,7 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
             <textarea
               value={formData.content}
               onChange={(e) => setFormData({...formData, content: e.target.value})}
-              rows={4}
+              rows={3}
               className={`w-full px-3 py-2 rounded-lg border ${
                 darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
               } focus:outline-none focus:ring-2 focus:ring-blue-500`}
@@ -1567,40 +1719,33 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Category
-              </label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData({...formData, category: e.target.value})}
-                className={`w-full px-3 py-2 rounded-lg border ${
-                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              >
-                <option value="announcement">Announcement</option>
-                <option value="maintenance">Maintenance</option>
-                <option value="feature">Feature</option>
-                <option value="general">General</option>
-              </select>
-            </div>
+          <div>
+            <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Category
+            </label>
+            <select
+              value={formData.category}
+              onChange={(e) => setFormData({...formData, category: e.target.value})}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+              }`}
+            >
+              <option value="announcement">Announcement</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="news">News</option>
+            </select>
+          </div>
 
-            <div>
-              <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Status
-              </label>
-              <select
-                value={formData.status}
-                onChange={(e) => setFormData({...formData, status: e.target.value})}
-                className={`w-full px-3 py-2 rounded-lg border ${
-                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              >
-                <option value="published">Published</option>
-                <option value="draft">Draft</option>
-              </select>
-            </div>
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={formData.status === 'published'}
+              onChange={(e) => setFormData({...formData, status: e.target.checked ? 'published' : 'draft'})}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <label className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Publish immediately
+            </label>
           </div>
 
           <div className="flex space-x-3 pt-4">
@@ -1608,7 +1753,7 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
               type="submit"
               className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
             >
-              Add Article
+              Add News
             </button>
             <button
               type="button"
@@ -1619,110 +1764,6 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  );
-};
-
-// User Details Modal Component
-const UserDetailsModal = ({ user, onClose, darkMode }) => {
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 w-full max-w-lg mx-4`}>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            User Details
-          </h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          <div className="flex items-center space-x-4">
-            <img
-              src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=3b82f6&color=fff`}
-              alt={user.name}
-              className="w-16 h-16 rounded-full"
-            />
-            <div>
-              <h4 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {user.name}
-              </h4>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {user.email}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Role
-              </label>
-              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>{user.role}</p>
-            </div>
-            <div>
-              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Status
-              </label>
-              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {user.isActive ? 'Active' : 'Inactive'}
-              </p>
-            </div>
-            <div>
-              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Join Date
-              </label>
-              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {new Date(user.joinDate).toLocaleDateString()}
-              </p>
-            </div>
-            <div>
-              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Last Login
-              </label>
-              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {new Date(user.lastLogin).toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-
-          <div>
-            <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Progress Summary
-            </label>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {user.progress.totalPoints}
-                </p>
-                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Points</p>
-              </div>
-              <div className="text-center">
-                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {user.progress.streak}
-                </p>
-                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Streak</p>
-              </div>
-              <div className="text-center">
-                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {user.progress.completedModules}
-                </p>
-                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Modules</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-end pt-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
-          >
-            Close
-          </button>
-        </div>
       </div>
     </div>
   );
