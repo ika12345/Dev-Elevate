@@ -55,15 +55,6 @@ const AdminDashboard: React.FC = () => {
     maxUsersPerCourse: 1000,
     sessionTimeout: 30
   });
-  const [showFilter, setShowFilter] = useState(false);
-  const [filter, setFilter] = useState({
-    role: '',
-    dateFrom: '',
-    dateTo: '',
-    minProgress: '',
-    maxProgress: ''
-  });
-  const navigate = useNavigate();
 
   useEffect(() => {
     loadUsers();
