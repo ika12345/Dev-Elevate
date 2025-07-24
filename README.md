@@ -38,6 +38,8 @@
     </tbody>
 </table>
 
+---
+
 <h2 align="center">🎯 Open Source Programmes ⭐</h2>
 
 <p align="center">
@@ -66,6 +68,25 @@ Let’s build, learn, and grow together — one commit at a time. 🔥👨‍�
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
+
+##  🔁 Project Flowchart (DevElevate Platform)
+  
+<img width="3840" height="432" alt="Flowchart" src="https://github.com/user-attachments/assets/8b39e8b4-fb7c-46c4-844b-e17b9d22c725" />
+
+##  🔁 Project ER Diagram (DevElevate Platform)
+
+<img width="3840" height="664" alt="ER Diagram" src="https://github.com/user-attachments/assets/acc7745e-06a1-4d01-a452-55ec8ceea2bc" />
+
+## 📘 Project Documentation
+
+We’ve documented everything in detail including architecture, API structure, database models, UI flows, and more.  
+Click the link below to explore the complete guide:
+
+[📄 View Full DevElevate Documentation (Google Docs)](https://docs.google.com/document/d/1oHgo5GmPDQu6eV9ND3VrYcpi0Dwvb-wWZi-lMgjFAH8/edit?usp=sharing)
+
+
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
 > ⚠️ **📢 Important Note – Must Read Before You Contribute!** ⚠️
 
 <!-- New Login Flow GIF -->
@@ -88,7 +109,8 @@ Let’s build, learn, and grow together — one commit at a time. 🔥👨‍�
   - Profile Settings ⚙️
   - Content Upload System 📤
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
 
 ⚠️ **🚨 Attention Contributors!** 🚨
 📖 Please make sure to **thoroughly read the entire `README.md`** to understand:
