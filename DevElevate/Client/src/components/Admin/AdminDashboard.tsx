@@ -55,6 +55,14 @@ const AdminDashboard: React.FC = () => {
     maxUsersPerCourse: 1000,
     sessionTimeout: 30
   });
+  const [filter, setFilter] = useState({
+    role: '',
+    dateFrom: '',
+    dateTo: '',
+    minProgress: '',
+    maxProgress: ''
+  });
+  const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -1434,15 +1442,16 @@ const AdminDashboard: React.FC = () => {
           </p>
           {/* 🌙 Dark Mode Toggle Button */}
             <button
-            onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
-            className={`flex items-center px-4 py-2 rounded-lg border transition-colors ${
+           
+            onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE'
+ })}
+            className={`mt-2 px-4 py-2 rounded-lg font-medium transition-colors ${
               globalState.darkMode
-              ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
-              : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-100'
+                ? 'bg-gray-700 text-white hover:bg-gray-600'
+                : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
             }`}
-            title="Toggle Dark Mode"
           >
-          {globalState.darkMode ? '☀ Light' : '🌙 Dark'}
+            {globalState.darkMode ? '☀ Light' : '🌙 Dark'}
           </button>
       </div>
           {/* 🌙 Dark Mode Toggle Button */}
