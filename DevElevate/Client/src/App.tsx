@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { GlobalProvider } from './contexts/GlobalContext';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoginRegister from './components/Auth/LoginRegister';
 import Dashboard from './components/Dashboard/Dashboard';
+=======
+import { AuthProvider } from './contexts/AuthContext';
+import { GlobalProvider } from './contexts/GlobalContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Layout/Navbar';
+import Footer from './components/Layout/Footer';
+>>>>>>> 7c701e3a (Fixing app.tsx)
 import LearningHub from './components/LearningHub/LearningHub';
 import Chatbot from './components/Chatbot/Chatbot';
 import TechFeed from './components/TechFeed/TechFeed';
@@ -12,6 +20,7 @@ import PlacementPrep from './components/PlacementPrep/PlacementPrep';
 import UserProfile from './components/Profile/UserProfile';
 import PrivacyPolicy from './components/Legal/PrivacyPolicy';
 import TermsOfService from './components/Legal/TermsOfService';
+<<<<<<< HEAD
 import CreatorPage from './components/Legal/CreatorPage';
 import Disclaimer from './components/Legal/Disclaimer';
 import AdminDashboard from './components/Admin/AdminDashboard';
@@ -19,6 +28,14 @@ import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
 import AppContent from './components/Layout/Toast'; // or wherever AppContent is defined
 
+=======
+import Disclaimer from './components/Legal/Disclaimer';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
+import LoginRegister from './components/Auth/LoginRegister';
+import CreatorPage from './components/Legal/CreatorPage';
+import Dashboard from './components/Dashboard/Dashboard';
+>>>>>>> 7c701e3a (Fixing app.tsx)
 
 function App() {
   return (
@@ -82,7 +99,7 @@ function App() {
             </Routes>
           {/* </div> */}
 
-          <AppContent />
+          {/* <AppContent /> */}
 
         </Router>
       </GlobalProvider>
