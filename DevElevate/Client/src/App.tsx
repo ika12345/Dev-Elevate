@@ -1,4 +1,22 @@
-
+import { AuthProvider } from './contexts/AuthContext';
+import { GlobalProvider } from './contexts/GlobalContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Layout/Navbar';
+import Footer from './components/Layout/Footer';
+import LearningHub from './components/LearningHub/LearningHub';
+import Chatbot from './components/Chatbot/Chatbot';
+import TechFeed from './components/TechFeed/TechFeed';
+import ResumeBuilder from './components/ResumeBuilder/ResumeBuilder';
+import PlacementPrep from './components/PlacementPrep/PlacementPrep';
+import UserProfile from './components/Profile/UserProfile';
+import PrivacyPolicy from './components/Legal/PrivacyPolicy';
+import TermsOfService from './components/Legal/TermsOfService';
+import Disclaimer from './components/Legal/Disclaimer';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
+import LoginRegister from './components/Auth/LoginRegister';
+import CreatorPage from './components/Legal/CreatorPage';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -62,7 +80,7 @@ function App() {
             </Routes>
           {/* </div> */}
 
-          <AppContent />
+          {/* <AppContent /> */}
 
         </Router>
       </GlobalProvider>
