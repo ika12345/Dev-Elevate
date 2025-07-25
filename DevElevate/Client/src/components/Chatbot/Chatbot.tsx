@@ -8,6 +8,7 @@ import {
   Briefcase,
   CheckIcon,
   CopyIcon,
+  MessageCircleQuestion ,
 } from "lucide-react";
 import { useGlobalState } from "../../contexts/GlobalContext";
 import { generateGeminiResponse } from "../../utils/helperAI";
@@ -28,6 +29,7 @@ const Chatbot: React.FC = () => {
   const categories = [
     { id: "learning", label: "Learning Help", icon: BookOpen },
     { id: "career", label: "Career Advice", icon: Briefcase },
+    { id: "quiz", label: "quiz", icon: MessageCircleQuestion  },
     { id: "general", label: "General Chat", icon: Sparkles },
   ];
 
@@ -44,6 +46,14 @@ const Chatbot: React.FC = () => {
       "How to negotiate salary?",
       "Tips for switching careers to tech?",
     ],
+    quiz: [
+      "Binary Search",
+      "Operating System Basics",
+      "JavaScript Array Methods",
+      "Time and Space Complexity",
+      "Graphs vs Trees",
+    ],
+
     general: [
       "Motivate me to keep learning",
       "How to manage study time effectively?",

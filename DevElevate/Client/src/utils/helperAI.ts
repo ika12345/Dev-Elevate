@@ -5,22 +5,26 @@ export const generateGeminiResponse = async (
   selectedCategory: string
 ): Promise<string> => {
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${
-        import.meta.env.VITE_GEMINI_API_KEY
-      }`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: `
+    const prompt =
+      selectedCategory.toLowerCase() === "quiz"
+        ? `
+You are Study Buddy, an AI mentor specializing in DSA quizzes.
+
+Generate **6 deep-level MCQ (multiple choice questions)** based on the topic: "${message}".  
+Make sure the questions test strong understanding, not just definitions.  
+Each question should have 4 options and clearly mark the **correct answer**.
+
+Format:
+1. Question text  
+   A) Option A  
+   B) Option B  
+   C) Option C  
+   D) Option D  
+   ✅ Correct Answer: X
+
+Only provide the quiz — no explanation or extra text.
+        `
+        : `
 You are Study Buddy, an AI mentor who gives concise, clear, and structured answers for ${selectedCategory} questions.
 
 Respond using Markdown with the following format:
@@ -42,9 +46,22 @@ Brief 1-line summary of the concept.
 Wrap up with a useful tip or reminder.
 
 User: ${message}
-`,
-                },
-              ],
+`;
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${
+        import.meta.env.VITE_GEMINI_API_KEY
+      }`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: prompt }],
             },
           ],
         }),

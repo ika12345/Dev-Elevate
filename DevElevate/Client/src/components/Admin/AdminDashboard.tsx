@@ -13,7 +13,6 @@ import {
   Trash2,
   Eye,
   Search,
-  Filter,
   Download,
   Upload,
   Mail,
@@ -26,26 +25,65 @@ import {
   Activity,
   Globe,
   Database,
-  Lock,
-  Bell,
   CheckCircle,
-  XCircle,
   Clock,
-  Star,
   Award,
   Target
 } from 'lucide-react';
 
+type Course = {
+  id: string;
+  title: string;
+  description: string;
+  modules: number;
+  enrolled: number;
+  completion: number;
+  difficulty: string;
+  duration: string;
+  instructor: string;
+  status: string;
+  createdAt: string;
+};
+
+type NewsArticle = {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  status: string;
+  author: string;
+  publishDate: string;
+  views: number;
+};
+
 const AdminDashboard: React.FC = () => {
-  const { state: authState, loadUsers, updateUser, deleteUser } = useAuth();
-  const { state: globalState, dispatch } = useGlobalState();
+  const { state: authState, loadUsers, deleteUser } = useAuth();
+  const { state: globalState } = useGlobalState();
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showAddNews, setShowAddNews] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [courses, setCourses] = useState([]);
-  const [newsArticles, setNewsArticles] = useState([]);
+
+
+  type User = {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    role: string;
+    isActive: boolean;
+    joinDate: string;
+    lastLogin: string;
+    progress: {
+      totalPoints: number;
+      streak: number;
+      completedModules: number;
+    };
+    [key: string]: any;
+  };
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [courses, setCourses] =useState<Course[]>([]);
+  const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
   const [systemSettings, setSystemSettings] = useState({
     siteName: 'DevElevate',
     maintenanceMode: false,
@@ -190,7 +228,7 @@ const AdminDashboard: React.FC = () => {
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const addCourse = (courseData) => {
+  const addCourse = (courseData: Omit<Course, 'id' | 'enrolled' | 'completion' | 'status' | 'createdAt'>) => {
     const newCourse = {
       id: Date.now().toString(),
       ...courseData,
@@ -205,13 +243,13 @@ const AdminDashboard: React.FC = () => {
     setShowAddCourse(false);
   };
 
-  const deleteCourse = (courseId) => {
+  const deleteCourse = (courseId: string) => {
     const updatedCourses = courses.filter(course => course.id !== courseId);
     setCourses(updatedCourses);
     localStorage.setItem('adminCourses', JSON.stringify(updatedCourses));
   };
 
-  const addNewsArticle = (newsData) => {
+  const addNewsArticle = (newsData: Omit<NewsArticle, 'id' | 'author' | 'publishDate' | 'views'>) => {
     const newArticle = {
       id: Date.now().toString(),
       ...newsData,
@@ -225,7 +263,7 @@ const AdminDashboard: React.FC = () => {
     setShowAddNews(false);
   };
 
-  const deleteNewsArticle = (articleId) => {
+  const deleteNewsArticle = (articleId: string) => {
     const updatedNews = newsArticles.filter(article => article.id !== articleId);
     setNewsArticles(updatedNews);
     localStorage.setItem('adminNews', JSON.stringify(updatedNews));
@@ -1350,7 +1388,20 @@ const AdminDashboard: React.FC = () => {
 };
 
 // Add Course Modal Component
-const AddCourseModal = ({ onClose, onAdd, darkMode }) => {
+type AddCourseModalProps = {
+  onClose: () => void;
+  onAdd: (courseData: {
+    title: string;
+    description: string;
+    modules: number;
+    difficulty: string;
+    duration: string;
+    instructor: string;
+  }) => void;
+  darkMode: boolean;
+};
+
+const AddCourseModal: React.FC<AddCourseModalProps> = ({ onClose, onAdd, darkMode }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -1360,7 +1411,7 @@ const AddCourseModal = ({ onClose, onAdd, darkMode }) => {
     instructor: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onAdd(formData);
   };
@@ -1497,7 +1548,13 @@ const AddCourseModal = ({ onClose, onAdd, darkMode }) => {
 };
 
 // Add News Modal Component
-const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
+type AddNewsModalProps = {
+  onClose: () => void;
+  onAdd: (newsData: { title: string; content: string; category: string; status: string }) => void;
+  darkMode: boolean;
+};
+
+const AddNewsModal: React.FC<AddNewsModalProps> = ({ onClose, onAdd, darkMode }) => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -1505,7 +1562,7 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
     status: 'published'
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onAdd(formData);
   };
@@ -1611,7 +1668,28 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
 };
 
 // User Details Modal Component
-const UserDetailsModal = ({ user, onClose, darkMode }) => {
+type UserDetailsModalProps = {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    role: string;
+    isActive: boolean;
+    joinDate: string;
+    lastLogin: string;
+    progress: {
+      totalPoints: number;
+      streak: number;
+      completedModules: number;
+    };
+    [key: string]: any;
+  };
+  onClose: () => void;
+  darkMode: boolean;
+};
+
+const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, onClose, darkMode }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 w-full max-w-lg mx-4`}>
