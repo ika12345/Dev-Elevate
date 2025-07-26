@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 // main route 
 app.use("/api/v1/auth",userRoutes);
-app.use("/api/admin", courseRoutes);
+app.use("/api/admin/courses", courseRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
