@@ -28,7 +28,8 @@ import {
   CheckCircle,
   Clock,
   Award,
-  Target
+  Target,
+  Filter
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -199,6 +200,7 @@ const AdminDashboard: React.FC = () => {
     { id: 'content', label: 'Content Management', icon: FileText },
     { id: 'news', label: 'News & Updates', icon: Newspaper },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
+    { id: 'logs', label: 'System Logs', icon: Database },
     { id: 'settings', label: 'System Settings', icon: Settings }
   ];
 
@@ -1279,6 +1281,30 @@ const AdminDashboard: React.FC = () => {
     </div>
   );
 
+  const renderSystemLogs = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className={`text-xl font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
+          System Logs
+        </h3>
+        <button
+          onClick={() => navigate('/admin/logs')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+        >
+          <Database className="w-4 h-4 inline mr-2" />
+          View Detailed Logs
+        </button>
+      </div>
+
+      <div className={`${globalState.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl p-6 border shadow-sm`}>
+        <p className={`text-center py-12 ${globalState.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <Database className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          Click "View Detailed Logs" to access the full system logs interface with filtering, search, and pagination capabilities.
+        </p>
+      </div>
+    </div>
+  );
+
   const renderSystemSettings = () => (
     <div className="space-y-6">
       <h3 className={`text-xl font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -1444,6 +1470,8 @@ const AdminDashboard: React.FC = () => {
         return renderNewsManagement();
       case 'analytics':
         return renderAnalytics();
+      case 'logs':
+        return renderSystemLogs();
       case 'settings':
         return renderSystemSettings();
       default:

@@ -14,6 +14,7 @@ import TermsOfService from './components/Legal/TermsOfService';
 import CreatorPage from './components/Legal/CreatorPage';
 import Disclaimer from './components/Legal/Disclaimer';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminSystemLogs from './components/Admin/AdminSystemLogs';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoginRegister from './components/Auth/LoginRegister';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -69,6 +70,14 @@ function App() {
               element={
                 <ProtectedRoute requireAdmin={true}>
                   <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/logs"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminSystemLogs />
                 </ProtectedRoute>
               }
             />
