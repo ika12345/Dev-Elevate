@@ -45,14 +45,51 @@ cd Dev-Elevate
 
 ### 4. 📦 Install Dependencies
 
+This project has separate **Client** (frontend) and **Server** (backend) components. You need to install dependencies for both:
+
+**📱 For the Client (Frontend - React/Vite):**
 ```bash
+cd DevElevate/Client
+npm install
+```
+
+**🖥️ For the Server (Backend - Node.js/Express):**
+```bash
+cd DevElevate/Server
 npm install
 ```
 
 ### 5. 🚀 Run the Project (Dev Mode)
 
+You need to run both the client and server in **separate terminals**:
+
+**Terminal 1 - Start the Server (Backend):**
 ```bash
+cd DevElevate/Server
+node index.js
+```
+
+**Terminal 2 - Start the Client (Frontend):**
+```bash
+cd DevElevate/Client
 npm run dev
+```
+
+> **💡 Platform Notes:** 
+> - **Windows:** Use `cd DevElevate\Client` and `cd DevElevate\Server` (backslashes)
+> - **Linux/Mac:** Use `cd DevElevate/Client` and `cd DevElevate/Server` (forward slashes)
+> - The client will typically run on `http://localhost:5173` (Vite default)
+> - The server will run on a port specified in the backend configuration
+
+### 5.1. 🔧 Environment Configuration (Optional)
+
+**For Server Setup:**
+If you need to configure environment variables:
+```bash
+cd DevElevate/Server
+# Copy the sample env file (if it exists)
+cp .env.sample .env
+# Edit .env file with your configuration
 ```
 
 > **Note:** Initial login/register forms (user/admin) are UI-based only. Data is stored temporarily in memory/cache. Dashboard access is possible post sign-up.
