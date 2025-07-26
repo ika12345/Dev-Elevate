@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Code, Brain, Database } from 'lucide-react';
+import { BookOpen, Code, Brain, Database, ArrowRight } from 'lucide-react';
 import { useGlobalState } from '../../contexts/GlobalContext';
 
 const ProgressWidget: React.FC = () => {
@@ -50,8 +50,9 @@ const ProgressWidget: React.FC = () => {
         <h3 className={`text-xl font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
           Learning Progress
         </h3>
-        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">
-          View All
+        <button className="flex items-center gap-1 text-blue-500 hover:text-blue-600 text-sm font-medium transition-colors duration-150">
+          <span>View All</span>
+          <ArrowRight className='w-4 h-4'/>
         </button>
       </div>
 
