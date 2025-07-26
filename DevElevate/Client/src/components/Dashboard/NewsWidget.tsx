@@ -2,9 +2,11 @@ import React from 'react';
 import { ExternalLink, Calendar } from 'lucide-react';
 import { useGlobalState } from '../../contexts/GlobalContext';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const NewsWidget: React.FC = () => {
   const { state } = useGlobalState();
+  const navigate= useNavigate()
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -20,14 +22,16 @@ const NewsWidget: React.FC = () => {
         return 'bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300';
     }
   };
-
+  const handleClick = () => {
+      navigate('/news')
+  }
   return (
     <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl p-6 border shadow-sm`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className={`text-xl font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
           Latest Tech News & Updates
         </h3>
-        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">
+        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium" onClick={handleClick}>
           View All
         </button>
       </div>

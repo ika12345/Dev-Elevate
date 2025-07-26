@@ -1,9 +1,10 @@
 import React from 'react';
 import { BookOpen, Code, Brain, Database } from 'lucide-react';
 import { useGlobalState } from '../../contexts/GlobalContext';
-
+import { useNavigate } from 'react-router-dom';
 const ProgressWidget: React.FC = () => {
   const { state } = useGlobalState();
+  const navigate= useNavigate()
 
   const learningTracks = [
     {
@@ -43,6 +44,9 @@ const ProgressWidget: React.FC = () => {
       completed: 6
     }
   ];
+  const handleViewAllClick = () => {
+    navigate("/learning")
+  }
 
   return (
     <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl p-6 border shadow-sm`}>
@@ -50,7 +54,7 @@ const ProgressWidget: React.FC = () => {
         <h3 className={`text-xl font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
           Learning Progress
         </h3>
-        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium">
+        <button className="text-blue-500 hover:text-blue-600 text-sm font-medium" onClick={handleViewAllClick}>
           View All
         </button>
       </div>
