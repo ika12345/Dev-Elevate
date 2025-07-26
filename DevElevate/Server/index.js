@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import connectDB from "./config/db.js";
 import userRoutes from './routes/userRoutes.js'
 import cookieParser from "cookie-parser";
+import courseRoutes from "./routes/courseRoutes.js";
 
 connectDB();
 
@@ -18,7 +19,8 @@ app.use(cookieParser());
 
 
 // main route 
-app.use("/api/v1/auth",userRoutes)
+app.use("/api/v1/auth",userRoutes);
+app.use("/api/admin", courseRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
