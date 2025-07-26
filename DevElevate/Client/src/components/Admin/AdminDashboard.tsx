@@ -13,7 +13,6 @@ import {
   Trash2,
   Eye,
   Search,
-  Filter,
   Download,
   Upload,
   Mail,
@@ -26,26 +25,65 @@ import {
   Activity,
   Globe,
   Database,
-  Lock,
-  Bell,
   CheckCircle,
-  XCircle,
   Clock,
-  Star,
   Award,
   Target
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+type Course = {
+  id: string;
+  title: string;
+  description: string;
+  modules: number;
+  enrolled: number;
+  completion: number;
+  difficulty: string;
+  duration: string;
+  instructor: string;
+  status: string;
+  createdAt: string;
+};
+
+type NewsArticle = {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  status: string;
+  author: string;
+  publishDate: string;
+  views: number;
+};
+
 const AdminDashboard: React.FC = () => {
-  const { state: authState, loadUsers, updateUser, deleteUser } = useAuth();
-  const { state: globalState, dispatch } = useGlobalState();
+  const { state: authState, loadUsers, deleteUser } = useAuth();
+  const { state: globalState } = useGlobalState();
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showAddNews, setShowAddNews] = useState(false);
+
+  type User = {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    role: string;
+    isActive: boolean;
+    joinDate: string;
+    lastLogin: string;
+    progress: {
+      totalPoints: number;
+      streak: number;
+      completedModules: number;
+    };
+    [key: string]: any;
+  };
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] =useState<Course[]>([]);
+
   const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
   const [systemSettings, setSystemSettings] = useState({
     siteName: 'DevElevate',
@@ -213,7 +251,7 @@ const AdminDashboard: React.FC = () => {
       return true;
     });
 
-  const addCourse = (courseData) => {
+  const addCourse = (courseData: Omit<Course, 'id' | 'enrolled' | 'completion' | 'status' | 'createdAt'>) => {
     const newCourse = {
       id: Date.now().toString(),
       ...courseData,
@@ -228,13 +266,13 @@ const AdminDashboard: React.FC = () => {
     setShowAddCourse(false);
   };
 
-  const deleteCourse = (courseId) => {
+  const deleteCourse = (courseId: string) => {
     const updatedCourses = courses.filter(course => course.id !== courseId);
     setCourses(updatedCourses);
     localStorage.setItem('adminCourses', JSON.stringify(updatedCourses));
   };
 
-  const addNewsArticle = (newsData) => {
+  const addNewsArticle = (newsData: Omit<NewsArticle, 'id' | 'author' | 'publishDate' | 'views'>) => {
     const newArticle = {
       id: Date.now().toString(),
       ...newsData,
@@ -248,7 +286,7 @@ const AdminDashboard: React.FC = () => {
     setShowAddNews(false);
   };
 
-  const deleteNewsArticle = (articleId) => {
+  const deleteNewsArticle = (articleId: string) => {
     const updatedNews = newsArticles.filter(article => article.id !== articleId);
     setNewsArticles(updatedNews);
     localStorage.setItem('adminNews', JSON.stringify(updatedNews));
@@ -1517,7 +1555,20 @@ const AdminDashboard: React.FC = () => {
 };
 
 // Add Course Modal Component
-const AddCourseModal = ({ onClose, onAdd, darkMode }) => {
+type AddCourseModalProps = {
+  onClose: () => void;
+  onAdd: (courseData: {
+    title: string;
+    description: string;
+    modules: number;
+    difficulty: string;
+    duration: string;
+    instructor: string;
+  }) => void;
+  darkMode: boolean;
+};
+
+const AddCourseModal: React.FC<AddCourseModalProps> = ({ onClose, onAdd, darkMode }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -1527,7 +1578,7 @@ const AddCourseModal = ({ onClose, onAdd, darkMode }) => {
     instructor: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onAdd(formData);
   };
@@ -1664,7 +1715,13 @@ const AddCourseModal = ({ onClose, onAdd, darkMode }) => {
 };
 
 // Add News Modal Component
-const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
+type AddNewsModalProps = {
+  onClose: () => void;
+  onAdd: (newsData: { title: string; content: string; category: string; status: string }) => void;
+  darkMode: boolean;
+};
+
+const AddNewsModal: React.FC<AddNewsModalProps> = ({ onClose, onAdd, darkMode }) => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -1672,7 +1729,7 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
     status: 'published'
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onAdd(formData);
   };
@@ -1769,5 +1826,131 @@ const AddNewsModal = ({ onClose, onAdd, darkMode }) => {
     </div>
   );
 };
+
+// User Details Modal Component
+type UserDetailsModalProps = {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    role: string;
+    isActive: boolean;
+    joinDate: string;
+    lastLogin: string;
+    progress: {
+      totalPoints: number;
+      streak: number;
+      completedModules: number;
+    };
+    [key: string]: any;
+  };
+  onClose: () => void;
+  darkMode: boolean;
+};
+
+const UserDetailsModal: React.FC<UserDetailsModalProps> = ({ user, onClose, darkMode }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 w-full max-w-lg mx-4`}>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            User Details
+          </h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-center space-x-4">
+            <img
+              src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=3b82f6&color=fff`}
+              alt={user.name}
+              className="w-16 h-16 rounded-full"
+            />
+            <div>
+              <h4 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                {user.name}
+              </h4>
+              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                {user.email}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Role
+              </label>
+              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>{user.role}</p>
+            </div>
+            <div>
+              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Status
+              </label>
+              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                {user.isActive ? 'Active' : 'Inactive'}
+              </p>
+            </div>
+            <div>
+              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Join Date
+              </label>
+              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                {new Date(user.joinDate).toLocaleDateString()}
+              </p>
+            </div>
+            <div>
+              <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Last Login
+              </label>
+              <p className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                {new Date(user.lastLogin).toLocaleDateString()}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Progress Summary
+            </label>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="text-center">
+                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {user.progress.totalPoints}
+                </p>
+                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Points</p>
+              </div>
+              <div className="text-center">
+                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {user.progress.streak}
+                </p>
+                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Streak</p>
+              </div>
+              <div className="text-center">
+                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {user.progress.completedModules}
+                </p>
+                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Modules</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end pt-4">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 export default AdminDashboard;
