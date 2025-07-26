@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import courseRoutes from "./routes/courseRoutes.js";
 
 connectDB();
 
@@ -32,6 +33,7 @@ app.set('trust proxy', true);
 // Routes
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/admin/courses", courseRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

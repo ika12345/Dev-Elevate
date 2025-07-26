@@ -2,7 +2,7 @@
 import jwt from "jsonwebtoken";
 import User from "../model/userModel.js";
 
-export const isLoggedIn = (req, res, next) => {
+export const isAdmin = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -54,3 +54,4 @@ export const requireAdmin = (req, res, next) => {
 
   next();
 };
+export default isAdmin;
