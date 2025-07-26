@@ -277,8 +277,8 @@ All user/admin credentials and email logs are safely stored using **MongoDB Atla
 Here's the current connection setup:
 
 ```
-pymongo.MongoClient(
-  "mongodb+srv://abhisekpanda2004guddul:Y3pU0wNKOW8r1ea7@cluster0.0khgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGODB_URI=mongodb+srv://<your-username>:<your-password>@cluster0.0khgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 )
 ```
 
