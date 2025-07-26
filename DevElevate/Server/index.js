@@ -2,7 +2,9 @@ import express from "express"
 import dotenv from "dotenv"
 import connectDB from "./config/db.js";
 import userRoutes from './routes/userRoutes.js'
+import adminRoutes from './routes/adminRoutes.js'
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import courseRoutes from "./routes/courseRoutes.js";
 
 connectDB();
@@ -17,14 +19,43 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 
+// CORS configuration for frontend
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
-// main route 
-app.use("/api/v1/auth",userRoutes);
+// Trust proxy for accurate IP addresses (helpful for logging)
+app.set('trust proxy', true);
+
+// Routes
+app.use("/api/v1/auth", userRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/admin/courses", courseRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello from DevElevate !');
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    success: false, 
+    message: 'Something went wrong!',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    success: false, 
+    message: 'Route not found' 
+  });
 });
 
 // Start server
