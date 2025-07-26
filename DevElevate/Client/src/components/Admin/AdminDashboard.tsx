@@ -28,7 +28,8 @@ import {
   CheckCircle,
   Clock,
   Award,
-  Target
+  Target,
+  Filter
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,7 +1,7 @@
 
 import jwt from "jsonwebtoken";
 
-export const isLoggedIn = (req, res, next) => {
+export const isAdmin = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -16,3 +16,5 @@ export const isLoggedIn = (req, res, next) => {
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
+
+export default isAdmin;
