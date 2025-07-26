@@ -1,1 +1,10 @@
-// Ìª£Ô∏è userRoutes.js - Express routes for user login/register
+import express from "express";
+const router = express.Router();
+
+import { registerUser, loginUser } from "../controller/userController.js";
+
+router.post("/signup", registerUser);
+
+router.post("/login", loginUser);
+
+export default router;
