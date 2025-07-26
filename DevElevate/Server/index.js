@@ -1,12 +1,14 @@
 import express from "express"
 import dotenv from "dotenv"
 import connectDB from "./config/db.js";
+import cors from "cors"
 import userRoutes from './routes/userRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import cookieParser from "cookie-parser";
+import authorize from "./middleware/authorize.js";
+import authenticate from "./middleware/authMiddleware.js";
 import cors from "cors";
 import courseRoutes from "./routes/courseRoutes.js";
-
 connectDB();
 
 // Load environment variables
@@ -16,6 +18,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+app.use(cors({
+  origin: "http://localhost:5173", // or wherever your FrontEnd or test.html is served
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -40,6 +46,13 @@ app.get('/', (req, res) => {
   res.send('Hello from DevElevate !');
 });
 
+
+// Sample Usage of authenticate and autherie middleware for roleBased Features
+app.get("/api/admin/dashboard", authenticate, authorize("admin"), (req, res) => {
+  res.send("Hello Admin");
+});
+
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -57,6 +70,7 @@ app.use((req, res) => {
     message: 'Route not found' 
   });
 });
+
 
 // Start server
 app.listen(PORT, () => {
