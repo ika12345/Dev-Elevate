@@ -47,7 +47,7 @@ export const loginUser = async (req, res) => {
     const JWT_EXPIRES = "3d";
     // Create JWT token
     const token = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
+      { id: user._id, userId: user._id, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: JWT_EXPIRES }
     );
@@ -61,7 +61,17 @@ export const loginUser = async (req, res) => {
         maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in ms
       })
       .status(200)
-      .json({ message: "Login successful", userId: user._id, token: token });
+      .json({ 
+        message: "Login successful", 
+        userId: user._id, 
+        token: token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role
+        }
+      });
   } catch (error) {
     res
       .status(500)

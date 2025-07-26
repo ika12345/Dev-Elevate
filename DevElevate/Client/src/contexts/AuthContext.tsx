@@ -184,45 +184,73 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem('devElevateAuth', JSON.stringify(state));
   }, [state]);
 
-  const generateToken = () => {
-    return 'token_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-  };
-
   const login = async (email: string, password: string, role: 'user' | 'admin') => {
     dispatch({ type: 'LOGIN_START' });
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Check if user exists in localStorage
-      const savedUsers = JSON.parse(localStorage.getItem('devElevateUsers') || '[]');
-      const user = savedUsers.find((u: User) => u.email === email && u.role === role);
-      
-      if (!user) {
-        throw new Error('Invalid credentials or role');
-      }
-      
-      // Simulate password check (in real app, this would be hashed)
-      if (password !== 'password123') {
-        throw new Error('Invalid password');
-      }
-      
-      const token = generateToken();
-      const updatedUser = { ...user, lastLogin: new Date().toISOString() };
-      console.log('Login function - updatedUser:', updatedUser);
-      console.log('Login function - dispatching LOGIN_SUCCESS');
-      
-      dispatch({ 
-        type: 'LOGIN_SUCCESS', 
-        payload: { user: updatedUser, token } 
+      // Make API call to backend login endpoint
+      const response = await fetch('http://localhost:4000/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
       });
-      
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Backend returns real JWT token and user data
+      if (data.token && data.user) {
+        // Check if the role matches what the user selected
+        if (data.user.role !== role) {
+          throw new Error(`This account is registered as ${data.user.role}, not ${role}`);
+        }
+
+        const user: User = {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.name}`,
+          bio: data.user.role === 'admin' ? 'System Administrator' : 'DevElevate User',
+          socialLinks: {},
+          joinDate: new Date().toISOString(),
+          lastLogin: new Date().toISOString(),
+          isActive: true,
+          preferences: {
+            theme: 'light',
+            notifications: true,
+            language: 'en',
+            emailUpdates: true,
+          },
+          progress: {
+            coursesEnrolled: [],
+            completedModules: 0,
+            totalPoints: 0,
+            streak: 0,
+            level: 'Beginner',
+          },
+        };
+
+        console.log('Login successful - user:', user);
+        console.log('Login successful - token:', data.token);
+
+        dispatch({ 
+          type: 'LOGIN_SUCCESS', 
+          payload: { user, token: data.token } 
+        });
+        
+      } else {
+        throw new Error('Invalid response from server');
+      }
     } catch (error) {
-      dispatch({ 
-        type: 'LOGIN_FAILURE', 
-        payload: error instanceof Error ? error.message : 'Login failed' 
-      });
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      console.error('Login error:', errorMessage);
+      dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });
     }
   };
 
@@ -230,57 +258,82 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     dispatch({ type: 'REGISTER_START' });
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Check if user already exists
-      const savedUsers = JSON.parse(localStorage.getItem('devElevateUsers') || '[]');
-      const existingUser = savedUsers.find((u: User) => u.email === email);
-      
-      if (existingUser) {
-        throw new Error('User already exists');
+      // Make API call to backend register endpoint
+      const response = await fetch('http://localhost:4000/api/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password, role }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      // For registration, we need to login after successful signup
+      // The backend doesn't return a token on signup, so we login immediately
+      if (data.message === 'User registered successfully') {
+        // Auto-login after successful registration
+        const loginResponse = await fetch('http://localhost:4000/api/v1/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const loginData = await loginResponse.json();
+
+        if (loginResponse.ok && loginData.token && loginData.user) {
+          const user: User = {
+            id: loginData.user.id,
+            name: loginData.user.name,
+            email: loginData.user.email,
+            role: loginData.user.role,
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${loginData.user.name}`,
+            bio: loginData.user.role === 'admin' ? 'System Administrator' : 'DevElevate User',
+            socialLinks: {},
+            joinDate: new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            isActive: true,
+            preferences: {
+              theme: 'light',
+              notifications: true,
+              language: 'en',
+              emailUpdates: true,
+            },
+            progress: {
+              coursesEnrolled: [],
+              completedModules: 0,
+              totalPoints: 0,
+              streak: 0,
+              level: 'Beginner',
+            },
+          };
+
+          console.log('Registration successful - user:', user);
+          console.log('Registration successful - token:', loginData.token);
+
+          dispatch({ 
+            type: 'REGISTER_SUCCESS', 
+            payload: { user, token: loginData.token } 
+          });
+        } else {
+          throw new Error('Registration successful but auto-login failed');
+        }
+      } else {
+        throw new Error('Registration failed');
       }
       
-      const newUser: User = {
-        id: 'user_' + Date.now(),
-        name,
-        email,
-        role,
-        joinDate: new Date().toISOString(),
-        lastLogin: new Date().toISOString(),
-        isActive: true,
-        preferences: {
-          theme: 'light',
-          notifications: true,
-          language: 'en',
-          emailUpdates: true
-        },
-        progress: {
-          coursesEnrolled: [],
-          completedModules: 0,
-          totalPoints: 0,
-          streak: 0,
-          level: 'Beginner'
-        }
-      };
-      console.log('Register function - newUser:', newUser);
-      console.log('Register function - dispatching REGISTER_SUCCESS');
-      
-      // Save user to localStorage
-      savedUsers.push(newUser);
-      localStorage.setItem('devElevateUsers', JSON.stringify(savedUsers));
-      
-      const token = generateToken();
-      
-      dispatch({ 
-        type: 'REGISTER_SUCCESS', 
-        payload: { user: newUser, token } 
-      });
-      
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      console.error('Registration error:', errorMessage);
       dispatch({ 
         type: 'REGISTER_FAILURE', 
-        payload: error instanceof Error ? error.message : 'Registration failed' 
+        payload: errorMessage 
       });
     }
   };
