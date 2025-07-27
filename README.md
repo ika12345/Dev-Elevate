@@ -84,6 +84,9 @@ Click the link below to explore the complete guide:
 
 [📄 View Full DevElevate Documentation (Google Docs)](https://docs.google.com/document/d/1oHgo5GmPDQu6eV9ND3VrYcpi0Dwvb-wWZi-lMgjFAH8/edit?usp=sharing)
 
+---
+
+📊 [View Contributor Performance Sheet (Google Sheets)](https://docs.google.com/spreadsheets/d/1n2JGcKr0ZJzqeHZBciVKB50kiI3bp65cj-QM7gfqdnY/edit?usp=sharing)
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
