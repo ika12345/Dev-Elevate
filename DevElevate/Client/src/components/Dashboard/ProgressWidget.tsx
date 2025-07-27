@@ -54,9 +54,8 @@ const ProgressWidget: React.FC = () => {
         <h3 className={`text-xl font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
           Learning Progress
         </h3>
- fix-my-change
 <button
-  className="flex items-center gap-1 text-blue-500 hover:text-blue-600 text-sm font-medium transition-colors duration-150"
+  className="flex items-center gap-1 text-sm font-medium text-blue-500 transition-colors duration-150 hover:text-blue-600"
   onClick={handleViewAllClick}
 >
   <span>View All</span>
@@ -81,7 +80,7 @@ const ProgressWidget: React.FC = () => {
                     {track.completed}/{track.modules} modules
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div className="w-full h-2 bg-gray-200 rounded-full dark:bg-gray-700">
                   <div
                     className={`h-2 rounded-full bg-gradient-to-r ${track.color}`}
                     style={{ width: `${track.progress}%` }}
