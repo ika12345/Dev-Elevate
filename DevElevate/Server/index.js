@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
+import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
 connectDB();
 
 // Load environment variables
@@ -39,6 +40,7 @@ app.set('trust proxy', true);
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/courses", courseRoutes);
+app.use('/admin', adminFeedbackRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
