@@ -92,22 +92,30 @@ Click the link below to explore the complete guide:
 <!-- New Login Flow GIF -->
 <img src="DevElevate/login-flow.gif" alt="Login Flow Demo" width="100%">
 
-🔐 **Login/Sign Up page is now live** and appears first for both **👤 User** and **🛡️ Admin** roles.
-📂 **Database integration is not yet active**, but you can still **freely explore** the platform!
 
-➡️ **Simply sign up using any random details** as a User or Admin.
-🧠 Your data will be stored **temporarily** in your **browser's cache/global memory**, allowing you to **access your personalized dashboard**.
+### 🔐 **Login / Sign Up Now Live!**
 
-🖥️ Once logged in, you’ll be able to:
+🚀 The **Login/Sign Up** flow is now fully integrated and appears first for both:
 
-- 🔍 **Explore the full UI**
-- 🧪 **Preview dashboard pages**
-- 🛠️ **Start contributing** to build real-time features like:
+* 👤 **Users**
+* 🛡️ **Admins**
 
-  - Admin Panel 🛡️
-  - Course Manager 📚
-  - Profile Settings ⚙️
-  - Content Upload System 📤
+✅ **What Works:**
+
+* You can **navigate, explore**, and use the interface smoothly.
+* Role-based views and pages are **set up and ready**.
+
+⚠️ **What’s Pending:**
+
+* 📂 **Database Integration** (MongoDB Atlas) is **not connected** by default.
+* 🔄 To make authentication work completely (i.e., store user credentials, prevent duplicate signups, etc.), you must **connect your own MongoDB database**.
+
+🧪 **Developer Note:**
+
+> The current setup uses dummy credentials without DB persistence. You need to set your `MONGODB_URI` in the backend `.env` to activate full backend functionality.
+
+📌 Until then, login and signup forms are **just for frontend exploration**.
+
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
