@@ -1,38 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, User, Shield, Mail, Lock, UserPlus, LogIn, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import {
+  Eye,
+  EyeOff,
+  User,
+  Shield,
+  Mail,
+  Lock,
+  UserPlus,
+  LogIn,
+  AlertCircle,
+} from "lucide-react";
 
 const LoginRegister: React.FC = () => {
   const { state, login, register, dispatch } = useAuth();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<'user' | 'admin'>('user');
+  const [role, setRole] = useState<"user" | "admin">("user");
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   useEffect(() => {
-    console.log('LoginRegister useEffect - state.user:', state.user);
+    console.log("LoginRegister useEffect - state.user:", state.user);
     if (state.isAuthenticated && state.user) {
-      if (state.user.role === 'admin') {
-        navigate('/admin');
+      if (state.user.role === "admin") {
+        navigate("/admin");
       } else {
-        navigate('/');
+        navigate("/");
       }
     }
   }, [state.isAuthenticated, state.user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch({ type: 'CLEAR_ERROR' });
+    dispatch({ type: "CLEAR_ERROR" });
 
     if (!isLogin && formData.password !== formData.confirmPassword) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: 'Passwords do not match' });
+      dispatch({ type: "LOGIN_FAILURE", payload: "Passwords do not match" });
       return;
     }
 
@@ -44,18 +54,20 @@ const LoginRegister: React.FC = () => {
       }
       // Remove the redirect from here!
     } catch (error) {
-      console.error('Auth error:', error);
+      console.error("Auth error:", error);
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  {/*Password strength login */}
+  {
+    /*Password strength login */
+  }
   const getPasswordStrength = (password: string) => {
     let strength = 0;
     if (password.length >= 8) strength++;
@@ -63,9 +75,10 @@ const LoginRegister: React.FC = () => {
     if (/[0-9]/.test(password)) strength++;
     if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-    if (strength <= 1) return { label: 'Weak', color: 'text-red-500' };
-    if (strength === 2 || strength === 3) return { label: 'Medium', color: 'text-yellow-500' };
-    return { label: 'Strong', color: 'text-green-500' };
+    if (strength <= 1) return { label: "Weak", color: "text-red-500" };
+    if (strength === 2 || strength === 3)
+      return { label: "Medium", color: "text-yellow-500" };
+    return { label: "Strong", color: "text-green-500" };
   };
   const strength = getPasswordStrength(formData.password);
 
@@ -78,10 +91,12 @@ const LoginRegister: React.FC = () => {
             <User className="w-8 h-8 text-white" />
           </div>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-            {isLogin ? 'Welcome Back!' : 'Join DevElevate'}
+            {isLogin ? "Welcome Back!" : "Join DevElevate"}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            {isLogin ? 'Sign in to continue your learning journey' : 'Start your learning journey today'}
+            {isLogin
+              ? "Sign in to continue your learning journey"
+              : "Start your learning journey today"}
           </p>
         </div>
 
@@ -90,30 +105,41 @@ const LoginRegister: React.FC = () => {
           <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
             Select Role
           </label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            {/* User Button */}
             <button
               type="button"
-              onClick={() => setRole('user')}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                role === 'user'
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                  : 'border-gray-200 dark:border-gray-700'
+              onClick={() => setRole("user")}
+              className={`flex flex-col items-center justify-center gap-1  px-3 py-2  rounded-xl border-2 transition-all duration-200 ${
+                role === "user"
+                  ? "border-blue-500 bg-blue-100 dark:bg-blue-900/20"
+                  : "border-gray-300 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
-              <User className="w-5 h-5 mx-auto mb-1 text-blue-500" />
-              <span className="text-sm font-medium text-gray-900 dark:text-white">User</span>
+              <div className=" flex items-center justify-center gap-3">
+                <User size={25} className="w-6 h-6 text-blue-500" />
+                <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                  User
+                </span>
+              </div>
             </button>
+
+            {/* Admin Button */}
             <button
               type="button"
-              onClick={() => setRole('admin')}
-              className={`p-3 rounded-lg border-2 transition-all ${
-                role === 'admin'
-                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
-                  : 'border-gray-200 dark:border-gray-700'
+              onClick={() => setRole("admin")}
+              className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl border-2 transition-all duration-200 ${
+                role === "admin"
+                  ? "border-purple-500 bg-purple-100 dark:bg-purple-900/20"
+                  : "border-gray-300 dark:border-gray-700 hover:border-purple-400"
               }`}
             >
-              <Shield className="w-5 h-5 mx-auto mb-1 text-purple-500" />
-              <span className="text-sm font-medium text-gray-900 dark:text-white">Admin</span>
+              <div className="flex items-center justify-center gap-3">
+                <Shield size={25} className=" text-purple-600" />
+                <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                  Admin
+                </span>
+              </div>
             </button>
           </div>
         </div>
@@ -122,7 +148,9 @@ const LoginRegister: React.FC = () => {
         {state.error && (
           <div className="flex items-center p-3 mb-4 space-x-2 border border-red-200 rounded-lg bg-red-50 dark:bg-red-900/20 dark:border-red-800">
             <AlertCircle className="w-5 h-5 text-red-500" />
-            <span className="text-sm text-red-700 dark:text-red-400">{state.error}</span>
+            <span className="text-sm text-red-700 dark:text-red-400">
+              {state.error}
+            </span>
           </div>
         )}
 
@@ -173,7 +201,7 @@ const LoginRegister: React.FC = () => {
             <div className="relative">
               <Lock className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
@@ -186,11 +214,17 @@ const LoginRegister: React.FC = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute text-gray-400 transform -translate-y-1/2 right-3 top-1/2 hover:text-gray-600"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
             {!isLogin && formData.password && (
-              <span className={`mt-2 text-sm font-semibold ${strength.color}`}>Strength: {strength.label}</span>
+              <span className={`mt-2 text-sm font-semibold ${strength.color}`}>
+                Strength: {strength.label}
+              </span>
             )}
           </div>
 
@@ -202,7 +236,7 @@ const LoginRegister: React.FC = () => {
               <div className="relative">
                 <Lock className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
@@ -223,8 +257,12 @@ const LoginRegister: React.FC = () => {
               <div className="w-5 h-5 border-2 border-white rounded-full border-t-transparent animate-spin" />
             ) : (
               <>
-                {isLogin ? <LogIn className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
-                <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
+                {isLogin ? (
+                  <LogIn className="w-5 h-5" />
+                ) : (
+                  <UserPlus className="w-5 h-5" />
+                )}
+                <span>{isLogin ? "Sign In" : "Create Account"}</span>
               </>
             )}
           </button>
@@ -238,19 +276,9 @@ const LoginRegister: React.FC = () => {
               onClick={() => setIsLogin(!isLogin)}
               className="ml-2 font-semibold text-blue-500 hover:text-blue-600"
             >
-              {isLogin ? 'Sign Up' : 'Sign In'}
+              {isLogin ? "Sign Up" : "Sign In"}
             </button>
           </p>
-        </div>
-
-        {/* Demo Credentials */}
-        <div className="p-4 mt-6 rounded-lg bg-gray-50 dark:bg-gray-700">
-          <h4 className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Demo Credentials:</h4>
-          <div className="space-y-1 text-xs text-gray-600 dark:text-gray-400">
-            <p><strong>Email:</strong> any@email.com</p>
-            <p><strong>Password:</strong> password123</p>
-            <p><strong>Note:</strong> Use any email with the password above</p>
-          </div>
         </div>
       </div>
     </div>
