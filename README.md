@@ -638,6 +638,19 @@ Includes:
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
+
+### 👥 Project Admin & Mentors
+
+| Role              | Name              | LinkedIn                                                            | GitHub                                               |
+| ----------------- | ----------------- | ------------------------------------------------------------------- | ---------------------------------------------------- |
+| 🛠️ Project Admin | **Abhisek Panda** | [abhisekpanda2004](http://www.linkedin.com/in/abhisekpanda2004)     | [@abhisek2004](https://github.com/abhisek2004)       |
+| 🧠 Mentor 1       | **Amisha Gupta**  | [amishagupta31](https://www.linkedin.com/in/amishagupta31/)         | [@amishagupta31](https://github.com/amishagupta31)   |
+| 🧠 Mentor 2       | **Avansh Yadav**  | [avanshyadav](https://www.linkedin.com/in/avanshyadav/)             | [@Avansh2006](https://github.com/Avansh2006)         |
+| 🧠 Mentor 3       | **Afifa Fatima**  | [afifa-fatima](https://www.linkedin.com/in/afifa-fatima-b16a23289/) | [@afifaFatima786](https://github.com/afifaFatima786) |
+
+
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
 <div align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=00C853&center=true&vCenter=true&width=700&lines=Thanks+for+visiting+DevElevate!+🙌;Start+the+repo+✅;Share+it+with+others+🌍;Contribute+and+grow+🛠️;Happy+Coding+✨!" alt="Thanks Banner Typing SVG" />
 </div>
