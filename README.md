@@ -149,7 +149,11 @@ To help learners and aspiring professionals master skills like DSA, Java, MERN S
 
 ---
 
+### 📌 **Click on the section below to view full project details:**
+
 <details>
+
+ <summary>🔍 Full Project Description – DevElevate</summary>
 
 ## ⚠️ **🚨 All Pages Below Are Mandatory and Must Be Fully Functional Without Bugs**
 
