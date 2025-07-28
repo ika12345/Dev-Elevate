@@ -7,6 +7,7 @@ import {
   Newspaper,
   FileText,
   Target,
+  CreditCard,
   User,
   Moon,
   Sun,
@@ -39,6 +40,7 @@ const Navbar: React.FC = () => {
     { path: "/news", icon: Newspaper, label: "Tech Feed" },
     { path: "/resume", icon: FileText, label: "Resume Builder" },
     { path: "/placement", icon: Target, label: "Placement Prep" },
+    { path: "/payment", icon: CreditCard, label: "Pricing" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
