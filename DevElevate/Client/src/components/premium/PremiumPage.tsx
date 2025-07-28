@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from '../../contexts/GlobalContext';
 import { Check, Star, Zap, Shield, Users, Crown, ArrowRight } from 'lucide-react';
 
 const PremiumPage: React.FC = () => {
   const { state } = useGlobalState();
+  const navigate = useNavigate();
 
   const pricingPlans = [
     {
@@ -67,6 +69,16 @@ const PremiumPage: React.FC = () => {
   ];
 
   const [billingCycle, setBillingCycle] = React.useState<'monthly' | 'yearly'>('monthly');
+
+  const handleUpgrade = (planName: string) => {
+    if (planName === 'Pro') {
+      // Navigate to payment page
+      navigate('/payment');
+    } else if (planName === 'Enterprise') {
+      // For enterprise, open contact sales
+      window.open('mailto:sales@develevate.com?subject=Enterprise Plan Inquiry', '_blank');
+    }
+  };
 
   const featureComparison = [
     { feature: 'Learning Resources', free: 'Basic', pro: 'Unlimited', enterprise: 'Unlimited + Custom' },
@@ -228,13 +240,15 @@ const PremiumPage: React.FC = () => {
               </div>
 
               <button
+                onClick={() => handleUpgrade(plan.name)}
+                disabled={plan.buttonVariant === 'secondary'}
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-all flex items-center justify-center ${
                   plan.buttonVariant === 'primary'
                     ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700'
                     : plan.buttonVariant === 'secondary'
                     ? state.darkMode
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
+                      : 'bg-gray-100 text-gray-600 cursor-not-allowed'
                     : state.darkMode
                     ? 'border-2 border-gray-600 text-gray-300 hover:border-gray-500'
                     : 'border-2 border-gray-200 text-gray-600 hover:border-gray-300'
@@ -305,15 +319,21 @@ const PremiumPage: React.FC = () => {
             Join thousands of developers who have accelerated their careers with DevElevate Pro.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all flex items-center justify-center">
+            <button
+              onClick={() => navigate('/payment')}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all flex items-center justify-center"
+            >
               Start Free Trial
               <ArrowRight className="w-4 h-4 ml-2" />
             </button>
-            <button className={`px-8 py-3 rounded-lg font-medium border-2 transition-all ${
-              state.darkMode
-                ? 'border-gray-600 text-gray-300 hover:border-gray-500'
-                : 'border-gray-300 text-gray-600 hover:border-gray-400'
-            }`}>
+            <button
+              onClick={() => window.open('mailto:sales@develevate.com?subject=Enterprise Plan Inquiry', '_blank')}
+              className={`px-8 py-3 rounded-lg font-medium border-2 transition-all ${
+                state.darkMode
+                  ? 'border-gray-600 text-gray-300 hover:border-gray-500'
+                  : 'border-gray-300 text-gray-600 hover:border-gray-400'
+              }`}
+            >
               Contact Sales
             </button>
           </div>
