@@ -664,9 +664,9 @@ Includes:
 |------------|--------------------|-----------------------------------------------------|----------------------------------------------------------------|
 | Project Admin | Abhisek Panda     | [abhisek2004](https://github.com/abhisek2004)       | [Abhisek Panda](http://www.linkedin.com/in/abhisekpanda2004)   |
 | Mentor 1   | Jay Sandeep Sawant | [Jay2006sawant](https://github.com/Jay2006sawant)   | [Jay Sandeep Sawant](https://www.linkedin.com/in/jay-sawant-4b59aa324/) |
-| Mentor 2   | Avansh Yadav       | [Avansh2006](https://github.com/Avansh2006)         | [Avansh Yadav](https://www.linkedin.com/in/avanshyadav/)       |
-| Mentor 3   | Afifa Fatima       | [afifaFatima786](https://github.com/afifaFatima786) | [Afifa Fatima](https://www.linkedin.com/in/afifa-fatima-b16a23289/) |
-| Mentor 4   | Amisha Gupta       | [amishagupta31](https://github.com/amishagupta31)   | [Amisha Gupta](https://www.linkedin.com/in/amishagupta31/)     |
+| Mentor 1   | Avansh Yadav       | [Avansh2006](https://github.com/Avansh2006)         | [Avansh Yadav](https://www.linkedin.com/in/avanshyadav/)       |
+| Mentor 2   | Afifa Fatima       | [afifaFatima786](https://github.com/afifaFatima786) | [Afifa Fatima](https://www.linkedin.com/in/afifa-fatima-b16a23289/) |
+| Mentor 2   | Amisha Gupta       | [amishagupta31](https://github.com/amishagupta31)   | [Amisha Gupta](https://www.linkedin.com/in/amishagupta31/)     |
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
