@@ -4,6 +4,7 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
+import ScrollToTop from './components/Layout/ScrollToTop';
 import LearningHub from './components/LearningHub/LearningHub';
 import Chatbot from './components/Chatbot/Chatbot';
 import TechFeed from './components/TechFeed/TechFeed';
@@ -28,6 +29,7 @@ function App() {
       <GlobalProvider>
         <NotificationProvider>
           <Router>
+            <ScrollToTop />
             <Routes>
               {/* Public Routes */}
               <Route
