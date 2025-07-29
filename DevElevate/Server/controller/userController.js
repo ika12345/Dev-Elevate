@@ -1,5 +1,5 @@
 import VisitingWebsite from "../model/visitingWebsite.js";
-import User from "../model/userModel.js";
+import User from "../model/UserModel.js";
 import Feedback from "../model/Feedback.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
