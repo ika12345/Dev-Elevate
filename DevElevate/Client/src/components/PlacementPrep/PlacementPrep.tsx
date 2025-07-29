@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalState } from '../../contexts/GlobalContext';
-import { FileText, Download, Users, Calendar, Target, BookOpen, ExternalLink } from 'lucide-react';
-
+import { FileText, Download, Users, Calendar, Target, BookOpen, ExternalLink} from 'lucide-react';
+import { Code } from 'lucide-react';
 const PlacementPrep: React.FC = () => {
   const { state } = useGlobalState();
   const [selectedTab, setSelectedTab] = useState('opportunities');
@@ -20,7 +20,9 @@ const PlacementPrep: React.FC = () => {
     { id: 'opportunities', label: 'Job Opportunities', icon: Users },
     { id: 'interviews', label: 'Interview Prep', icon: Target },
     { id: 'resources', label: 'Resources', icon: BookOpen },
-    { id: 'mock', label: 'Mock Interviews', icon: Calendar }
+    { id: 'mock', label: 'Mock Interviews', icon: Calendar },
+    { id: 'practice', label: 'Practice DSA', icon: Code }
+
   ];
 
   const jobOpportunities = [
@@ -133,8 +135,90 @@ const PlacementPrep: React.FC = () => {
       downloads: 750
     }
   ];
+  const dsaTopics = [
+  {
+    name: 'Arrays',
+    url: 'https://leetcode.com/tag/array/',
+    description: 'Array problems for all levels.',
+  },
+  {
+    name: 'Strings',
+    url: 'https://leetcode.com/tag/string/',
+    description: 'String manipulation and logic.',
+  },
+  {
+    name: 'Dynamic Programming',
+    url: 'https://leetcode.com/tag/dynamic-programming/',
+    description: 'Master optimal substructure patterns.',
+  },
+  {
+    name: 'Trees',
+    url: 'https://leetcode.com/tag/tree/',
+    description: 'Binary trees, traversals, and more.',
+  },
+  {
+    name: 'Graphs',
+    url: 'https://leetcode.com/tag/graph/',
+    description: 'DFS, BFS, shortest paths, etc.',
+  },
+  {
+    name: 'Heaps',
+    url: 'https://leetcode.com/tag/heap/',
+    description: 'Minimum and Maximum Heaps.',
+  },
+  {
+    name: 'Linked Lists',
+    url: 'https://leetcode.com/tag/linked-list/',
+    description: 'Singly and doubly linked list problems.',
+  },
+  {
+    name: 'Stacks',
+    url: 'https://leetcode.com/tag/stack/',
+    description: 'Stack-based logic and applications.',
+  },
+  {
+    name: 'Queues',
+    url: 'https://leetcode.com/tag/queue/',
+    description: 'Queue problems including circular and priority queues.',
+  },
+  {
+    name: 'Bit Manipulation',
+    url: 'https://leetcode.com/tag/bit-manipulation/',
+    description: 'Problems involving bits and bitmasks.',
+  },
+  {
+  name: 'Greedy',
+  url: 'https://leetcode.com/tag/greedy/',
+  description: 'Optimize step-by-step with local choices.',
+},
+{
+  name: 'Backtracking',
+  url: 'https://leetcode.com/tag/backtracking/',
+  description: 'Explore all possibilities using recursion.',
+}
+];
+
+
 
   // --- Tab Renderers ---
+  const renderPractice = () => (
+  <div className="grid md:grid-cols-3 gap-6">
+    {dsaTopics.map((topic, index) => (
+      <a
+        key={index}
+        href={topic.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`p-6 rounded-2xl shadow-sm border hover:shadow-lg transition-all duration-200 ${
+          state.darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900'
+        }`}
+      >
+        <h4 className="text-lg font-semibold mb-2">{topic.name}</h4>
+        <p className="text-sm !text-black dark:text-gray-300">{topic.description}</p>
+      </a>
+    ))}
+  </div>
+);
 
   const renderOpportunities = () => {
     const filteredJobs = jobOpportunities.filter((job) => {
@@ -435,6 +519,8 @@ const PlacementPrep: React.FC = () => {
           {selectedTab === 'interviews' && renderInterviews()}
           {selectedTab === 'resources' && renderResources()}
           {selectedTab === 'mock' && renderMockInterviews()}
+          {selectedTab === 'practice' && renderPractice()}
+
         </div>
       </div>
     </div>
