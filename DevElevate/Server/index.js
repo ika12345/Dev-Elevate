@@ -37,15 +37,15 @@ app.use(cors({
 app.set('trust proxy', true);
 
 // Routes
-app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1", userRoutes);
+
+
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/courses", courseRoutes);
 app.use('/admin', adminFeedbackRoutes);
 
-// Basic route
-app.get('/', (req, res) => {
-  res.send('Hello from DevElevate !');
-});
+
+app.use("/",userRoutes)
 
 
 // Sample Usage of authenticate and authorize middleware for roleBased Features
