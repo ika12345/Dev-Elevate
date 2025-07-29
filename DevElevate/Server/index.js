@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: 'https://develevate-ai.vercel.app',
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
