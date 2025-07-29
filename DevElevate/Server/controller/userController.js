@@ -1,4 +1,4 @@
-import VisitingWebsite from "../model/visitingWebsite.js";
+import VisitingWebsite from "../model/VisitingWebsite.js";
 import User from "../model/UserModel.js";
 import Feedback from "../model/Feedback.js";
 import jwt from "jsonwebtoken";
