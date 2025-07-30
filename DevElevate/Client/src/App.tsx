@@ -23,6 +23,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Settings from './components/Settings/Settings';
 import PremiumPage from './components/premium/PremiumPage';
 import PaymentPage from './components/Payment/PaymentPage';
+import ProjectRecommender from './components/ProjectRecommender/ProjectRecommender';
 function App() {
   return (
     <AuthProvider>
@@ -56,6 +57,7 @@ function App() {
                           <Route path="/news" element={<TechFeed />} />
                           <Route path="/resume" element={<ResumeBuilder />} />
                           <Route path="/placement" element={<PlacementPrep />} />
+                          <Route path="/projects" element={<ProjectRecommender />} />
                           <Route path="/settings" element={<Settings />} />
                           <Route path="/premium" element={<PremiumPage />} />
                           <Route path="/payment" element={<PaymentPage />} />
