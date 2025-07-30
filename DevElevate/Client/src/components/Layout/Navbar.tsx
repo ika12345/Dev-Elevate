@@ -8,7 +8,6 @@ import {
   FileText,
   Target,
   CreditCard,
-  User,
   Moon,
   Sun,
   Bell,
