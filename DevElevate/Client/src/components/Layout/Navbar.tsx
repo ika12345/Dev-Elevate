@@ -15,6 +15,7 @@ import {
   Search,
   Menu,
   X,
+  Lightbulb,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useGlobalState } from "../../contexts/GlobalContext";
@@ -40,6 +41,7 @@ const Navbar: React.FC = () => {
     { path: "/news", icon: Newspaper, label: "Tech Feed" },
     { path: "/resume", icon: FileText, label: "Resume Builder" },
     { path: "/placement", icon: Target, label: "Placement Prep" },
+    { path: "/projects", icon: Lightbulb, label: "AI Projects" },
     { path: "/payment", icon: CreditCard, label: "Pricing" },
   ];
 
