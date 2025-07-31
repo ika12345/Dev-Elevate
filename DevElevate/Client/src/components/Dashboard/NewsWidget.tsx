@@ -46,6 +46,8 @@ const NewsWidget: React.FC = () => {
   const handleClick = () => {
     navigate('/news');
   };
+  console.log(articles);
+  
 
   return (
     <div
