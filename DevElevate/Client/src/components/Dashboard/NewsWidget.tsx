@@ -1,4 +1,3 @@
-const API_KEY = import.meta.env.VITE_NEW_API_KEY;
 import React, { useEffect, useState } from 'react';
 import {
   ExternalLink,
@@ -19,6 +18,7 @@ const NewsWidget: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const API_KEY =`5197b7b314d04c1080a2092f0496c165` ;
   const NEWS_API = `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${API_KEY}
 `;
 
