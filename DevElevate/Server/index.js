@@ -9,13 +9,19 @@ import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
-connectDB();
+
+// Connect to MongoDB only if MONGO_URI is available
+if (process.env.MONGO_URI) {
+  connectDB();
+} else {
+  console.log('MongoDB connection skipped - PDF routes will work without database');
+}
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
