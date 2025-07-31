@@ -1,7 +1,7 @@
 import { AuthProvider } from './contexts/AuthContext';
 import { GlobalProvider } from './contexts/GlobalContext';
 import { NotificationProvider } from './contexts/NotificationContext';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
 import ScrollToTop from './components/Layout/ScrollToTop';
@@ -52,6 +52,7 @@ function App() {
                       <main className="flex-1">
                         <Routes>
                           <Route path="/" element={<Dashboard />} />
+                          <Route path="*" element={<Navigate to="/" replace />} />
                           <Route path="/learning" element={<LearningHub />} />
                           <Route path="/chatbot" element={<Chatbot />} />
                           <Route path="/news" element={<TechFeed />} />
