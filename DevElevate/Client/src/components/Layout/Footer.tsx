@@ -122,6 +122,7 @@ const Footer: React.FC = () => {
                   >
                     https://abhisekpanda072.vercel.app/
                   </a>
+                  <br />
                    <strong>🟢Live Link:</strong> 
                   <a href="https://develevate-ai.vercel.app/" target="_blank" rel="noopener noreferrer">Develevate-ai</a>
                 </p>
