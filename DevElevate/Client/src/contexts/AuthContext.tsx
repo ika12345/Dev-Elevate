@@ -1,4 +1,4 @@
-import { baseUrl } from "../config/routes.js";
+import { baseUrl } from "../config/routes";
 import React, {
   createContext,
   useContext,

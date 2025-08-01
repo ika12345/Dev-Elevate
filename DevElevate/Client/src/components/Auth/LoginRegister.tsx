@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth, User } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../utils/firebase";
+import { baseUrl } from "../../config/routes";
 import {
   Eye,
   EyeOff,
-  User,
+  User as UserIcon,
   Shield,
   Mail,
   Lock,
@@ -45,22 +46,74 @@ const LoginRegister: React.FC = () => {
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
 
-      // Map Firebase user to your app's user shape
-      const user = {
-        id: firebaseUser.uid,
+      // Prepare minimal user data for backend
+      const userPayload = {
         name: firebaseUser.displayName || "",
         email: firebaseUser.email || "",
+        password: "",
         role: role,
-        joinDate: firebaseUser.metadata?.creationTime || new Date().toISOString(),
-        photoURL: firebaseUser.photoURL || "",
-        provider: "google",
       };
 
-      dispatch({ type: "LOGIN_SUCCESS", payload: { user } });
+      // Send to backend and get the response
+      const response = await fetch(`${baseUrl}/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userPayload),
+      });
 
-      console.log("Google User:", user);
+      const data = await response.json();
+
+      if (response.ok && data.user && data.token) {
+        // Map backend user to your app's User type (same as in AuthContext)
+        const user: User = {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.name}`,
+          bio:
+            data.user.role === "admin"
+              ? "System Administrator"
+              : "DevElevate User",
+          socialLinks: {},
+          joinDate: new Date().toISOString(),
+          lastLogin: new Date().toISOString(),
+          isActive: true,
+          preferences: {
+            theme: "light",
+            notifications: true,
+            language: "en",
+            emailUpdates: true,
+          },
+          progress: {
+            coursesEnrolled: [],
+            completedModules: 0,
+            totalPoints: 0,
+            streak: 0,
+            level: "Beginner",
+          },
+        };
+
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: { user, token: data.token },
+        });
+
+        // Redirect based on role
+        if (user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      } else {
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: data.message || "Google login failed",
+        });
+      }
     } catch (error) {
       console.error("Google Sign-In Error", error);
+      dispatch({ type: "LOGIN_FAILURE", payload: "Google Sign-In Error" });
     }
   };
 
@@ -115,7 +168,7 @@ const LoginRegister: React.FC = () => {
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600">
-            <User className="w-8 h-8 text-white" />
+            <UserIcon className="w-8 h-8 text-white" />
           </div>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
             {isLogin ? "Welcome Back!" : "Join DevElevate"}
@@ -144,7 +197,7 @@ const LoginRegister: React.FC = () => {
               }`}
             >
               <div className=" flex items-center justify-center gap-3">
-                <User size={25} className="w-6 h-6 text-blue-500" />
+                <UserIcon size={25} className="w-6 h-6 text-blue-500" />
                 <span className="text-sm font-semibold text-gray-900 dark:text-white">
                   User
                 </span>
@@ -229,7 +282,7 @@ const LoginRegister: React.FC = () => {
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
+                  <UserIcon className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                   <input
                     type="text"
                     name="name"
