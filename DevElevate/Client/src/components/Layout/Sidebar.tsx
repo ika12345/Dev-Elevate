@@ -54,7 +54,7 @@ const Sidebar: React.FC = () => {
     <>
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-64 border-r backdrop-blur-md transition-colors duration-200 ${
+        className={`fixed top-0 h-full left-0 w-64 border-r backdrop-blur-md transition-colors duration-200 ${
           state.darkMode
             ? "bg-gray-900/90 border-gray-800"
             : "bg-white border-gray-200"
