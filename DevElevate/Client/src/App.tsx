@@ -46,7 +46,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-
               {/* Protected Routes */}
               <Route
                 path="/*"
