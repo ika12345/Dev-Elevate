@@ -7,6 +7,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Navbar from "./components/Layout/Navbar";
 import Footer from "./components/Layout/Footer";
 import ScrollToTop from "./components/Layout/ScrollToTop";
 import LearningHub from "./components/LearningHub/LearningHub";
@@ -46,6 +47,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
               {/* Protected Routes */}
               <Route
                 path="/*"
