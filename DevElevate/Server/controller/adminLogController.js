@@ -1,4 +1,5 @@
 import AdminLog from "../model/AdminLog.js";
+import User from "../model/UserModel.js";
 
 // Create a new admin log entry
 export const createAdminLog = async (req, res) => {
@@ -149,6 +150,30 @@ export const getAdminLogs = async (req, res) => {
       success: false,
       message: "Failed to fetch admin logs",
       error: error.message
+    });
+  }
+};
+
+//Get all-user in the  database
+export const getAllUserRegister = async (req, res) => {
+  try {
+    console.log("hello - fetching all registered users");
+
+    const users = await User.find(); // Or add filters like { role: "user" }
+    const totalUsers = users.length; // Or: await User.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      message: "All registered users fetched successfully",
+      totalUsers,
+      users,
+    });
+  } catch (error) {
+    console.error("Error fetching users:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+      error: error.message,
     });
   }
 };
