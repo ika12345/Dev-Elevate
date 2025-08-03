@@ -157,13 +157,15 @@ export const getAllUserRegister = async (req, res) => {
     console.log("hello - fetching all registered users");
 
     const users = await User.find().sort({ createdAt: -1 });
-    const totalUsers = users.length; 
+    const totalUsers = await User.countDocuments({ role: "user" });
+    const totalAdmins = await User.countDocuments({ role: "admin" });
 
     res.status(200).json({
       success: true,
       message: "All registered users fetched successfully",
       totalUsers,
       users,
+      totalAdmins,
     });
   } catch (error) {
     console.error("Error fetching users:", error.message);

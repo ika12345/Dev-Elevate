@@ -66,7 +66,7 @@ type NewsArticle = {
 const AdminDashboard: React.FC = () => {
   const { state: authState, loadUsers, deleteUser, logout } = useAuth();
   const { state: globalState, dispatch } = useGlobalState();
-  const { users, totalUsers, loading } = useAdmin();
+  const { users, totalUsers,totalAdmins, loading } = useAdmin();
   const [activeTab, setActiveTab] = useState("overview");
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddCourse, setShowAddCourse] = useState(false);
@@ -966,7 +966,7 @@ type User = {
               globalState.darkMode ? "text-white" : "text-gray-900"
             }`}
           >
-            {authState.users.filter((u) => u.role === "admin").length}
+            {totalAdmins}
           </p>
         </div>
         <div

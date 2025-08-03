@@ -6,6 +6,7 @@ import { User } from "../types/User";
 interface GetAllUsersResponse {
   users: User[];
   totalUsers: number;
+  totalAdmins:number;
 }
 
 export const getAllUsers = async (): Promise<GetAllUsersResponse> => {
