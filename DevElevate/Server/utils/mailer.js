@@ -6,17 +6,26 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
-const sendWelcomeEmail = async (to,htmlContent) => {
+const sendWelcomeEmail = async (to, htmlContent) => {
   const mailOptions = {
     from: `"DevElevate Team" <${process.env.MAIL_USER}>`,
     to,
-    subject: " 🎉 Welcome to DevElevate! ",
-    html:htmlContent
+    subject: "🎉 Welcome to DevElevate!",
+    html: htmlContent,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("✅ Email sent to:", to);
+  } catch (error) {
+    console.error("❌ Failed to send email:", error);
+    throw new Error("Failed to send welcome email");
+  }
 };
 
 export default sendWelcomeEmail;
