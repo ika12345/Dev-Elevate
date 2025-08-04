@@ -83,7 +83,6 @@ export const loginUser = async (req, res) => {
 
 export const googleUser = async (req, res) => {
   try {
-    console.log("Received Google login request. req.body:", req.body);
 
     const { name, email, role } = req.body;
 
@@ -165,7 +164,11 @@ export const logout = async (req, res) => {
 
 export const currentStreak = async (req, res) => {
   try {
-    const { userId } = req.user;
+    console.log(req.user);
+    
+    const userId = req.user._id.toString();
+    console.log(userId);
+    
     const user = await User.findById(userId).populate("dayStreak");
 
     if (!user) {
