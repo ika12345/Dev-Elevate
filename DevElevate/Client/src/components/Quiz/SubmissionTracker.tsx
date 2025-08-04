@@ -43,9 +43,7 @@ const SubmissionTracker: React.FC<SubmissionTrackerProps> = ({ darkMode }) => {
       setError(null);
       try {
         const res = await instance.get('/admin/quiz/submissions', {
-          headers: {
-            // Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+          
         });
         setData(res.data);
       } catch (err: any) {

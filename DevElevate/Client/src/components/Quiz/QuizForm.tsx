@@ -1,9 +1,4 @@
-// NOTE: This version fully connects to backend update/add/delete question APIs
-// Uses:
-// PUT     /admin/quiz/:id            -> update quiz metadata
-// POST    /admin/quiz/:quizId/questions          -> add question
-// PUT     /admin/quiz/:quizId/questions/:questionId -> update question
-// DELETE /admin/quiz/:quizId/questions/:questionId -> delete question
+
 
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
@@ -51,7 +46,7 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
   useEffect(() => {
     if (initialData) {
       instance.get(`/admin/quiz/${initialData.id}`, {
-        // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+       
         
       }).then(res => {
         const fullQuiz = res.data;
@@ -98,11 +93,11 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
       let quizId = initialData?.id;
       if (initialData) {
         await instance.put(`/admin/quiz/${quizId}`, { title, topic, difficulty, type, level }, {
-        //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        
         });
       } else {
         const res = await instance.post('/admin/quiz', { title, topic, difficulty, type, level }, {
-        //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        
         });
         quizId = res.data.quiz._id;
       }
@@ -110,20 +105,20 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
       for (const q of questions) {
         if (q.isDeleted && q.id) {
           await instance.delete(`/admin/quiz/${quizId}/questions/${q.id}`, {
-            // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            
           });
         } else if (q.isNew) {
           await instance.post(`/admin/quiz/${quizId}/questions`, q, {
-            // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            
           });
         } else if (q.id) {
           await instance.put(`/admin/quiz/${quizId}/questions/${q.id}`, q, {
-            // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            
           });
         }
       }
       
-      // Dispatch the custom event to trigger a re-fetch in the QuizList component
+      
       window.dispatchEvent(new CustomEvent('quiz-updated'));
 
       onSaved?.();

@@ -177,28 +177,7 @@ type User = {
     setShowQuizForm(false);
   };
 
-// const renderQuizManagement = () => (
-//     <div className="space-y-6">
-//       <div className="flex justify-between items-center">
-//         <h3 className={`text-xl font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
-//           Quiz Management
-//         </h3>
-//         <button
-//           onClick={() => { setEditingQuiz(null); setShowQuizForm(true); }}
-//           className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-//         >
-//           <span>+ Create Quiz</span>
-//         </button>
-//       </div>
-//       <QuizList
-//         quizzes={quizzes}
-//         darkMode={globalState.darkMode}
-//         onEdit={quiz => { setEditingQuiz(quiz); setShowQuizForm(true); }}
-//         onDelete={deleteQuiz}
-//       />
-//       <SubmissionTracker quizzes={quizzes} darkMode={globalState.darkMode} />
-//     </div>
-//   );
+
 
 
 const renderQuizManagement = () => (

@@ -27,7 +27,7 @@ const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
     try {
       const res = await instance.get('admin/quiz', {
         headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('token')}`,
+       
         },
       });
 
@@ -47,7 +47,7 @@ const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
       setDeletingId(id);
       await instance.delete(`admin/quiz/${id}`, {
         headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('token')}`,
+        
         },
       });
       setQuizzes((prev) => prev.filter((q) => q.id !== id));
