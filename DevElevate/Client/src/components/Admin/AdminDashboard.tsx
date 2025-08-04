@@ -37,7 +37,9 @@ import { useNavigate } from "react-router-dom";
 import AdminFeedback from "./AdminFeedback";
 
 import { CiLogout } from "react-icons/ci";
-
+import QuizForm from "../Quiz/QuizForm";
+import QuizList from "../Quiz/QuizList";
+import SubmissionTracker from "../Quiz/SubmissionTracker";
 type Course = {
   id: string;
   title: string;
@@ -71,6 +73,9 @@ const AdminDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showAddNews, setShowAddNews] = useState(false);
+   const [showQuizForm, setShowQuizForm] = useState(false);
+  const [editingQuiz, setEditingQuiz] = useState<Quiz | null>(null);
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
   console.log(users, totalUsers);
 type User = {
@@ -139,7 +144,100 @@ type User = {
     loadUsers();
     loadCourses();
     loadNewsArticles();
+    const loadedQuizzes = JSON.parse(localStorage.getItem('adminQuizzes') || '[]');
+    setQuizzes(loadedQuizzes);
   }, []);
+
+  const deleteQuiz = (id: string) => {
+    const newList = quizzes.filter(q => q.id !== id);
+    setQuizzes(newList);
+    localStorage.setItem('adminQuizzes', JSON.stringify(newList));
+  };
+
+  const saveQuiz = (data: Omit<Quiz, 'id' | 'createdAt'>) => {
+    if (editingQuiz) {
+      const newList = quizzes.map(q =>
+        q.id === editingQuiz.id
+          ? { ...editingQuiz, ...data }
+          : q
+      );
+      setQuizzes(newList);
+      localStorage.setItem('adminQuizzes', JSON.stringify(newList));
+      setEditingQuiz(null);
+       } else {
+      const newQuiz: Quiz = {
+        ...data,
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString(),
+      };
+      const newList = [...quizzes, newQuiz];
+      setQuizzes(newList);
+      localStorage.setItem('adminQuizzes', JSON.stringify(newList));
+    }
+    setShowQuizForm(false);
+  };
+
+// const renderQuizManagement = () => (
+//     <div className="space-y-6">
+//       <div className="flex justify-between items-center">
+//         <h3 className={`text-xl font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
+//           Quiz Management
+//         </h3>
+//         <button
+//           onClick={() => { setEditingQuiz(null); setShowQuizForm(true); }}
+//           className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+//         >
+//           <span>+ Create Quiz</span>
+//         </button>
+//       </div>
+//       <QuizList
+//         quizzes={quizzes}
+//         darkMode={globalState.darkMode}
+//         onEdit={quiz => { setEditingQuiz(quiz); setShowQuizForm(true); }}
+//         onDelete={deleteQuiz}
+//       />
+//       <SubmissionTracker quizzes={quizzes} darkMode={globalState.darkMode} />
+//     </div>
+//   );
+
+
+const renderQuizManagement = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h3 className={`text-xl font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
+          Quiz Management
+        </h3>
+        <button
+          onClick={() => { setEditingQuiz(null); setShowQuizForm(true); }}
+          className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+        >
+          <span>+ Create Quiz</span>
+        </button>
+      </div>
+
+      {/* Conditional rendering for the Quiz Form */}
+      {showQuizForm ? (
+          <QuizForm
+            initialData={editingQuiz}
+            onSaved={saveQuiz}
+            onClose={() => {
+              setShowQuizForm(false);
+              setEditingQuiz(null);
+            }}
+          />
+      ) : (
+          <>
+            <QuizList
+              quizzes={quizzes}
+              darkMode={globalState.darkMode}
+              onEdit={quiz => { setEditingQuiz(quiz); setShowQuizForm(true); }}
+              onDelete={deleteQuiz}
+            />
+            <SubmissionTracker quizzes={quizzes} darkMode={globalState.darkMode} />
+          </>
+      )}
+    </div>
+);
 
   const loadCourses = () => {
     const savedCourses = JSON.parse(
@@ -233,6 +331,7 @@ type User = {
     { id: "courses", label: "Course Management", icon: BookOpen },
     { id: "content", label: "Content Management", icon: FileText },
     { id: "news", label: "News & Updates", icon: Newspaper },
+    { id: 'quizzes', label: 'Quiz Management', icon: Award },
     { id: "analytics", label: "Analytics", icon: TrendingUp },
     { id: "logs", label: "System Logs", icon: Database },
     { id: "settings", label: "System Settings", icon: Settings },
@@ -2647,6 +2746,8 @@ type User = {
         return renderContentManagement();
       case "news":
         return renderNewsManagement();
+      case 'quizzes': // <-- ADD THIS!
+        return renderQuizManagement();
       case "analytics":
         return renderAnalytics();
       case "settings":
