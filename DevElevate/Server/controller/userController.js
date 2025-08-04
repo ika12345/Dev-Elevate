@@ -55,13 +55,13 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(payLode, JWT_SECRET, { expiresIn: JWT_EXPIRES });
 
     // Set token in cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // true in production
-        sameSite: process.env.NODE_ENV === "production" ? "Strict" : "Lax", // CSRF protection
-        maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in ms
-      })
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true, // Always true in production (Render is HTTPS)
+  sameSite: "None", // ✅ Needed for cross-origin cookies (Vercel ↔ Render)
+  maxAge: 3 * 24 * 60 * 60 * 1000,
+})
+
       .status(200)
       .json({
         message: "Login successful",
