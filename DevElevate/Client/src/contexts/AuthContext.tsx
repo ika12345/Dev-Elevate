@@ -214,6 +214,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       // Make API call to backend login endpoint
        const response = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -296,6 +297,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       // Make API call to backend register endpoint
       const response = await fetch(`${baseUrl}/auth/signup`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -316,6 +318,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           `${baseUrl}/api/v1/auth/login`,
           {
             method: "POST",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
             },
