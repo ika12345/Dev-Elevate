@@ -10,11 +10,12 @@
 
 ### 🤝 Major Contributors
 
-| Name             | Role             | GitHub |
-| ---------------- | ---------------- | ------ |
-| _Coming Soon_ 🛠  | Full Stack Dev   |        |
-| _Coming Soon_ 💡 | UI/UX Designer   |        |
-| _Coming Soon_ 🤖 | AI/ML Integrator |        |
+| Name             | Role             | GitHub                           |
+| ---------------- | ---------------- | -------------------------------- |
+| _Coming Soon_ 🛠  | Full Stack Dev   |                                  |
+| Gobinda Gagan 🛠  | Backend Dev      | https://github.com/GOBINDA-GAGAN |
+| _Coming Soon_ 💡 | UI/UX Designer   |                                  |
+| _Coming Soon_ 🤖 | AI/ML Integrator |                                  |
 
 ---
 
