@@ -205,6 +205,7 @@ A personalized profile section with full account control:
 - 🧠 Study Buddy Chat Access
 - 📥 Assignments Uploaded (track submission)
 - 🚀 Daily Goal Reminders + Streak Calendar
+- 🌎 Community Forum (Q&A section)
 
 ---
 
@@ -255,6 +256,12 @@ A powerful admin dashboard to manage the platform without code:
   - Total users, active learners, quiz stats
   - Most popular courses/modules
   - Assignment success rate
+
+- 🌎 **Community Management**:
+
+  - Moderate forum discussions
+  - Delete or resolve questions
+  - Accept and highlight best answers
 
 #### 🛡️ Security & Stability
 
