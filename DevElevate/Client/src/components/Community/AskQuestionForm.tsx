@@ -3,10 +3,11 @@ import { useGlobalState } from '../../contexts/GlobalContext';
 import { postQuestion } from '../handlers/communityHandlers';
 
 interface AskQuestionFormProps {
+    setQuestions: React.Dispatch<React.SetStateAction<any[]>>;
     handleClose: () => void;
 }
 
-const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ handleClose }) => {
+const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ setQuestions, handleClose }) => {
     const { state } = useGlobalState();
 
     const [title, setTitle] = useState('');
@@ -20,10 +21,16 @@ const AskQuestionForm: React.FC<AskQuestionFormProps> = ({ handleClose }) => {
             return;
         }
 
-        // Handle form submission logic here
-        await postQuestion(title, description, tags.split(',').map(tag => tag.trim()));
-        alert('Question Posted successfully!');
-        handleClose();
+        try {
+            // Handle form submission logic here
+            const postedQuestion = await postQuestion(title, description, tags.split(',').map(tag => tag.trim()));
+            alert('Question Posted successfully!');
+            setQuestions(prev => [...prev, postedQuestion]);
+            handleClose();
+        } catch (error) {
+            console.error('Error posting question:', error);
+            alert('Failed to post question. Please try again later.');
+        }
     }
 
     return (

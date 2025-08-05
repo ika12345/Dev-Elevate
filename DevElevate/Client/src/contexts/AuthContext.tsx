@@ -212,11 +212,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "LOGIN_START" });
     try {
       // Make API call to backend login endpoint
-<<<<<<< HEAD
       const response = await fetch(`${baseUrl}/auth/login`, {
-=======
-       const response = await fetch(`${baseUrl}/api/v1/auth/login`, {
->>>>>>> 47bd130e8f56ad7ac51569bb62319a60a09de6c7
         method: "POST",
         credentials: "include",
         headers: {

@@ -53,7 +53,7 @@ const AnswerThread: React.FC<AnswerThreadProps> = ({ question }) => {
 
 
     return (
-        <div className={`w-full h-full sm:h-fit mx-auto p-4 sm:p-6 rounded-lg shadow-md ${state.darkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
+        <div className={`w-full h-full sm:h-fit mx-auto p-4 sm:p-6 shadow-md ${state.darkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
             <button className={`flex ${state.darkMode ? 'text-white' : 'text-gray-900'}`} onClick={() => navigate(-1)}>
                 <ChevronLeft />
                 <span>Back</span>

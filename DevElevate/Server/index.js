@@ -9,12 +9,9 @@ import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
-<<<<<<< HEAD
 import communityRoutes from './routes/communityRoutes.js';
-
-=======
 import quizRoutes from './routes/quizRoutes.js'
->>>>>>> 47bd130e8f56ad7ac51569bb62319a60a09de6c7
+
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
   connectDB();

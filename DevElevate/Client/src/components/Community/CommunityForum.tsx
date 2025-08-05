@@ -17,9 +17,14 @@ import { getQuestions } from '../handlers/communityHandlers';
 
 interface QuestionsListProps {
   questions: Question[];
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
-const CommunityForum: React.FC<QuestionsListProps> = ({ questions }) => {
+interface AnswerThreadWrapperProps {
+  questions: Question[];
+}
+
+const CommunityForum: React.FC<QuestionsListProps> = ({ questions, setQuestions }) => {
   const { state } = useGlobalState();
   const [showPopupForm, setShowPopupForm] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -56,7 +61,7 @@ const CommunityForum: React.FC<QuestionsListProps> = ({ questions }) => {
 
       {showPopupForm && (
         <div className="fixed top-0 left-0 w-screen h-screen z-50 sm:p-6 bg-blue-300/60">
-          <AskQuestionForm handleClose={() => setShowPopupForm(false)} />
+          <AskQuestionForm setQuestions={setQuestions} handleClose={() => setShowPopupForm(false)} />
         </div>
       )}
     </div>
@@ -80,14 +85,14 @@ const CommunityRouter = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<CommunityForum questions={questions} />} />
+      <Route path="/" element={<CommunityForum questions={questions} setQuestions={setQuestions} />} />
       <Route path="/questions/:id" element={<AnswerThreadWrapper questions={questions} />} />
     </Routes>
   );
 }
 
 
-const AnswerThreadWrapper: React.FC<QuestionsListProps> = ({ questions }) => {
+const AnswerThreadWrapper: React.FC<AnswerThreadWrapperProps> = ({ questions }) => {
   const { id } = useParams();
   const question = questions.find((q: Question) => q.id === id);
 
