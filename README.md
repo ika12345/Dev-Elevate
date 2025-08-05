@@ -280,25 +280,12 @@ Every time a new **user** or **admin** signs up, they’ll receive an instant we
 * 💬 A friendly greeting and motivation to explore the platform
 * 🔁 Reset password option (via email)
 
-All this is powered by our mail system connected to the admin email:
-
-```
-my_email = "nicdelhi2024@gmail.com"
-code = "zuff vkvx pamt kdor"  # App-specific password for secure SMTP (Gmail)
-```
-
 ---
 
 📂 **Data Storage – MongoDB Atlas**
 All user/admin credentials and email logs are safely stored using **MongoDB Atlas** 💾
 
-Here's the current connection setup:
-
-```
-MONGODB_URI=mongodb+srv://<your-username>:<your-password>@cluster0.0khgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
-)
-```
+---
 
 🧪 **Test Locally First**
 Before pushing to production, test the signup + mail flow on **localhost**. Make sure emails are triggered, and data is saved correctly in the DB.
