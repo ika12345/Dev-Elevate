@@ -9,7 +9,7 @@ import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
-
+import quizRoutes from './routes/quizRoutes.js'
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
   connectDB();
@@ -47,7 +47,7 @@ app.use("/api/v1", userRoutes);
 app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profile
 app.use("/api/v1/admin/courses", courseRoutes); // course create/delete/edit
 app.use("/api/v1/admin/feedback", adminFeedbackRoutes); // feedback-related
-
+app.use("/api/admin/quiz", quizRoutes); //quiz-related
 
 
 

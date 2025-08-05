@@ -315,7 +315,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (data.message === "User registered successfully") {
         // Auto-login after successful registration
         const loginResponse = await fetch(
-          `${baseUrl}/api/v1/auth/login`,
+          `${baseUrl}/auth/login`,
           {
             method: "POST",
             credentials: "include",
