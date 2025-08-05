@@ -10,6 +10,6 @@ interface GetAllUsersResponse {
 }
 
 export const getAllUsers = async (): Promise<GetAllUsersResponse> => {
-  const response = await axiosInstance.get<GetAllUsersResponse>("/admin/all-users");
+  const response = await axiosInstance.get<GetAllUsersResponse>("/api/v1/admin/all-users");
   return response.data;
 };

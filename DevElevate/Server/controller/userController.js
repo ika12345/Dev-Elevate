@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import moment from "moment";
+import sendWelcomeEmail from "../utils/mailer.js";
+import generateWelcomeEmail from "../utils/welcomeTemplate.js";
 dotenv.config();
 export const registerUser = async (req, res) => {
   try {
@@ -26,9 +28,17 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
+    const html = generateWelcomeEmail(newUser.name);
+
+    await sendWelcomeEmail(newUser.email, html);
+
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully", newUser });
+    res.status(201).json({
+      message: "User registered successfully",
+      newUser,
+      send: "Mali send successfully",
+    });
   } catch (error) {
     res
       .status(500)
@@ -58,10 +68,11 @@ export const loginUser = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // true in production
-        sameSite: process.env.NODE_ENV === "production" ? "Strict" : "Lax", // CSRF protection
-        maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in ms
+        secure: true, // Always true in production (Render is HTTPS)
+        sameSite: "None", // ✅ Needed for cross-origin cookies (Vercel ↔ Render)
+        maxAge: 3 * 24 * 60 * 60 * 1000,
       })
+
       .status(200)
       .json({
         message: "Login successful",
@@ -83,7 +94,6 @@ export const loginUser = async (req, res) => {
 
 export const googleUser = async (req, res) => {
   try {
-
     const { name, email, role } = req.body;
 
     // Check if user already exists
@@ -165,10 +175,10 @@ export const logout = async (req, res) => {
 export const currentStreak = async (req, res) => {
   try {
     console.log(req.user);
-    
+
     const userId = req.user._id.toString();
     console.log(userId);
-    
+
     const user = await User.findById(userId).populate("dayStreak");
 
     if (!user) {

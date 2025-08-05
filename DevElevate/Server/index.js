@@ -3,14 +3,18 @@ import dotenv from "dotenv"
 import connectDB from "./config/db.js";
 import cors from "cors"
 import userRoutes from './routes/userRoutes.js'
-import adminRoutes from './routes/adminRoutes.js'
+import adminRoutes from './routes/adminRoutes.js';
 import cookieParser from "cookie-parser";
 import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
+<<<<<<< HEAD
 import communityRoutes from './routes/communityRoutes.js';
 
+=======
+import quizRoutes from './routes/quizRoutes.js'
+>>>>>>> 47bd130e8f56ad7ac51569bb62319a60a09de6c7
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
   connectDB();
@@ -48,7 +52,7 @@ app.use("/api/v1/community", communityRoutes); // Community routes for questions
 app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profile
 app.use("/api/v1/admin/courses", courseRoutes); // course create/delete/edit
 app.use("/api/v1/admin/feedback", adminFeedbackRoutes); // feedback-related
-
+app.use("/api/admin/quiz", quizRoutes); //quiz-related
 
 
 
