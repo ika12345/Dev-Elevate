@@ -212,7 +212,7 @@ Check out these handy resources:
 - Or ask in our Discussions/Discord group! 💬
 
 You can also contact Project Owner:
-**Abhisek Panda** – [abhisek2004panda@gmail.com](mailto:abhisek2004panda@gmail.com)
+**Abhisek Panda** – [officialdevelevate@gmail.com](mailto:officialdevelevate@gmail.com)
 
 ---
 
