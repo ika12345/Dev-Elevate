@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from '../../contexts/GlobalContext';
-import { FileText, Download, Users, Calendar, Target, BookOpen, ExternalLink} from 'lucide-react';
+import { FileText, Download, Users, Calendar, Target, BookOpen, ExternalLink, Filter, ChevronDown} from 'lucide-react';
 import { Code } from 'lucide-react';
+import { getDSAProblems, getAllProgrammingProblems, ProgrammingProblem } from '../../api/programmingApi';
 const PlacementPrep: React.FC = () => {
   const { state } = useGlobalState();
   const navigate = useNavigate();
@@ -10,6 +11,15 @@ const PlacementPrep: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  
+  // Programming problems state
+  const [programmingProblems, setProgrammingProblems] = useState<ProgrammingProblem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState('all');
+  const [showDSAOnly, setShowDSAOnly] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -17,6 +27,150 @@ const PlacementPrep: React.FC = () => {
     }, 300);
     return () => clearTimeout(handler);
   }, [searchTerm]);
+
+  // Fetch programming problems when tab changes to practice or filters change
+  useEffect(() => {
+    if (selectedTab === 'practice') {
+      fetchProgrammingProblems();
+    }
+  }, [selectedTab, selectedDifficulty, showDSAOnly, currentPage]);
+
+  // Mock data for testing DSA filter feature
+  const mockDSAProblems: ProgrammingProblem[] = [
+    {
+      _id: '1',
+      title: 'Two Sum',
+      difficulty: 'Easy' as const,
+      link: 'https://leetcode.com/problems/two-sum/',
+      category: 'DSA',
+      tags: ['array', 'hash-table', 'dsa'],
+      description: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
+      platformName: 'LeetCode'
+    },
+    {
+      _id: '2',
+      title: 'Binary Tree Level Order Traversal',
+      difficulty: 'Medium' as const,
+      link: 'https://leetcode.com/problems/binary-tree-level-order-traversal/',
+      category: 'DSA',
+      tags: ['tree', 'bfs', 'dsa'],
+      description: 'Given the root of a binary tree, return the level order traversal of its nodes values.',
+      platformName: 'LeetCode'
+    },
+    {
+      _id: '3',
+      title: 'Merge k Sorted Lists',
+      difficulty: 'Hard' as const,
+      link: 'https://leetcode.com/problems/merge-k-sorted-lists/',
+      category: 'DSA',
+      tags: ['linked-list', 'heap', 'dsa'],
+      description: 'You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.',
+      platformName: 'LeetCode'
+    },
+    {
+      _id: '4',
+      title: 'Valid Palindrome',
+      difficulty: 'Easy' as const,
+      link: 'https://leetcode.com/problems/valid-palindrome/',
+      category: 'DSA',
+      tags: ['string', 'two-pointers', 'dsa'],
+      description: 'A phrase is a palindrome if it reads the same forward and backward.',
+      platformName: 'LeetCode'
+    },
+    {
+      _id: '5',
+      title: 'Coin Change',
+      difficulty: 'Medium' as const,
+      link: 'https://leetcode.com/problems/coin-change/',
+      category: 'DSA',
+      tags: ['dynamic-programming', 'dsa'],
+      description: 'You are given an integer array coins and an integer amount.',
+      platformName: 'LeetCode'
+    },
+    {
+      _id: '6',
+      title: 'Number of Islands',
+      difficulty: 'Medium' as const,
+      link: 'https://leetcode.com/problems/number-of-islands/',
+      category: 'DSA',
+      tags: ['graph', 'dfs', 'bfs', 'dsa'],
+      description: 'Given an m x n 2D binary grid, return the number of islands.',
+      platformName: 'LeetCode'
+    }
+  ];
+
+  const allMockProblems: ProgrammingProblem[] = [
+    ...mockDSAProblems,
+    {
+      _id: '7',
+      title: 'System Design: URL Shortener',
+      difficulty: 'Hard' as const,
+      link: 'https://leetcode.com/discuss/interview-question/system-design/',
+      category: 'System Design',
+      tags: ['system-design', 'scalability'],
+      description: 'Design a URL shortening service like bit.ly.',
+      platformName: 'LeetCode'
+    },
+    {
+      _id: '8',
+      title: 'Database Query Optimization',
+      difficulty: 'Medium' as const,
+      link: 'https://leetcode.com/problems/database/',
+      category: 'Database',
+      tags: ['sql', 'database'],
+      description: 'Optimize database queries for performance.',
+      platformName: 'LeetCode'
+    }
+  ];
+
+  const fetchProgrammingProblems = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Use mock data for now
+      let filteredProblems = showDSAOnly ? mockDSAProblems : allMockProblems;
+      
+      // Apply difficulty filter
+      if (selectedDifficulty !== 'all') {
+        filteredProblems = filteredProblems.filter(problem => 
+          problem.difficulty === selectedDifficulty
+        );
+      }
+      
+      // Simulate pagination
+      const startIndex = (currentPage - 1) * 12;
+      const endIndex = startIndex + 12;
+      const paginatedProblems = filteredProblems.slice(startIndex, endIndex);
+      
+      setProgrammingProblems(paginatedProblems);
+      setTotalPages(Math.ceil(filteredProblems.length / 12));
+      
+      // Uncomment this when backend is ready:
+      // const params = {
+      //   page: currentPage,
+      //   limit: 12,
+      //   ...(selectedDifficulty !== 'all' && { difficulty: selectedDifficulty }),
+      // };
+      // const response = showDSAOnly 
+      //   ? await getDSAProblems(params)
+      //   : await getAllProgrammingProblems(params);
+      // if (response.success) {
+      //   setProgrammingProblems(response.problems);
+      //   setTotalPages(response.pagination.totalPages);
+      // } else {
+      //   setError('Failed to fetch programming problems');
+      // }
+    } catch (err) {
+      setError('Error loading programming problems. Please try again.');
+      console.error('Error fetching programming problems:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const tabs = [
     { id: 'opportunities', label: 'Job Opportunities', icon: Users },
@@ -273,90 +427,248 @@ const PlacementPrep: React.FC = () => {
       downloads: 750
     }
   ];
-  const dsaTopics = [
-  {
-    name: 'Arrays',
-    url: 'https://leetcode.com/tag/array/',
-    description: 'Array problems for all levels.',
-  },
-  {
-    name: 'Strings',
-    url: 'https://leetcode.com/tag/string/',
-    description: 'String manipulation and logic.',
-  },
-  {
-    name: 'Dynamic Programming',
-    url: 'https://leetcode.com/tag/dynamic-programming/',
-    description: 'Master optimal substructure patterns.',
-  },
-  {
-    name: 'Trees',
-    url: 'https://leetcode.com/tag/tree/',
-    description: 'Binary trees, traversals, and more.',
-  },
-  {
-    name: 'Graphs',
-    url: 'https://leetcode.com/tag/graph/',
-    description: 'DFS, BFS, shortest paths, etc.',
-  },
-  {
-    name: 'Heaps',
-    url: 'https://leetcode.com/tag/heap/',
-    description: 'Minimum and Maximum Heaps.',
-  },
-  {
-    name: 'Linked Lists',
-    url: 'https://leetcode.com/tag/linked-list/',
-    description: 'Singly and doubly linked list problems.',
-  },
-  {
-    name: 'Stacks',
-    url: 'https://leetcode.com/tag/stack/',
-    description: 'Stack-based logic and applications.',
-  },
-  {
-    name: 'Queues',
-    url: 'https://leetcode.com/tag/queue/',
-    description: 'Queue problems including circular and priority queues.',
-  },
-  {
-    name: 'Bit Manipulation',
-    url: 'https://leetcode.com/tag/bit-manipulation/',
-    description: 'Problems involving bits and bitmasks.',
-  },
-  {
-  name: 'Greedy',
-  url: 'https://leetcode.com/tag/greedy/',
-  description: 'Optimize step-by-step with local choices.',
-},
-{
-  name: 'Backtracking',
-  url: 'https://leetcode.com/tag/backtracking/',
-  description: 'Explore all possibilities using recursion.',
-}
-];
-
-
 
   // --- Tab Renderers ---
   const renderPractice = () => (
-  <div className="grid md:grid-cols-3 gap-6">
-    {dsaTopics.map((topic, index) => (
-      <a
-        key={index}
-        href={topic.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`p-6 rounded-2xl shadow-sm border hover:shadow-lg transition-all duration-200 ${
-          state.darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900'
-        }`}
-      >
-        <h4 className="text-lg font-semibold mb-2">{topic.name}</h4>
-        <p className="text-sm !text-black dark:text-gray-300">{topic.description}</p>
-      </a>
-    ))}
-  </div>
-);
+    <div className="space-y-6">
+      {/* Filter Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <h3 className={`text-xl font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
+            Programming Practice
+          </h3>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            state.darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-200 text-gray-600'
+          }`}>
+            {programmingProblems.length} problems
+          </span>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+          {/* Debug Test Button */}
+          <button
+            onClick={() => {
+              const testUrl = 'https://leetcode.com/problems/two-sum/';
+              console.log('Testing link:', testUrl);
+              alert(`Trying to open: ${testUrl}`);
+              window.open(testUrl, '_blank');
+            }}
+            className={`px-3 py-1 text-xs rounded border ${
+              state.darkMode 
+                ? 'border-gray-600 text-gray-300 hover:bg-gray-700' 
+                : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            🔗 Test Link
+          </button>
+
+          {/* DSA Filter Toggle */}
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showDSAOnly}
+              onChange={(e) => {
+                setShowDSAOnly(e.target.checked);
+                setCurrentPage(1);
+              }}
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span className={`text-sm font-medium ${state.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              DSA Only
+            </span>
+          </label>
+
+          {/* Difficulty Filter */}
+          <select
+            value={selectedDifficulty}
+            onChange={(e) => {
+              setSelectedDifficulty(e.target.value);
+              setCurrentPage(1);
+            }}
+            className={`px-4 py-2 rounded-lg border ${
+              state.darkMode
+                ? 'bg-gray-800 border-gray-700 text-white'
+                : 'bg-white border-gray-300 text-gray-900'
+            }`}
+          >
+            <option value="all">All Difficulties</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <span className={`ml-3 ${state.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            Loading problems...
+          </span>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className={`p-4 rounded-lg border ${
+          state.darkMode 
+            ? 'bg-red-900 border-red-700 text-red-200' 
+            : 'bg-red-50 border-red-200 text-red-700'
+        }`}>
+          <p className="text-sm">{error}</p>
+          <button 
+            onClick={fetchProgrammingProblems}
+            className="mt-2 text-sm underline hover:no-underline"
+          >
+            Try again
+          </button>
+        </div>
+      )}
+
+      {/* Problems Grid */}
+      {!loading && !error && (
+        <>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {programmingProblems.map((problem) => (
+              <div
+                key={problem._id}
+                className={`p-6 rounded-2xl shadow-sm border hover:shadow-lg transition-all duration-200 ${
+                  state.darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900'
+                }`}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <h4 className="text-lg font-semibold mb-2 line-clamp-2">{problem.title}</h4>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ml-2 ${
+                    problem.difficulty === 'Easy' 
+                      ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+                      : problem.difficulty === 'Medium'
+                      ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
+                      : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                  }`}>
+                    {problem.difficulty}
+                  </span>
+                </div>
+                
+                {problem.description && (
+                  <p className={`text-sm mb-4 line-clamp-3 ${
+                    state.darkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {problem.description}
+                  </p>
+                )}
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {problem.tags.slice(0, 3).map((tag, index) => (
+                    <span
+                      key={index}
+                      className={`px-2 py-1 rounded text-xs ${
+                        state.darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'
+                      }`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {problem.tags.length > 3 && (
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      state.darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      +{problem.tags.length - 3} more
+                    </span>
+                  )}
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className={`text-xs ${
+                    state.darkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    {problem.platformName || 'LeetCode'}
+                  </span>
+                  <button
+                    onClick={() => {
+                      console.log('Opening problem:', problem.title, problem.link);
+                      // Try multiple methods to ensure link opens
+                      try {
+                        window.open(problem.link, '_blank', 'noopener,noreferrer');
+                      } catch (error) {
+                        console.error('Failed to open link:', error);
+                        // Fallback: direct navigation
+                        window.location.href = problem.link;
+                      }
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    Solve
+                    <ExternalLink className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-8">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 rounded-lg border transition-colors ${
+                  currentPage === 1
+                    ? state.darkMode
+                      ? 'border-gray-700 text-gray-500 cursor-not-allowed'
+                      : 'border-gray-300 text-gray-400 cursor-not-allowed'
+                    : state.darkMode
+                    ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Previous
+              </button>
+              
+              <span className={`px-4 py-2 ${state.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Page {currentPage} of {totalPages}
+              </span>
+              
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className={`px-4 py-2 rounded-lg border transition-colors ${
+                  currentPage === totalPages
+                    ? state.darkMode
+                      ? 'border-gray-700 text-gray-500 cursor-not-allowed'
+                      : 'border-gray-300 text-gray-400 cursor-not-allowed'
+                    : state.darkMode
+                    ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          )}
+
+          {/* No problems found */}
+          {programmingProblems.length === 0 && (
+            <div className="text-center py-12">
+              <Code className={`w-16 h-16 mx-auto mb-4 ${
+                state.darkMode ? 'text-gray-600' : 'text-gray-400'
+              }`} />
+              <h3 className={`text-lg font-medium mb-2 ${
+                state.darkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                No problems found
+              </h3>
+              <p className={`text-sm ${
+                state.darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                Try adjusting your filters or check back later for new problems.
+              </p>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
 
   const renderOpportunities = () => {
     const filteredJobs = jobOpportunities.filter((job: any) => {
