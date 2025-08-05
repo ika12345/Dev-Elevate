@@ -9,6 +9,7 @@ import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
+import communityRoutes from './routes/communityRoutes.js';
 
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
@@ -39,7 +40,7 @@ app.set('trust proxy', true);
 // USER ROUTES
 app.use("/api/v1", userRoutes);
 
-
+app.use("/api/v1/community", communityRoutes); // Community routes for questions and answers
 
 
 
@@ -60,8 +61,8 @@ app.get("/api/admin/dashboard", authenticateToken, authorize("admin"), (req, res
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
-    success: false, 
+  res.status(500).json({
+    success: false,
     message: 'Something went wrong!',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
@@ -69,9 +70,9 @@ app.use((err, req, res, next) => {
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ 
-    success: false, 
-    message: 'Route not found' 
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
   });
 });
 
