@@ -235,7 +235,7 @@ export const currentStreak = async (req, res) => {
     await user.save();
 
     return res.status(200).json({
-      message: `✅ Welcome back, ${user.name}`,
+      message: ✅ Welcome back, ${user.name},
       currentStreakData: {
         currentStreak: user.currentStreak,
         longestStreak: user.longestStreak,
@@ -272,7 +272,7 @@ export const feedback = async (req, res) => {
 export const latestNews = async (req, res) => {
   try {
     const apiKey = "5197b7b314d04c1080a2092f0496c165"; // You can move this to process.env later
-    const url = `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${apiKey}`;
+    const url = https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${apiKey};
 
     const response = await fetch(url);
 
@@ -305,4 +305,3 @@ export const latestNews = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
-
