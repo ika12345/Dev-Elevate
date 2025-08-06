@@ -10,6 +10,7 @@ import {
 import { useGlobalState } from '../../contexts/GlobalContext';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { baseUrl } from "../../config/routes";
 
 const NewsWidget: React.FC = () => {
   const { state } = useGlobalState();
@@ -18,14 +19,11 @@ const NewsWidget: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_KEY =`5197b7b314d04c1080a2092f0496c165` ;
-  const NEWS_API = `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${API_KEY}
-`;
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await fetch(NEWS_API);
+        const res = await fetch(`${baseUrl}/api/v1/latest-news`);
         const data = await res.json();
         if (data.status === 'ok') {
           setArticles(data.articles);
