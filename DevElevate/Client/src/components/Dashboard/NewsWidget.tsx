@@ -128,7 +128,7 @@ const NewsWidget: React.FC = () => {
                   <span
                     className={`text-xs px-2 py-1 rounded-full font-semibold ${getCategoryColor()}`}
                   >
-                    Tech
+                    {item.source.name || 'General'}
                   </span>
                   <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                     <Calendar className="w-3 h-3" />
