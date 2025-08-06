@@ -273,10 +273,11 @@ export const feedback = async (req, res) => {
 export const latestNews = async (req, res) => {
   try {
     const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${process.env.NEWS_API_KEY}`
+      `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=5197b7b314d04c1080a2092f0496c165
     );
 
     const data = await response.json();
+    console.log(data);
     res.json(data);
   } catch (error) {
     console.error("Error fetching latest news:", error);
