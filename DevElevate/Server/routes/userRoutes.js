@@ -8,6 +8,7 @@ import {
   logout,
   feedback,
   googleUser,
+  latestNews,
 } from "../controller/userController.js";
 import { authenticateToken } from "../middleware/authMiddleware.js";
 
@@ -17,6 +18,8 @@ router.get("/logout", authenticateToken, logout);
 router.post("/auth/google", googleUser);
 router.post("/feedback", authenticateToken, feedback);
 router.get("/user/streak",authenticateToken,currentStreak)
+
+router.get("/latest-news",latestNews)
 
 
 

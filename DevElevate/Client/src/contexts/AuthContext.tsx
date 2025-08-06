@@ -212,7 +212,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "LOGIN_START" });
     try {
       // Make API call to backend login endpoint
-       const response = await fetch(`${baseUrl}/auth/login`, {
+      const response = await fetch(`${baseUrl}/api/v1/auth/login`,{
         method: "POST",
         credentials: "include",
         headers: {
@@ -295,7 +295,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
     try {
       // Make API call to backend register endpoint
-      const response = await fetch(`${baseUrl}/auth/signup`, {
+      const response = await fetch(`${baseUrl}/api/v1/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -314,8 +314,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       // The backend doesn't return a token on signup, so we login immediately
       if (data.message === "User registered successfully") {
         // Auto-login after successful registration
-        const loginResponse = await fetch(
-          `${baseUrl}/api/v1/auth/login`,
+        const loginResponse = await fetch(`${baseUrl}/api/v1/auth/login`,
           {
             method: "POST",
             credentials: "include",

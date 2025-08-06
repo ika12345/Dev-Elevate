@@ -53,10 +53,10 @@ const LoginRegister: React.FC = () => {
         password: "",
         role: role,
       };
-
+      console.log("user payload",userPayload)
       // Send to backend and get the response
-      const response = await fetch(`${baseUrl}/auth/google`, {
-        method: "POST",
+      const response = await fetch(`${baseUrl}/api/v1/auth/google`, {
+        method: "POST",   
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userPayload),
       });
@@ -198,7 +198,7 @@ const LoginRegister: React.FC = () => {
                   : "border-gray-300 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
-              <div className=" flex items-center justify-center gap-3">
+              <div className="flex items-center justify-center gap-3 ">
                 <UserIcon size={25} className="w-6 h-6 text-blue-500" />
                 <span className="text-sm font-semibold text-gray-900 dark:text-white">
                   User
@@ -217,7 +217,7 @@ const LoginRegister: React.FC = () => {
               }`}
             >
               <div className="flex items-center justify-center gap-3">
-                <Shield size={25} className=" text-purple-600" />
+                <Shield size={25} className="text-purple-600 " />
                 <span className="text-sm font-semibold text-gray-900 dark:text-white">
                   Admin
                 </span>
@@ -249,7 +249,7 @@ const LoginRegister: React.FC = () => {
                   : "bg-purple-100 text-blue-500 border border-blue-500 hover:bg-blue-50"
               }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
             </svg>
@@ -265,7 +265,7 @@ const LoginRegister: React.FC = () => {
                   : "bg-purple-100 text-blue-500 border border-blue-500 hover:bg-blue-50"
               }`}
           >
-            <svg className="h-5 w-5 mr-1" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 mr-1" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
                 d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"
@@ -414,7 +414,7 @@ const LoginRegister: React.FC = () => {
                 </>
               )}
             </button>
-            <p className="text-sm text-gray-500 text-center">
+            <p className="text-sm text-center text-gray-500">
               {isLogin
                 ? "Sign in using your Google account."
                 : "Sign up using your Google account."}
