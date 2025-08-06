@@ -273,7 +273,7 @@ export const feedback = async (req, res) => {
 export const latestNews = async (req, res) => {
   try {
     const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=5197b7b314d04c1080a2092f0496c165
+      "https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=5197b7b314d04c1080a2092f0496c165"
     );
 
     const data = await response.json();
@@ -284,5 +284,3 @@ export const latestNews = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
