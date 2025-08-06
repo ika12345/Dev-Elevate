@@ -92,11 +92,11 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
     try {
       let quizId = initialData?.id;
       if (initialData) {
-        await instance.put(`/admin/quiz/${quizId}`, { title, topic, difficulty, type, level }, {
+        await instance.put(`/api/v1/admin/quiz/${quizId}`, { title, topic, difficulty, type, level }, {
         
         });
       } else {
-        const res = await instance.post('/admin/quiz', { title, topic, difficulty, type, level }, {
+        const res = await instance.post('/api/v1/admin/quiz', { title, topic, difficulty, type, level }, {
         
         });
         quizId = res.data.quiz._id;
@@ -104,15 +104,15 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
 
       for (const q of questions) {
         if (q.isDeleted && q.id) {
-          await instance.delete(`/admin/quiz/${quizId}/questions/${q.id}`, {
+          await instance.delete(`/api/v1/admin/quiz/${quizId}/questions/${q.id}`, {
             
           });
         } else if (q.isNew) {
-          await instance.post(`/admin/quiz/${quizId}/questions`, q, {
+          await instance.post(`/api/v1/admin/quiz/${quizId}/questions`, q, {
             
           });
         } else if (q.id) {
-          await instance.put(`/admin/quiz/${quizId}/questions/${q.id}`, q, {
+          await instance.put(`/api/v1/admin/quiz/${quizId}/questions/${q.id}`, q, {
             
           });
         }

@@ -25,7 +25,7 @@ const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
 
   const fetchQuizzes = async () => {
     try {
-      const res = await instance.get('admin/quiz', {
+      const res = await instance.get('/api/v1/admin/quiz', {
         headers: {
        
         },
@@ -45,7 +45,7 @@ const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
   const handleDelete = async (id: string) => {
     try {
       setDeletingId(id);
-      await instance.delete(`admin/quiz/${id}`, {
+      await instance.delete(`/api/v1/admin/quiz/${id}`, {
         headers: {
         
         },

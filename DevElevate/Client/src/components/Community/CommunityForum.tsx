@@ -81,7 +81,7 @@ const CommunityRouter = () => {
       }
     }
     fetchQuestions();
-  });
+  },[]);
 
   return (
     <Routes>

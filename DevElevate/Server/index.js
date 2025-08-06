@@ -49,7 +49,7 @@ app.use("/api/v1/community", communityRoutes); // Community routes for questions
 app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profile
 app.use("/api/v1/admin/courses", courseRoutes); // course create/delete/edit
 app.use("/api/v1/admin/feedback", adminFeedbackRoutes); // feedback-related
-app.use("/api/admin/quiz", quizRoutes); //quiz-related
+app.use("/api/v1/admin/quiz", quizRoutes); //quiz-related
 
 
 
