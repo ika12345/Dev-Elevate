@@ -235,7 +235,7 @@ export const currentStreak = async (req, res) => {
     await user.save();
 
     return res.status(200).json({
-      message: `✅ Welcome back, ${user.name}`,
+      message: ✅ Welcome back, ${user.name},
       currentStreakData: {
         currentStreak: user.currentStreak,
         longestStreak: user.longestStreak,
@@ -268,19 +268,40 @@ export const feedback = async (req, res) => {
   }
 };
 
-
 // latestNewsController.js
 export const latestNews = async (req, res) => {
   try {
-    const response = await fetch(
-      "https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=5197b7b314d04c1080a2092f0496c165"
-    );
+    const apiKey = "5197b7b314d04c1080a2092f0496c165"; // You can move this to process.env later
+    const url = https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${apiKey};
+
+    const response = await fetch(url);
+
+    // Check if the response status is not OK (e.g., 401, 403, 404)
+    if (!response.ok) {
+      const errorText = await response.text(); // Get raw error response
+      console.error("News API error:", errorText);
+      return res.status(response.status).json({
+        message: "Failed to fetch news",
+        status: response.status,
+        error: errorText,
+      });
+    }
+
+    // Check if content-type is actually JSON
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const rawText = await response.text();
+      console.error("Unexpected response (not JSON):", rawText);
+      return res.status(500).json({ message: "Invalid content type received" });
+    }
 
     const data = await response.json();
     console.log(data);
+    
+
     res.json(data);
   } catch (error) {
     console.error("Error fetching latest news:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
