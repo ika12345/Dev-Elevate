@@ -78,7 +78,6 @@ const AdminDashboard: React.FC = () => {
   const [editingQuiz, setEditingQuiz] = useState<Quiz | null>(null);
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
-  console.log(users, totalUsers);
   type User = {
     id: string;
     name: string;

@@ -1,6 +1,7 @@
 // src/api/adminApi.ts
 import axiosInstance from "./axiosinstance.ts";
 import { User } from "../types/User";
+import { adminApi } from "../config/routes.ts";
 
 // Define the response type explicitly
 interface GetAllUsersResponse {
@@ -10,6 +11,6 @@ interface GetAllUsersResponse {
 }
 
 export const getAllUsers = async (): Promise<GetAllUsersResponse> => {
-  const response = await axiosInstance.get<GetAllUsersResponse>("/api/v1/admin/all-users");
+  const response = await axiosInstance.get<GetAllUsersResponse>(`${adminApi.allUser}`);
   return response.data;
 };
