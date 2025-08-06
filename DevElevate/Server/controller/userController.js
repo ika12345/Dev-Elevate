@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import moment from "moment";
-import sendWelcomeEmail from "../utils/mailer.js";
+// import sendWelcomeEmail from "../utils/mailer.js";
 import generateWelcomeEmail from "../utils/welcomeTemplate.js";
 dotenv.config();
 export const registerUser = async (req, res) => {
@@ -267,3 +267,21 @@ export const feedback = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
+// latestNewsController.js
+export const latestNews = async (req, res) => {
+  try {
+    const response = await fetch(
+      `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${process.env.NEWS_API_KEY}`
+    );
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching latest news:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+

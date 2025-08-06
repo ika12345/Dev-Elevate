@@ -49,7 +49,6 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isOpen, onClose }) =>
       items: [
         { icon: User, label: 'View Profile', action: () => navigate('/profile') },
         { icon: Settings, label: 'Account Settings', action: () => navigate('/settings') },
-        { icon: Bell, label: 'Notification Settings', action: () => navigate('/settings/notifications') },
       ]
     },
     {
@@ -128,34 +127,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isOpen, onClose }) =>
       </div>
 
       {/* Quick Stats */}
-      <div className={`p-4 border-b ${state.darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <div className={`text-lg font-bold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
-              {authState.user?.progress.streak || 0}
-            </div>
-            <div className={`text-xs ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Day Streak
-            </div>
-          </div>
-          <div>
-            <div className={`text-lg font-bold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
-              {state.completedGoals.length}
-            </div>
-            <div className={`text-xs ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Goals Done
-            </div>
-          </div>
-          <div>
-            <div className={`text-lg font-bold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
-              {authState.user?.progress.coursesEnrolled.length || 0}
-            </div>
-            <div className={`text-xs ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Courses
-            </div>
-          </div>
-        </div>
-      </div>
+  
 
       {/* Menu Items */}
       <div className="max-h-80 overflow-y-auto">
