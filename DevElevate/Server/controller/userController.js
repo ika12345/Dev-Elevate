@@ -202,10 +202,9 @@ export const currentStreak = async (req, res) => {
 
     await user.populate("dayStreak");
 
-    // Sort all visits by date
     const sortedVisits = user.dayStreak
       .map((v) => moment(v.dateOfVisiting).startOf("day"))
-      .sort((a, b) => a - b);
+      .sort((a, b) => a.valueOf() - b.valueOf());
 
     let currentStreak = 1;
     let maxStreak = 1;
@@ -224,18 +223,18 @@ export const currentStreak = async (req, res) => {
         }
       } else if (diff > 1) {
         currentStreak = 1;
-        tempStartDate = sortedVisits[i]; // reset tempStart
+        tempStartDate = sortedVisits[i];
       }
     }
 
     user.currentStreak = currentStreak;
-    user.longestStreak = Math.max(user.longestStreak, maxStreak);
+    user.longestStreak = Math.max(user.longestStreak || 0, maxStreak);
     user.streakStartDate = startDate;
     user.streakEndDate = endDate;
     await user.save();
 
     return res.status(200).json({
-      message: ✅ Welcome back, ${user.name},
+      message: `✅ Welcome back, ${user.name}`,
       currentStreakData: {
         currentStreak: user.currentStreak,
         longestStreak: user.longestStreak,
@@ -249,6 +248,7 @@ export const currentStreak = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 
 export const feedback = async (req, res) => {
   try {
@@ -272,7 +272,7 @@ export const feedback = async (req, res) => {
 export const latestNews = async (req, res) => {
   try {
     const apiKey = "5197b7b314d04c1080a2092f0496c165"; // You can move this to process.env later
-    const url = https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${apiKey};
+    const url = `https://newsapi.org/v2/top-headlines?sources=bbc-news&pageSize=9&apiKey=${apiKey}`;
 
     const response = await fetch(url);
 
