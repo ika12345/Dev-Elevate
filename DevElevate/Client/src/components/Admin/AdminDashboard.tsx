@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useGlobalState } from "../../contexts/GlobalContext";
 import { useAdmin } from "../../contexts/AdminContext";
+import { AxiosError } from "axios";
 import {
   Users,
   BookOpen,
@@ -69,14 +70,19 @@ type NewsArticle = {
 const AdminDashboard: React.FC = () => {
   const { state: authState, loadUsers, deleteUser, logout } = useAuth();
   const { state: globalState, dispatch } = useGlobalState();
-  const { users, totalUsers, totalAdmins, loading } = useAdmin();
+  const { users, totalUsers, totalAdmins, loading, addUserByAdmin } =
+    useAdmin();
+
+  console.log(addUserByAdmin);
+
   const [activeTab, setActiveTab] = useState("overview");
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showAddNews, setShowAddNews] = useState(false);
-   const [showQuizForm, setShowQuizForm] = useState(false);
+  const [showQuizForm, setShowQuizForm] = useState(false);
   const [editingQuiz, setEditingQuiz] = useState<Quiz | null>(null);
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [showAddUser, setShowAddUser] = useState(false);
 
   type User = {
     id: string;
@@ -140,31 +146,35 @@ const AdminDashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
 
+  const handleAddUser = (userData: AddUserForm) => {
+    addUserByAdmin(userData); // 👈 form data from modal
+  };
+
   useEffect(() => {
     loadUsers();
     loadCourses();
     loadNewsArticles();
-    const loadedQuizzes = JSON.parse(localStorage.getItem('adminQuizzes') || '[]');
+    const loadedQuizzes = JSON.parse(
+      localStorage.getItem("adminQuizzes") || "[]"
+    );
     setQuizzes(loadedQuizzes);
   }, []);
 
   const deleteQuiz = (id: string) => {
-    const newList = quizzes.filter(q => q.id !== id);
+    const newList = quizzes.filter((q) => q.id !== id);
     setQuizzes(newList);
-    localStorage.setItem('adminQuizzes', JSON.stringify(newList));
+    localStorage.setItem("adminQuizzes", JSON.stringify(newList));
   };
 
-  const saveQuiz = (data: Omit<Quiz, 'id' | 'createdAt'>) => {
+  const saveQuiz = (data: Omit<Quiz, "id" | "createdAt">) => {
     if (editingQuiz) {
-      const newList = quizzes.map(q =>
-        q.id === editingQuiz.id
-          ? { ...editingQuiz, ...data }
-          : q
+      const newList = quizzes.map((q) =>
+        q.id === editingQuiz.id ? { ...editingQuiz, ...data } : q
       );
       setQuizzes(newList);
-      localStorage.setItem('adminQuizzes', JSON.stringify(newList));
+      localStorage.setItem("adminQuizzes", JSON.stringify(newList));
       setEditingQuiz(null);
-       } else {
+    } else {
       const newQuiz: Quiz = {
         ...data,
         id: Date.now().toString(),
@@ -172,22 +182,26 @@ const AdminDashboard: React.FC = () => {
       };
       const newList = [...quizzes, newQuiz];
       setQuizzes(newList);
-      localStorage.setItem('adminQuizzes', JSON.stringify(newList));
+      localStorage.setItem("adminQuizzes", JSON.stringify(newList));
     }
     setShowQuizForm(false);
   };
 
-
-
-
-const renderQuizManagement = () => (
+  const renderQuizManagement = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className={`text-xl font-semibold ${globalState.darkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h3
+          className={`text-xl font-semibold ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
+        >
           Quiz Management
         </h3>
         <button
-          onClick={() => { setEditingQuiz(null); setShowQuizForm(true); }}
+          onClick={() => {
+            setEditingQuiz(null);
+            setShowQuizForm(true);
+          }}
           className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
         >
           <span>+ Create Quiz</span>
@@ -196,27 +210,33 @@ const renderQuizManagement = () => (
 
       {/* Conditional rendering for the Quiz Form */}
       {showQuizForm ? (
-          <QuizForm
-            initialData={editingQuiz}
-            onSaved={saveQuiz}
-            onClose={() => {
-              setShowQuizForm(false);
-              setEditingQuiz(null);
-            }}
-          />
+        <QuizForm
+          initialData={editingQuiz}
+          onSaved={saveQuiz}
+          onClose={() => {
+            setShowQuizForm(false);
+            setEditingQuiz(null);
+          }}
+        />
       ) : (
-          <>
-            <QuizList
-              quizzes={quizzes}
-              darkMode={globalState.darkMode}
-              onEdit={quiz => { setEditingQuiz(quiz); setShowQuizForm(true); }}
-              onDelete={deleteQuiz}
-            />
-            <SubmissionTracker quizzes={quizzes} darkMode={globalState.darkMode} />
-          </>
+        <>
+          <QuizList
+            quizzes={quizzes}
+            darkMode={globalState.darkMode}
+            onEdit={(quiz) => {
+              setEditingQuiz(quiz);
+              setShowQuizForm(true);
+            }}
+            onDelete={deleteQuiz}
+          />
+          <SubmissionTracker
+            quizzes={quizzes}
+            darkMode={globalState.darkMode}
+          />
+        </>
       )}
     </div>
-);
+  );
 
   const loadCourses = () => {
     const savedCourses = JSON.parse(
@@ -311,7 +331,7 @@ const renderQuizManagement = () => (
     { id: "content", label: "Content Management", icon: FileText },
     { id: "community", label: "Community", icon: Globe },
     { id: "news", label: "News & Updates", icon: Newspaper },
-    { id: 'quizzes', label: 'Quiz Management', icon: Award },
+    { id: "quizzes", label: "Quiz Management", icon: Award },
     { id: "analytics", label: "Analytics", icon: TrendingUp },
     { id: "logs", label: "System Logs", icon: Database },
     { id: "settings", label: "System Settings", icon: Settings },
@@ -448,6 +468,7 @@ const renderQuizManagement = () => (
     linkElement.setAttribute("download", exportFileDefaultName);
     linkElement.click();
   };
+
   const renderOverview = () => (
     <div className="space-y-6">
       {/* Stats Grid */}
@@ -457,22 +478,25 @@ const renderQuizManagement = () => (
           return (
             <div
               key={index}
-              className={`${globalState.darkMode
-                ? "bg-gray-800 border-gray-700"
-                : "bg-white border-gray-200"
-                } rounded-xl p-6 border shadow-sm hover:shadow-md transition-shadow`}
+              className={`${
+                globalState.darkMode
+                  ? "bg-gray-800 border-gray-700"
+                  : "bg-white border-gray-200"
+              } rounded-xl p-6 border shadow-sm hover:shadow-md transition-shadow`}
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p
-                    className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                      }`}
+                    className={`text-sm ${
+                      globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
                   >
                     {stat.title}
                   </p>
                   <p
-                    className={`text-3xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                      }`}
+                    className={`text-3xl font-bold ${
+                      globalState.darkMode ? "text-white" : "text-gray-900"
+                    }`}
                   >
                     {stat.value}
                   </p>
@@ -494,14 +518,16 @@ const renderQuizManagement = () => (
 
       {/* Quick Actions */}
       <div
-        className={`${globalState.darkMode
-          ? "bg-gray-800 border-gray-700"
-          : "bg-white border-gray-200"
-          } rounded-xl p-6 border shadow-sm`}
+        className={`${
+          globalState.darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        } rounded-xl p-6 border shadow-sm`}
       >
         <h3
-          className={`text-xl font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-xl font-semibold mb-4 ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           Quick Actions
         </h3>
@@ -532,14 +558,16 @@ const renderQuizManagement = () => (
 
       {/* Recent Activity */}
       <div
-        className={`${globalState.darkMode
-          ? "bg-gray-800 border-gray-700"
-          : "bg-white border-gray-200"
-          } rounded-xl p-6 border shadow-sm`}
+        className={`${
+          globalState.darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        } rounded-xl p-6 border shadow-sm`}
       >
         <h3
-          className={`text-xl font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-xl font-semibold mb-4 ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           Recent Activity
         </h3>
@@ -582,35 +610,39 @@ const renderQuizManagement = () => (
             >
               <div className="flex items-center space-x-3">
                 <div
-                  className={`w-2 h-2 rounded-full ${activity.type === "user"
-                    ? "bg-blue-500"
-                    : activity.type === "course"
+                  className={`w-2 h-2 rounded-full ${
+                    activity.type === "user"
+                      ? "bg-blue-500"
+                      : activity.type === "course"
                       ? "bg-green-500"
                       : activity.type === "assignment"
-                        ? "bg-yellow-500"
-                        : activity.type === "admin"
-                          ? "bg-purple-500"
-                          : "bg-orange-500"
-                    }`}
+                      ? "bg-yellow-500"
+                      : activity.type === "admin"
+                      ? "bg-purple-500"
+                      : "bg-orange-500"
+                  }`}
                 ></div>
                 <div>
                   <p
-                    className={`font-medium ${globalState.darkMode ? "text-white" : "text-gray-900"
-                      }`}
+                    className={`font-medium ${
+                      globalState.darkMode ? "text-white" : "text-gray-900"
+                    }`}
                   >
                     {activity.action}
                   </p>
                   <p
-                    className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                      }`}
+                    className={`text-sm ${
+                      globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
                   >
                     {activity.user}
                   </p>
                 </div>
               </div>
               <span
-                className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                  }`}
+                className={`text-sm ${
+                  globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
               >
                 {activity.time}
               </span>
@@ -622,14 +654,16 @@ const renderQuizManagement = () => (
       {/* System Health */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <h3
-            className={`text-xl font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-xl font-semibold mb-4 ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             System Health
           </h3>
@@ -677,14 +711,16 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <h3
-            className={`text-xl font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-xl font-semibold mb-4 ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             Platform Metrics
           </h3>
@@ -698,8 +734,9 @@ const renderQuizManagement = () => (
                 Uptime
               </span>
               <span
-                className={`font-medium ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`font-medium ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 99.9%
               </span>
@@ -713,8 +750,9 @@ const renderQuizManagement = () => (
                 Response Time
               </span>
               <span
-                className={`font-medium ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`font-medium ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 120ms
               </span>
@@ -728,8 +766,9 @@ const renderQuizManagement = () => (
                 Active Sessions
               </span>
               <span
-                className={`font-medium ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`font-medium ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 1,247
               </span>
@@ -751,14 +790,18 @@ const renderQuizManagement = () => (
             placeholder="Search users..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 rounded-lg border ${globalState.darkMode
-              ? "bg-gray-800 border-gray-700 text-white"
-              : "bg-white border-gray-300 text-gray-900"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full pl-10 pr-4 py-2 rounded-lg border ${
+              globalState.darkMode
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
+            } focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
         </div>
         <div className="flex space-x-2">
-          <button className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+          <button
+            onClick={() => setShowAddUser(true)}
+            className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+          >
             <Plus className="w-4 h-4" />
             <span>Add User</span>
           </button>
@@ -787,13 +830,15 @@ const renderQuizManagement = () => (
       {showFilter && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div
-            className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-              } rounded-xl p-6 w-full max-w-md mx-4`}
+            className={`${
+              globalState.darkMode ? "bg-gray-800" : "bg-white"
+            } rounded-xl p-6 w-full max-w-md mx-4`}
           >
             <div className="flex justify-between items-center mb-4">
               <h3
-                className={`text-lg font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-lg font-semibold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 Filter Users
               </h3>
@@ -813,8 +858,9 @@ const renderQuizManagement = () => (
             >
               <div>
                 <label
-                  className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
+                  className={`block text-sm font-medium mb-1 ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
                 >
                   Role
                 </label>
@@ -823,10 +869,11 @@ const renderQuizManagement = () => (
                   onChange={(e) =>
                     setFilter((f) => ({ ...f, role: e.target.value }))
                   }
-                  className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                    }`}
+                  className={`w-full px-3 py-2 rounded-lg border ${
+                    globalState.darkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
                 >
                   <option value="">All</option>
                   <option value="admin">Admin</option>
@@ -837,8 +884,9 @@ const renderQuizManagement = () => (
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
-                    className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+                    className={`block text-sm font-medium mb-1 ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     Joined After
                   </label>
@@ -848,16 +896,18 @@ const renderQuizManagement = () => (
                     onChange={(e) =>
                       setFilter((f) => ({ ...f, dateFrom: e.target.value }))
                     }
-                    className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                      }`}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? "bg-gray-700 border-gray-600 text-white"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
                   />
                 </div>
                 <div>
                   <label
-                    className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+                    className={`block text-sm font-medium mb-1 ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     Joined Before
                   </label>
@@ -867,18 +917,20 @@ const renderQuizManagement = () => (
                     onChange={(e) =>
                       setFilter((f) => ({ ...f, dateTo: e.target.value }))
                     }
-                    className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                      }`}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? "bg-gray-700 border-gray-600 text-white"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
-                    className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+                    className={`block text-sm font-medium mb-1 ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     Min Progress
                   </label>
@@ -890,16 +942,18 @@ const renderQuizManagement = () => (
                       setFilter((f) => ({ ...f, minProgress: e.target.value }))
                     }
                     placeholder="Points"
-                    className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                      }`}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? "bg-gray-700 border-gray-600 text-white"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
                   />
                 </div>
                 <div>
                   <label
-                    className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+                    className={`block text-sm font-medium mb-1 ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     Max Progress
                   </label>
@@ -911,10 +965,11 @@ const renderQuizManagement = () => (
                       setFilter((f) => ({ ...f, maxProgress: e.target.value }))
                     }
                     placeholder="Points"
-                    className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                      }`}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? "bg-gray-700 border-gray-600 text-white"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
                   />
                 </div>
               </div>
@@ -949,81 +1004,93 @@ const renderQuizManagement = () => (
       {/* User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Users className="w-5 h-5 text-blue-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Total Users
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {totalUsers}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-5 h-5 text-green-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Active Users
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {authState.users.filter((u) => u.isActive).length}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Shield className="w-5 h-5 text-purple-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Admins
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {totalAdmins}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Calendar className="w-5 h-5 text-orange-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               New This Month
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {
               authState.users.filter(
@@ -1038,14 +1105,18 @@ const renderQuizManagement = () => (
 
       {/* Users Table */}
       <div
-        className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-          } rounded-xl shadow overflow-hidden`}
+        className={`${
+          globalState.darkMode ? "bg-gray-800" : "bg-white"
+        } rounded-xl shadow overflow-hidden`}
       >
         <div className="overflow-x-auto">
           <table className="min-w-full">
             <thead
-              className={`text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "bg-gray-700 text-gray-300" : "bg-gray-100 text-gray-600"
-                }`}
+              className={`text-xs font-medium uppercase tracking-wider ${
+                globalState.darkMode
+                  ? "bg-gray-700 text-gray-300"
+                  : "bg-gray-100 text-gray-600"
+              }`}
             >
               <tr>
                 <th className="px-6 py-3 text-left border-b">User</th>
@@ -1057,96 +1128,141 @@ const renderQuizManagement = () => (
             </thead>
 
             <tbody>
-              {users.map((user) => (
-                <tr
-                  key={user._id}
-                  className={`${globalState.darkMode
-                    ? "hover:bg-gray-700 text-gray-100"
-                    : "hover:bg-gray-50 text-gray-800"
-                    } border-b`}
-                >
-                  {/* User Info */}
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img
-                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                          user.name
-                        )}&background=3b82f6&color=fff`}
-                        alt={user.name}
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div className="ml-4">
-                        <div className="font-medium">{user.name}</div>
-                        <div className="text-sm text-gray-500">{user.email}</div>
-                      </div>
-                    </div>
-                  </td>
-
-                  {/* Role */}
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.role === "admin"
-                        ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300"
-                        : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-                        }`}
-                    >
-                      {user.role}
-                    </span>
-                  </td>
-
-                  {/* Streak */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <div>
-                      Current: <span className="font-medium">{user.currentStreak}</span>
-                    </div>
-                    <div>
-                      Longest: <span className="font-medium">{user.longestStreak}</span>
-                    </div>
-                  </td>
-
-                  {/* Created At */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {new Date(user.createdAt).toLocaleDateString()}
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => setSelectedUser(user)}
-                        className="text-blue-600 hover:text-blue-900"
-                        title="View"
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="text-center py-8">
+                    <div className="flex justify-center items-center">
+                      <svg
+                        className="animate-spin h-6 w-6 text-blue-500 mr-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
                       >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="text-green-600 hover:text-green-900"
-                        title="Edit"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="text-orange-600 hover:text-orange-900"
-                        title="Email"
-                      >
-                        <Mail className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => deleteUser(user._id)}
-                        className="text-red-600 hover:text-red-900"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4l5-5-5-5v4a10 10 0 100 20v-4l-5 5 5 5v-4a8 8 0 01-8-8z"
+                        ></path>
+                      </svg>
+                      Loading users...
                     </div>
                   </td>
                 </tr>
-              ))}
+              ) : users.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center py-6 text-gray-500">
+                    No users found.
+                  </td>
+                </tr>
+              ) : (
+                users.map((user) => (
+                  <tr
+                    key={user._id}
+                    className={`${
+                      globalState.darkMode
+                        ? "hover:bg-gray-700 text-gray-100"
+                        : "hover:bg-gray-50 text-gray-800"
+                    } border-b`}
+                  >
+                    {/* User Info */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            user.name
+                          )}&background=3b82f6&color=fff`}
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div className="ml-4">
+                          <div className="font-medium">{user.name}</div>
+                          <div className="text-sm text-gray-500">
+                            {user.email}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Role */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          user.role === "admin"
+                            ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300"
+                            : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                        }`}
+                      >
+                        {user.role}
+                      </span>
+                    </td>
+
+                    {/* Streak */}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <div>
+                        Current:{" "}
+                        <span className="font-medium">
+                          {user.currentStreak ?? 0}
+                        </span>
+                      </div>
+                      <div>
+                        Longest:{" "}
+                        <span className="font-medium">
+                          {user.longestStreak ?? 0}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Created At */}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+
+                    {/* Actions */}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => setSelectedUser(user)}
+                          className="text-blue-600 hover:text-blue-900"
+                          title="View"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          className="text-green-600 hover:text-green-900"
+                          title="Edit"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          className="text-orange-600 hover:text-orange-900"
+                          title="Email"
+                        >
+                          <Mail className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => deleteUser(user._id)}
+                          className="text-red-600 hover:text-red-900"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
   );
 
@@ -1154,8 +1270,9 @@ const renderQuizManagement = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3
-          className={`text-xl font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-xl font-semibold ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           Course Management
         </h3>
@@ -1171,87 +1288,99 @@ const renderQuizManagement = () => (
       {/* Course Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <BookOpen className="w-5 h-5 text-blue-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Total Courses
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {courses.length}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-5 h-5 text-green-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Active Courses
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {courses.filter((c) => c.status === "active").length}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Users className="w-5 h-5 text-purple-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Total Enrollments
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {courses.reduce((sum, course) => sum + course.enrolled, 0)}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Award className="w-5 h-5 text-orange-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Avg Completion
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {courses.length > 0
               ? Math.round(
-                courses.reduce((sum, course) => sum + course.completion, 0) /
-                courses.length
-              )
+                  courses.reduce((sum, course) => sum + course.completion, 0) /
+                    courses.length
+                )
               : 0}
             %
           </p>
@@ -1263,15 +1392,17 @@ const renderQuizManagement = () => (
         {courses.map((course) => (
           <div
             key={course.id}
-            className={`${globalState.darkMode
-              ? "bg-gray-800 border-gray-700"
-              : "bg-white border-gray-200"
-              } rounded-xl p-6 border shadow-sm hover:shadow-md transition-shadow`}
+            className={`${
+              globalState.darkMode
+                ? "bg-gray-800 border-gray-700"
+                : "bg-white border-gray-200"
+            } rounded-xl p-6 border shadow-sm hover:shadow-md transition-shadow`}
           >
             <div className="flex items-center justify-between mb-4">
               <h4
-                className={`text-lg font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-lg font-semibold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 {course.title}
               </h4>
@@ -1299,8 +1430,9 @@ const renderQuizManagement = () => (
             </div>
 
             <p
-              className={`text-sm mb-4 ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                }`}
+              className={`text-sm mb-4 ${
+                globalState.darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
             >
               {course.description}
             </p>
@@ -1363,12 +1495,13 @@ const renderQuizManagement = () => (
                   Difficulty:
                 </span>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs ${course.difficulty === "Beginner"
-                    ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                    : course.difficulty === "Intermediate"
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    course.difficulty === "Beginner"
+                      ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                      : course.difficulty === "Intermediate"
                       ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300"
                       : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
-                    }`}
+                  }`}
                 >
                   {course.difficulty}
                 </span>
@@ -1394,16 +1527,18 @@ const renderQuizManagement = () => (
             <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${course.status === "active"
-                    ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                    : "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300"
-                    }`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    course.status === "active"
+                      ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                      : "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                  }`}
                 >
                   {course.status}
                 </span>
                 <span
-                  className={`text-xs ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-xs ${
+                    globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   {course.duration}
                 </span>
@@ -1419,8 +1554,9 @@ const renderQuizManagement = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3
-          className={`text-xl font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-xl font-semibold ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           Content Management
         </h3>
@@ -1439,16 +1575,18 @@ const renderQuizManagement = () => (
       {/* Content Categories */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <div className="flex items-center space-x-3 mb-4">
             <FileText className="w-6 h-6 text-blue-500" />
             <h4
-              className={`text-lg font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                }`}
+              className={`text-lg font-semibold ${
+                globalState.darkMode ? "text-white" : "text-gray-900"
+              }`}
             >
               Documents
             </h4>
@@ -1509,16 +1647,18 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <div className="flex items-center space-x-3 mb-4">
             <Globe className="w-6 h-6 text-green-500" />
             <h4
-              className={`text-lg font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                }`}
+              className={`text-lg font-semibold ${
+                globalState.darkMode ? "text-white" : "text-gray-900"
+              }`}
             >
               Media
             </h4>
@@ -1579,16 +1719,18 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <div className="flex items-center space-x-3 mb-4">
             <Database className="w-6 h-6 text-purple-500" />
             <h4
-              className={`text-lg font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                }`}
+              className={`text-lg font-semibold ${
+                globalState.darkMode ? "text-white" : "text-gray-900"
+              }`}
             >
               Resources
             </h4>
@@ -1651,14 +1793,16 @@ const renderQuizManagement = () => (
 
       {/* Recent Uploads */}
       <div
-        className={`${globalState.darkMode
-          ? "bg-gray-800 border-gray-700"
-          : "bg-white border-gray-200"
-          } rounded-xl p-6 border shadow-sm`}
+        className={`${
+          globalState.darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        } rounded-xl p-6 border shadow-sm`}
       >
         <h4
-          className={`text-lg font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-lg font-semibold mb-4 ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           Recent Uploads
         </h4>
@@ -1697,14 +1841,16 @@ const renderQuizManagement = () => (
                 <FileText className="w-5 h-5 text-gray-400" />
                 <div>
                   <p
-                    className={`font-medium ${globalState.darkMode ? "text-white" : "text-gray-900"
-                      }`}
+                    className={`font-medium ${
+                      globalState.darkMode ? "text-white" : "text-gray-900"
+                    }`}
                   >
                     {file.name}
                   </p>
                   <p
-                    className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                      }`}
+                    className={`text-sm ${
+                      globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
                   >
                     {file.type} • {file.size}
                   </p>
@@ -1712,8 +1858,9 @@ const renderQuizManagement = () => (
               </div>
               <div className="flex items-center space-x-2">
                 <span
-                  className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-sm ${
+                    globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   {file.date}
                 </span>
@@ -1735,8 +1882,9 @@ const renderQuizManagement = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3
-          className={`text-xl font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-xl font-semibold ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           News & Updates Management
         </h3>
@@ -1752,81 +1900,93 @@ const renderQuizManagement = () => (
       {/* News Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Newspaper className="w-5 h-5 text-blue-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Total Articles
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {newsArticles.length}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-5 h-5 text-green-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Published
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {newsArticles.filter((a) => a.status === "published").length}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Clock className="w-5 h-5 text-yellow-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Draft
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {newsArticles.filter((a) => a.status === "draft").length}
           </p>
         </div>
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-4 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-4 rounded-lg border`}
         >
           <div className="flex items-center space-x-2">
             <Eye className="w-5 h-5 text-purple-500" />
             <span
-              className={`text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
+              className={`text-sm ${
+                globalState.darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
             >
               Total Views
             </span>
           </div>
           <p
-            className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-2xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             {newsArticles.reduce((sum, article) => sum + article.views, 0)}
           </p>
@@ -1835,59 +1995,68 @@ const renderQuizManagement = () => (
 
       {/* News Articles */}
       <div
-        className={`${globalState.darkMode
-          ? "bg-gray-800 border-gray-700"
-          : "bg-white border-gray-200"
-          } rounded-xl border shadow-sm overflow-hidden`}
+        className={`${
+          globalState.darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        } rounded-xl border shadow-sm overflow-hidden`}
       >
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead
-              className={`${globalState.darkMode ? "bg-gray-700" : "bg-gray-50"
-                }`}
+              className={`${
+                globalState.darkMode ? "bg-gray-700" : "bg-gray-50"
+              }`}
             >
               <tr>
                 <th
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "text-gray-300" : "text-gray-500"
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}
                 >
                   Article
                 </th>
                 <th
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "text-gray-300" : "text-gray-500"
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}
                 >
                   Category
                 </th>
                 <th
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "text-gray-300" : "text-gray-500"
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}
                 >
                   Status
                 </th>
                 <th
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "text-gray-300" : "text-gray-500"
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}
                 >
                   Views
                 </th>
                 <th
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "text-gray-300" : "text-gray-500"
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}
                 >
                   Date
                 </th>
                 <th
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${globalState.darkMode ? "text-gray-300" : "text-gray-500"
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}
                 >
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody
-              className={`divide-y ${globalState.darkMode ? "divide-gray-700" : "divide-gray-200"
-                }`}
+              className={`divide-y ${
+                globalState.darkMode ? "divide-gray-700" : "divide-gray-200"
+              }`}
             >
               {newsArticles.map((article) => (
                 <tr
@@ -1897,16 +2066,18 @@ const renderQuizManagement = () => (
                   <td className="px-6 py-4">
                     <div>
                       <div
-                        className={`text-sm font-medium ${globalState.darkMode ? "text-white" : "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ${
+                          globalState.darkMode ? "text-white" : "text-gray-900"
+                        }`}
                       >
                         {article.title}
                       </div>
                       <div
-                        className={`text-sm ${globalState.darkMode
-                          ? "text-gray-400"
-                          : "text-gray-500"
-                          }`}
+                        className={`text-sm ${
+                          globalState.darkMode
+                            ? "text-gray-400"
+                            : "text-gray-500"
+                        }`}
                       >
                         By {article.author}
                       </div>
@@ -1914,35 +2085,39 @@ const renderQuizManagement = () => (
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${article.category === "announcement"
-                        ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-                        : article.category === "maintenance"
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        article.category === "announcement"
+                          ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                          : article.category === "maintenance"
                           ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
                           : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
-                        }`}
+                      }`}
                     >
                       {article.category}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${article.status === "published"
-                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                        : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-                        }`}
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        article.status === "published"
+                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                          : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+                      }`}
                     >
                       {article.status}
                     </span>
                   </td>
                   <td
-                    className={`px-6 py-4 whitespace-nowrap text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-900"
-                      }`}
+                    className={`px-6 py-4 whitespace-nowrap text-sm ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-900"
+                    }`}
                   >
                     {article.views}
                   </td>
                   <td
-                    className={`px-6 py-4 whitespace-nowrap text-sm ${globalState.darkMode ? "text-gray-300" : "text-gray-900"
-                      }`}
+                    className={`px-6 py-4 whitespace-nowrap text-sm ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-900"
+                    }`}
                   >
                     {new Date(article.publishDate).toLocaleDateString()}
                   </td>
@@ -1981,8 +2156,9 @@ const renderQuizManagement = () => (
   const renderAnalytics = () => (
     <div className="space-y-6">
       <h3
-        className={`text-xl font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-          }`}
+        className={`text-xl font-semibold ${
+          globalState.darkMode ? "text-white" : "text-gray-900"
+        }`}
       >
         Analytics Dashboard
       </h3>
@@ -1990,20 +2166,23 @@ const renderQuizManagement = () => (
       {/* Analytics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-6 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-6 rounded-lg border`}
         >
           <div className="flex items-center justify-between">
             <div>
               <p
-                className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                  }`}
+                className={`text-sm ${
+                  globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
               >
                 Page Views
               </p>
               <p
-                className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-2xl font-bold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 24,567
               </p>
@@ -2014,20 +2193,23 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-6 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-6 rounded-lg border`}
         >
           <div className="flex items-center justify-between">
             <div>
               <p
-                className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                  }`}
+                className={`text-sm ${
+                  globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
               >
                 User Engagement
               </p>
               <p
-                className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-2xl font-bold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 78%
               </p>
@@ -2038,20 +2220,23 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-6 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-6 rounded-lg border`}
         >
           <div className="flex items-center justify-between">
             <div>
               <p
-                className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                  }`}
+                className={`text-sm ${
+                  globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
               >
                 Course Completion
               </p>
               <p
-                className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-2xl font-bold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 85%
               </p>
@@ -2062,20 +2247,23 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-6 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-6 rounded-lg border`}
         >
           <div className="flex items-center justify-between">
             <div>
               <p
-                className={`text-sm ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                  }`}
+                className={`text-sm ${
+                  globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
               >
                 Revenue
               </p>
               <p
-                className={`text-2xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-2xl font-bold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 $12,450
               </p>
@@ -2089,12 +2277,14 @@ const renderQuizManagement = () => (
       {/* Charts Placeholder */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-6 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-6 rounded-lg border`}
         >
           <h4
-            className={`text-lg font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold mb-4 ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             User Growth
           </h4>
@@ -2110,12 +2300,14 @@ const renderQuizManagement = () => (
         </div>
 
         <div
-          className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-            } p-6 rounded-lg border`}
+          className={`${
+            globalState.darkMode ? "bg-gray-800" : "bg-white"
+          } p-6 rounded-lg border`}
         >
           <h4
-            className={`text-lg font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold mb-4 ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             Course Performance
           </h4>
@@ -2137,8 +2329,9 @@ const renderQuizManagement = () => (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h3
-          className={`text-xl font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-            }`}
+          className={`text-xl font-semibold ${
+            globalState.darkMode ? "text-white" : "text-gray-900"
+          }`}
         >
           System Logs
         </h3>
@@ -2152,14 +2345,16 @@ const renderQuizManagement = () => (
       </div>
 
       <div
-        className={`${globalState.darkMode
-          ? "bg-gray-800 border-gray-700"
-          : "bg-white border-gray-200"
-          } rounded-xl p-6 border shadow-sm`}
+        className={`${
+          globalState.darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        } rounded-xl p-6 border shadow-sm`}
       >
         <p
-          className={`text-center py-12 ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-            }`}
+          className={`text-center py-12 ${
+            globalState.darkMode ? "text-gray-400" : "text-gray-600"
+          }`}
         >
           <Database className="w-12 h-12 mx-auto mb-4 opacity-50" />
           Click "View Detailed Logs" to access the full system logs interface
@@ -2172,8 +2367,9 @@ const renderQuizManagement = () => (
   const renderSystemSettings = () => (
     <div className="space-y-6">
       <h3
-        className={`text-xl font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-          }`}
+        className={`text-xl font-semibold ${
+          globalState.darkMode ? "text-white" : "text-gray-900"
+        }`}
       >
         System Settings
       </h3>
@@ -2181,22 +2377,25 @@ const renderQuizManagement = () => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* General Settings */}
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <h4
-            className={`text-lg font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold mb-4 ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             General Settings
           </h4>
           <div className="space-y-4">
             <div>
               <label
-                className={`block text-sm font-medium mb-2 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-2 ${
+                  globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Site Name
               </label>
@@ -2209,24 +2408,27 @@ const renderQuizManagement = () => (
                     siteName: e.target.value,
                   })
                 }
-                className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  globalState.darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
                 <label
-                  className={`text-sm font-medium ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
+                  className={`text-sm font-medium ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
                 >
                   Maintenance Mode
                 </label>
                 <p
-                  className={`text-xs ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-xs ${
+                    globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Enable to show maintenance page to users
                 </p>
@@ -2238,16 +2440,18 @@ const renderQuizManagement = () => (
                     maintenanceMode: !systemSettings.maintenanceMode,
                   })
                 }
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${systemSettings.maintenanceMode
-                  ? "bg-blue-600"
-                  : "bg-gray-200 dark:bg-gray-700"
-                  }`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  systemSettings.maintenanceMode
+                    ? "bg-blue-600"
+                    : "bg-gray-200 dark:bg-gray-700"
+                }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${systemSettings.maintenanceMode
-                    ? "translate-x-6"
-                    : "translate-x-1"
-                    }`}
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    systemSettings.maintenanceMode
+                      ? "translate-x-6"
+                      : "translate-x-1"
+                  }`}
                 />
               </button>
             </div>
@@ -2255,14 +2459,16 @@ const renderQuizManagement = () => (
             <div className="flex items-center justify-between">
               <div>
                 <label
-                  className={`text-sm font-medium ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
+                  className={`text-sm font-medium ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
                 >
                   User Registration
                 </label>
                 <p
-                  className={`text-xs ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-xs ${
+                    globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Allow new users to register
                 </p>
@@ -2274,16 +2480,18 @@ const renderQuizManagement = () => (
                     registrationEnabled: !systemSettings.registrationEnabled,
                   })
                 }
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${systemSettings.registrationEnabled
-                  ? "bg-blue-600"
-                  : "bg-gray-200 dark:bg-gray-700"
-                  }`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  systemSettings.registrationEnabled
+                    ? "bg-blue-600"
+                    : "bg-gray-200 dark:bg-gray-700"
+                }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${systemSettings.registrationEnabled
-                    ? "translate-x-6"
-                    : "translate-x-1"
-                    }`}
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    systemSettings.registrationEnabled
+                      ? "translate-x-6"
+                      : "translate-x-1"
+                  }`}
                 />
               </button>
             </div>
@@ -2292,22 +2500,25 @@ const renderQuizManagement = () => (
 
         {/* Security Settings */}
         <div
-          className={`${globalState.darkMode
-            ? "bg-gray-800 border-gray-700"
-            : "bg-white border-gray-200"
-            } rounded-xl p-6 border shadow-sm`}
+          className={`${
+            globalState.darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-200"
+          } rounded-xl p-6 border shadow-sm`}
         >
           <h4
-            className={`text-lg font-semibold mb-4 ${globalState.darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold mb-4 ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             Security Settings
           </h4>
           <div className="space-y-4">
             <div>
               <label
-                className={`block text-sm font-medium mb-2 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-2 ${
+                  globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Session Timeout (minutes)
               </label>
@@ -2320,17 +2531,19 @@ const renderQuizManagement = () => (
                     sessionTimeout: parseInt(e.target.value),
                   })
                 }
-                className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  globalState.darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               />
             </div>
 
             <div>
               <label
-                className={`block text-sm font-medium mb-2 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-2 ${
+                  globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Max Users Per Course
               </label>
@@ -2343,24 +2556,27 @@ const renderQuizManagement = () => (
                     maxUsersPerCourse: parseInt(e.target.value),
                   })
                 }
-                className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  globalState.darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
                 <label
-                  className={`text-sm font-medium ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
+                  className={`text-sm font-medium ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
                 >
                   Email Notifications
                 </label>
                 <p
-                  className={`text-xs ${globalState.darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-xs ${
+                    globalState.darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Send system notifications via email
                 </p>
@@ -2372,16 +2588,18 @@ const renderQuizManagement = () => (
                     emailNotifications: !systemSettings.emailNotifications,
                   })
                 }
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${systemSettings.emailNotifications
-                  ? "bg-blue-600"
-                  : "bg-gray-200 dark:bg-gray-700"
-                  }`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  systemSettings.emailNotifications
+                    ? "bg-blue-600"
+                    : "bg-gray-200 dark:bg-gray-700"
+                }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${systemSettings.emailNotifications
-                    ? "translate-x-6"
-                    : "translate-x-1"
-                    }`}
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    systemSettings.emailNotifications
+                      ? "translate-x-6"
+                      : "translate-x-1"
+                  }`}
                 />
               </button>
             </div>
@@ -2410,10 +2628,11 @@ const renderQuizManagement = () => (
             placeholder="Search feedback..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 rounded-lg border ${globalState.darkMode
-              ? "bg-gray-800 border-gray-700 text-white"
-              : "bg-white border-gray-300 text-gray-900"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full pl-10 pr-4 py-2 rounded-lg border ${
+              globalState.darkMode
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
+            } focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
         </div>
 
@@ -2432,13 +2651,15 @@ const renderQuizManagement = () => (
       {showFilter && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div
-            className={`${globalState.darkMode ? "bg-gray-800" : "bg-white"
-              } rounded-xl p-6 w-full max-w-md mx-4`}
+            className={`${
+              globalState.darkMode ? "bg-gray-800" : "bg-white"
+            } rounded-xl p-6 w-full max-w-md mx-4`}
           >
             <div className="flex justify-between items-center mb-4">
               <h3
-                className={`text-lg font-semibold ${globalState.darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-lg font-semibold ${
+                  globalState.darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 Filter Feedback
               </h3>
@@ -2459,8 +2680,9 @@ const renderQuizManagement = () => (
             >
               <div>
                 <label
-                  className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
+                  className={`block text-sm font-medium mb-1 ${
+                    globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
                 >
                   Status
                 </label>
@@ -2469,10 +2691,11 @@ const renderQuizManagement = () => (
                   onChange={(e) =>
                     setFilters((f) => ({ ...f, status: e.target.value }))
                   }
-                  className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                    }`}
+                  className={`w-full px-3 py-2 rounded-lg border ${
+                    globalState.darkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
                 >
                   <option value="">All</option>
                   <option value="pending">Pending</option>
@@ -2483,8 +2706,9 @@ const renderQuizManagement = () => (
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
-                    className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+                    className={`block text-sm font-medium mb-1 ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     From Date
                   </label>
@@ -2494,16 +2718,18 @@ const renderQuizManagement = () => (
                     onChange={(e) =>
                       setFilters((f) => ({ ...f, dateFrom: e.target.value }))
                     }
-                    className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                      }`}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? "bg-gray-700 border-gray-600 text-white"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
                   />
                 </div>
                 <div>
                   <label
-                    className={`block text-sm font-medium mb-1 ${globalState.darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+                    className={`block text-sm font-medium mb-1 ${
+                      globalState.darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     To Date
                   </label>
@@ -2513,10 +2739,11 @@ const renderQuizManagement = () => (
                     onChange={(e) =>
                       setFilters((f) => ({ ...f, dateTo: e.target.value }))
                     }
-                    className={`w-full px-3 py-2 rounded-lg border ${globalState.darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                      }`}
+                    className={`w-full px-3 py-2 rounded-lg border ${
+                      globalState.darkMode
+                        ? "bg-gray-700 border-gray-600 text-white"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
                   />
                 </div>
               </div>
@@ -2556,9 +2783,7 @@ const renderQuizManagement = () => (
     </div>
   );
 
-  const renderCommunityManagement = () => (
-    <CommunityForum />
-  )
+  const renderCommunityManagement = () => <CommunityForum />;
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -2574,7 +2799,7 @@ const renderQuizManagement = () => (
         return renderCommunityManagement();
       case "news":
         return renderNewsManagement();
-      case 'quizzes': // <-- ADD THIS!
+      case "quizzes": // <-- ADD THIS!
         return renderQuizManagement();
       case "analytics":
         return renderAnalytics();
@@ -2608,21 +2833,24 @@ const renderQuizManagement = () => (
 
   return (
     <div
-      className={`min-h-screen ${globalState.darkMode ? "bg-gray-900" : "bg-gray-50"
-        } transition-colors duration-200`}
+      className={`min-h-screen ${
+        globalState.darkMode ? "bg-gray-900" : "bg-gray-50"
+      } transition-colors duration-200`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1
-            className={`text-3xl font-bold ${globalState.darkMode ? "text-white" : "text-gray-900"
-              } mb-2`}
+            className={`text-3xl font-bold ${
+              globalState.darkMode ? "text-white" : "text-gray-900"
+            } mb-2`}
           >
             Admin Dashboard
           </h1>
           <p
-            className={`text-lg ${globalState.darkMode ? "text-gray-300" : "text-gray-600"
-              }`}
+            className={`text-lg ${
+              globalState.darkMode ? "text-gray-300" : "text-gray-600"
+            }`}
           >
             Comprehensive platform management and analytics
           </p>
@@ -2630,10 +2858,11 @@ const renderQuizManagement = () => (
           <div className="flex items-center justify-start space-x-4 mt-4">
             <button
               onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${globalState.darkMode
-                ? "bg-gray-700 text-white hover:bg-gray-600"
-                : "bg-gray-200 text-gray-900 hover:bg-gray-300"
-                }`}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                globalState.darkMode
+                  ? "bg-gray-700 text-white hover:bg-gray-600"
+                  : "bg-gray-200 text-gray-900 hover:bg-gray-300"
+              }`}
             >
               {globalState.darkMode ? "☀ Light" : "🌙 Dark"}
             </button>
@@ -2656,12 +2885,13 @@ const renderQuizManagement = () => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === tab.id
-                    ? "bg-blue-500 text-white shadow-lg"
-                    : globalState.darkMode
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                    activeTab === tab.id
+                      ? "bg-blue-500 text-white shadow-lg"
+                      : globalState.darkMode
                       ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
                       : "bg-white text-gray-700 hover:bg-gray-100 shadow-sm"
-                    }`}
+                  }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{tab.label}</span>
@@ -2684,6 +2914,14 @@ const renderQuizManagement = () => (
         />
       )}
 
+      {showAddUser && (
+        <AddUserModal
+          onClose={() => setShowAddUser(false)}
+          onAdd={handleAddUser}
+          darkMode={globalState.darkMode}
+        />
+      )}
+
       {/* Add News Modal */}
       {showAddNews && (
         <AddNewsModal
@@ -2701,6 +2939,135 @@ const renderQuizManagement = () => (
           darkMode={globalState.darkMode}
         />
       )}
+    </div>
+  );
+};
+export default AdminDashboard;
+
+interface AddUserForm {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+interface AddUserModalProps {
+  onClose: () => void;
+  onAdd: (formData: AddUserForm) => void;
+  darkMode: boolean;
+}
+
+const AddUserModal: React.FC<AddUserModalProps> = ({
+  onClose,
+  onAdd,
+  darkMode,
+}) => {
+  const [formData, setFormData] = useState<AddUserForm>({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    try {
+      await onAdd(formData);
+      onClose(); // ✅ only called when user added successfully
+    } catch (err: any) {
+      const axiosErr = err as AxiosError;
+      const message =
+        (axiosErr?.response?.data as any)?.message || "Something went wrong.";
+      console.log("Error received:", message);
+      setError(message); // ✅ this sets the error, modal stays open
+    }
+  };
+
+  return (
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center ${
+        darkMode
+          ? "bg-black bg-opacity-60"
+          : "bg-gray-200 border-gray-300 bg-opacity-60"
+      }`}
+    >
+      <div
+        className={`p-8 shadow-lg w-full  rounded-2xl  max-w-md ${
+          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+        }`}
+      >
+        <h2 className="text-xl font-semibold mb-4">Add New User</h2>
+        {error && (
+          <div className="mb-4 p-2 rounded bg-red-100 text-red-700 border border-red-300">
+            ⚠️ {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="p-2 border rounded"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            className="p-2 border rounded"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="p-2 border rounded"
+            required
+          />
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="p-2 border rounded"
+            required
+          >
+            <option value="" disabled>
+              Select Role
+            </option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+
+          <div className="flex justify-end gap-2 mt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Add User
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
@@ -2741,13 +3108,15 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div
-        className={`${darkMode ? "bg-gray-800" : "bg-white"
-          } rounded-xl p-6 w-full max-w-md mx-4`}
+        className={`${
+          darkMode ? "bg-gray-800" : "bg-white"
+        } rounded-xl p-6 w-full max-w-md mx-4`}
       >
         <div className="flex justify-between items-center mb-4">
           <h3
-            className={`text-lg font-semibold ${darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             Add New Course
           </h3>
@@ -2762,8 +3131,9 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
-              className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Course Title
             </label>
@@ -2773,18 +3143,20 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                ? "bg-gray-700 border-gray-600 text-white"
-                : "bg-white border-gray-300 text-gray-900"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
+              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               required
             />
           </div>
 
           <div>
             <label
-              className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Description
             </label>
@@ -2794,10 +3166,11 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
                 setFormData({ ...formData, description: e.target.value })
               }
               rows={3}
-              className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                ? "bg-gray-700 border-gray-600 text-white"
-                : "bg-white border-gray-300 text-gray-900"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
+              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               required
             />
           </div>
@@ -2805,8 +3178,9 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
-                className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-1 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Modules
               </label>
@@ -2819,18 +3193,20 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
                     modules: parseInt(e.target.value),
                   })
                 }
-                className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 required
               />
             </div>
 
             <div>
               <label
-                className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-1 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Difficulty
               </label>
@@ -2839,10 +3215,11 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
                 onChange={(e) =>
                   setFormData({ ...formData, difficulty: e.target.value })
                 }
-                className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               >
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
@@ -2854,8 +3231,9 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
-                className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-1 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Duration
               </label>
@@ -2866,18 +3244,20 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
                   setFormData({ ...formData, duration: e.target.value })
                 }
                 placeholder="e.g., 12 weeks"
-                className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 required
               />
             </div>
 
             <div>
               <label
-                className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium mb-1 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Instructor
               </label>
@@ -2887,10 +3267,11 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
                 onChange={(e) =>
                   setFormData({ ...formData, instructor: e.target.value })
                 }
-                className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full px-3 py-2 rounded-lg border ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 required
               />
             </div>
@@ -2949,13 +3330,15 @@ const AddNewsModal: React.FC<AddNewsModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div
-        className={`${darkMode ? "bg-gray-800" : "bg-white"
-          } rounded-xl p-6 w-full max-w-md mx-4`}
+        className={`${
+          darkMode ? "bg-gray-800" : "bg-white"
+        } rounded-xl p-6 w-full max-w-md mx-4`}
       >
         <div className="flex justify-between items-center mb-4">
           <h3
-            className={`text-lg font-semibold ${darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             Add News Article
           </h3>
@@ -2970,8 +3353,9 @@ const AddNewsModal: React.FC<AddNewsModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
-              className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Title
             </label>
@@ -2981,18 +3365,20 @@ const AddNewsModal: React.FC<AddNewsModalProps> = ({
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                ? "bg-gray-700 border-gray-600 text-white"
-                : "bg-white border-gray-300 text-gray-900"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
+              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               required
             />
           </div>
 
           <div>
             <label
-              className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Content
             </label>
@@ -3002,18 +3388,20 @@ const AddNewsModal: React.FC<AddNewsModalProps> = ({
                 setFormData({ ...formData, content: e.target.value })
               }
               rows={3}
-              className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                ? "bg-gray-700 border-gray-600 text-white"
-                : "bg-white border-gray-300 text-gray-900"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
+              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
               required
             />
           </div>
 
           <div>
             <label
-              className={`block text-sm font-medium mb-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Category
             </label>
@@ -3022,10 +3410,11 @@ const AddNewsModal: React.FC<AddNewsModalProps> = ({
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
               }
-              className={`w-full px-3 py-2 rounded-lg border ${darkMode
-                ? "bg-gray-700 border-gray-600 text-white"
-                : "bg-white border-gray-300 text-gray-900"
-                }`}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
+              }`}
             >
               <option value="announcement">Announcement</option>
               <option value="maintenance">Maintenance</option>
@@ -3046,8 +3435,9 @@ const AddNewsModal: React.FC<AddNewsModalProps> = ({
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
             <label
-              className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`text-sm ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Publish immediately
             </label>
@@ -3104,13 +3494,15 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div
-        className={`${darkMode ? "bg-gray-800" : "bg-white"
-          } rounded-xl p-6 w-full max-w-lg mx-4`}
+        className={`${
+          darkMode ? "bg-gray-800" : "bg-white"
+        } rounded-xl p-6 w-full max-w-lg mx-4`}
       >
         <div className="flex justify-between items-center mb-4">
           <h3
-            className={`text-lg font-semibold ${darkMode ? "text-white" : "text-gray-900"
-              }`}
+            className={`text-lg font-semibold ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
           >
             User Details
           </h3>
@@ -3136,8 +3528,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             />
             <div>
               <h4
-                className={`text-lg font-semibold ${darkMode ? "text-white" : "text-gray-900"
-                  }`}
+                className={`text-lg font-semibold ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
               >
                 {user.name}
               </h4>
@@ -3150,8 +3543,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
-                className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Role
               </label>
@@ -3161,8 +3555,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </div>
             <div>
               <label
-                className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Status
               </label>
@@ -3172,8 +3567,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </div>
             <div>
               <label
-                className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Join Date
               </label>
@@ -3183,8 +3579,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
             </div>
             <div>
               <label
-                className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Last Login
               </label>
@@ -3196,50 +3593,57 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
 
           <div>
             <label
-              className={`block text-sm font-medium mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
+              className={`block text-sm font-medium mb-2 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Progress Summary
             </label>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
                 <p
-                  className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"
-                    }`}
+                  className={`text-2xl font-bold ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}
                 >
                   {user.progress.totalPoints}
                 </p>
                 <p
-                  className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-sm ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Points
                 </p>
               </div>
               <div className="text-center">
                 <p
-                  className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"
-                    }`}
+                  className={`text-2xl font-bold ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}
                 >
                   {user.progress.streak}
                 </p>
                 <p
-                  className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-sm ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Streak
                 </p>
               </div>
               <div className="text-center">
                 <p
-                  className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"
-                    }`}
+                  className={`text-2xl font-bold ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}
                 >
                   {user.progress.completedModules}
                 </p>
                 <p
-                  className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
+                  className={`text-sm ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Modules
                 </p>
@@ -3260,5 +3664,3 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     </div>
   );
 };
-
-export default AdminDashboard;
