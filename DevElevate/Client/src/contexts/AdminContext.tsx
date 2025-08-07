@@ -1,4 +1,3 @@
-// src/contexts/AdminContext.tsx
 import {
   createContext,
   useContext,
@@ -6,8 +5,16 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { getAllUsers } from "../api/adminApi.ts";
-import { User } from "../types/User.ts";
+import { getAllUsers, addUser } from "../api/adminApi";
+import { User } from "../types/User";
+
+// Define the structure of user input for creation
+interface NewUserInput {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}
 
 interface AdminContextType {
   users: User[];
@@ -15,6 +22,7 @@ interface AdminContextType {
   totalAdmins: number;
   loading: boolean;
   fetchAllUsers: () => void;
+  addUserByAdmin: (userData: NewUserInput) => Promise<void>;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -39,13 +47,38 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const addUserByAdmin = async (userData: NewUserInput) => {
+    try {
+      const data = await addUser(userData);
+
+      // Basic validation of response
+      if (!data || !data.user || !data.user.name || !data.user.email) {
+        console.error("❌ Incomplete user data received:", data);
+        throw new Error("Incomplete user data received."); // ⬅️ throw so modal can catch it
+      }
+
+      setUsers((prev) => [...prev, data.user]);
+      console.log("✅ User added:", data.user);
+    } catch (error) {
+      console.error("❌ Error adding user:", error);
+      throw error; // ⬅️ Re-throw so the modal can display the error
+    }
+  };
+
   useEffect(() => {
     fetchAllUsers();
   }, []);
 
   return (
     <AdminContext.Provider
-      value={{ users, totalUsers, totalAdmins, loading, fetchAllUsers }}
+      value={{
+        users,
+        totalUsers,
+        totalAdmins,
+        loading,
+        fetchAllUsers,
+        addUserByAdmin,
+      }}
     >
       {children}
     </AdminContext.Provider>
