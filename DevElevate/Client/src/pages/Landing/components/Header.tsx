@@ -67,9 +67,9 @@ const Header: React.FC = () => {
                 Sign In
               </button>
             </Link>
-            <Link to="/dashboard">
+            <Link to="/apply">
               <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-2 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
-                Get Started
+                Apply Now
               </button>
             </Link>
           </div>
@@ -98,12 +98,16 @@ const Header: React.FC = () => {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 pt-4">
-                <button className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Sign In
-                </button>
-                <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-2 rounded-lg">
-                  Get Started
-                </button>
+                <Link to="/dashboard">
+                  <button className="text-gray-300 hover:text-white transition-colors duration-300">
+                    Sign In
+                  </button>
+                </Link>
+                <Link to="/apply">
+                  <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-2 rounded-lg w-full">
+                    Apply Now
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

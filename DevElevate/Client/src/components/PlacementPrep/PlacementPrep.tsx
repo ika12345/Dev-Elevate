@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useGlobalState } from '../../contexts/GlobalContext';
 import { FileText, Download, Users, Calendar, Target, BookOpen, ExternalLink} from 'lucide-react';
 import { Code } from 'lucide-react';
@@ -467,22 +467,13 @@ const PlacementPrep: React.FC = () => {
                     Deadline: {job.deadline}
                   </p>
                 </div>
-                <button 
-                  onClick={() => {
-                    console.log(`Applying to ${job.position} at ${job.company}`);
-                    if (job.applyUrl && job.applyUrl !== '#') {
-                      // Open real job application URL in new tab
-                      window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
-                    } else {
-                      // Fallback for mock data or invalid URLs
-                      alert(`🚧 Coming Soon!\n\nJob application feature for ${job.position} at ${job.company} will be available soon.\n\nFor now, please visit the company's career page directly.`);
-                    }
-                  }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors"
+                <Link
+                  to="/apply"
+                  className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors rounded-lg hover:scale-105 transform duration-200"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>Apply</span>
-                </button>
+                  <span>Apply Now</span>
+                </Link>
               </div>
                           </div>
             ))}

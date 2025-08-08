@@ -22,6 +22,8 @@ import CreatorPage from "./components/Legal/CreatorPage";
 import Disclaimer from "./components/Legal/Disclaimer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminSystemLogs from "./components/Admin/AdminSystemLogs";
+import ApplicationManager from "./components/Admin/ApplicationManager";
+import LocalApplicationViewer from "./components/Admin/LocalApplicationViewer";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import LoginRegister from "./components/Auth/LoginRegister";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -32,6 +34,7 @@ import ProjectRecommender from "./components/ProjectRecommender/ProjectRecommend
 import Layout from "./components/Layout/Layout";
 import CommunityForum from "./components/Community/CommunityForum";
 import LandingPage from "./pages/Landing/LandingPage";
+import ApplyPage from "./pages/Apply/ApplyPage";
 
 function App() {
   return (
@@ -51,6 +54,7 @@ function App() {
                 }
               />
               <Route path="/" element={<LandingPage />} />
+              <Route path="/apply" element={<ApplyPage />} />
 
               {/* Protected Routes */}
               <Route
@@ -123,6 +127,26 @@ function App() {
                   <ProtectedRoute requireAdmin={true}>
                     <AdminProvider>
                       <AdminSystemLogs />
+                    </AdminProvider>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/applications"
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <AdminProvider>
+                      <ApplicationManager />
+                    </AdminProvider>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/local-applications"
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <AdminProvider>
+                      <LocalApplicationViewer />
                     </AdminProvider>
                   </ProtectedRoute>
                 }
