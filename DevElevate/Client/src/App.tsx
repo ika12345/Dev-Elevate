@@ -15,6 +15,7 @@ import Chatbot from "./components/Chatbot/Chatbot";
 import TechFeed from "./components/TechFeed/TechFeed";
 import ResumeBuilder from "./components/ResumeBuilder/ResumeBuilder";
 import PlacementPrep from "./components/PlacementPrep/PlacementPrep";
+import ApplyPage from "./components/PlacementPrep/ApplyPage";
 import UserProfile from "./components/Profile/UserProfile";
 import PrivacyPolicy from "./components/Legal/PrivacyPolicy";
 import TermsOfService from "./components/Legal/TermsOfService";
@@ -78,6 +79,10 @@ function App() {
                             <Route
                               path="/placement"
                               element={<PlacementPrep />}
+                            />
+                            <Route
+                              path="/placement/apply"
+                              element={<ApplyPage />}
                             />
                             <Route
                               path="/projects"

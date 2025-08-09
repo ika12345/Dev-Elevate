@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const CTA: React.FC = () => {
   return (
@@ -32,13 +33,17 @@ const CTA: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <button className="group bg-gradient-to-r from-purple-500 to-blue-500 text-white px-12 py-4 rounded-xl font-semibold flex items-center justify-center space-x-2 hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
-              <span>Start Learning Free</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </button>
-            <button className="bg-white/5 backdrop-blur-sm border border-white/10 text-white px-12 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300">
-              Book a Demo
-            </button>
+            <Link to="/apply">
+              <button className="group bg-gradient-to-r from-purple-500 to-blue-500 text-white px-12 py-4 rounded-xl font-semibold flex items-center justify-center space-x-2 hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
+                <span>Apply Now</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </button>
+            </Link>
+            <Link to="/dashboard">
+              <button className="bg-white/5 backdrop-blur-sm border border-white/10 text-white px-12 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300">
+                Start Learning Free
+              </button>
+            </Link>
           </div>
 
           {/* Trust Indicators */}
