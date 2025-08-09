@@ -23,7 +23,10 @@ import Disclaimer from "./components/Legal/Disclaimer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminSystemLogs from "./components/Admin/AdminSystemLogs";
 import ApplicationManager from "./components/Admin/ApplicationManager";
+<<<<<<< HEAD
 import LocalApplicationViewer from "./components/Admin/LocalApplicationViewer";
+=======
+>>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import LoginRegister from "./components/Auth/LoginRegister";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -34,7 +37,11 @@ import ProjectRecommender from "./components/ProjectRecommender/ProjectRecommend
 import Layout from "./components/Layout/Layout";
 import CommunityForum from "./components/Community/CommunityForum";
 import LandingPage from "./pages/Landing/LandingPage";
+<<<<<<< HEAD
 import ApplyPage from "./pages/Apply/ApplyPage";
+=======
+import ApplyPage from "./components/Apply/ApplyPage.tsx";
+>>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
 
 function App() {
   return (
@@ -91,6 +98,7 @@ function App() {
                             <Route path="/premium" element={<PremiumPage />} />
                             <Route path="/payment" element={<PaymentPage />} />
                             <Route path="/profile" element={<UserProfile />} />
+                            <Route path="/apply" element={<ApplyPage />} />
                             <Route
                               path="/privacy"
                               element={<PrivacyPolicy />}
@@ -141,6 +149,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+<<<<<<< HEAD
               <Route
                 path="/admin/local-applications"
                 element={
@@ -151,6 +160,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+=======
+>>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
             </Routes>
           </Router>
         </NotificationProvider>

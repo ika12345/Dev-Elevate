@@ -218,6 +218,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         displayName: name,
       });
 
+<<<<<<< HEAD
       // Send email verification
       if (result.user) {
         await sendEmailVerification(result.user);
@@ -238,6 +239,135 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           break;
         default:
           errorMessage = error.message;
+=======
+      if (!response.ok) {
+        let errorMessage = "Registration failed";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          // If JSON parsing fails, use default error message
+          errorMessage = `Registration failed (${response.status})`;
+        }
+        throw new Error(errorMessage);
+      }
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        throw new Error("Invalid response from server");
+      }
+
+      // Handle both production and dev mode responses
+      if (data.message?.includes("User registered successfully")) {
+        // If backend returns a token (dev mode), use it directly
+        if (data.token) {
+          const user: User = {
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            role: data.user.role,
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.name}`,
+            bio:
+              data.user.role === "admin"
+                ? "System Administrator"
+                : "DevElevate User",
+            socialLinks: {},
+            joinDate: new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            isActive: true,
+            preferences: {
+              theme: "light",
+              notifications: true,
+              language: "en",
+              emailUpdates: true,
+            },
+            progress: {
+              coursesEnrolled: [],
+              completedModules: 0,
+              totalPoints: 0,
+              streak: 0,
+              level: "Beginner",
+            },
+          };
+
+          dispatch({
+            type: "REGISTER_SUCCESS",
+            payload: {
+              user,
+              token: data.token,
+              message: data.message,
+            },
+          });
+          return;
+        }
+        // Auto-login after successful registration
+        const loginResponse = await fetch(`${baseUrl}/api/v1/auth/login`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          }
+        );
+
+        if (!loginResponse.ok) {
+          throw new Error("Auto-login failed after registration");
+        }
+
+        let loginData;
+        try {
+          loginData = await loginResponse.json();
+        } catch (e) {
+          throw new Error("Invalid login response after registration");
+        }
+
+        if (loginData.token && loginData.user) {
+          const user: User = {
+            id: loginData.user.id,
+            name: loginData.user.name,
+            email: loginData.user.email,
+            role: loginData.user.role,
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${loginData.user.name}`,
+            bio:
+              loginData.user.role === "admin"
+                ? "System Administrator"
+                : "DevElevate User",
+            socialLinks: {},
+            joinDate: new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            isActive: true,
+            preferences: {
+              theme: "light",
+              notifications: true,
+              language: "en",
+              emailUpdates: true,
+            },
+            progress: {
+              coursesEnrolled: [],
+              completedModules: 0,
+              totalPoints: 0,
+              streak: 0,
+              level: "Beginner",
+            },
+          };
+
+          console.log("Registration successful - user:", user);
+          console.log("Registration successful - token:", loginData.token);
+
+          dispatch({
+            type: "REGISTER_SUCCESS",
+            payload: { user, token: loginData.token },
+          });
+        } else {
+          throw new Error("Registration successful but auto-login failed");
+        }
+      } else {
+        throw new Error("Registration failed");
+>>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
       }
       dispatch({ type: "AUTH_ERROR", payload: errorMessage });
       throw new Error(errorMessage);
