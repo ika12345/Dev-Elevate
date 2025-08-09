@@ -23,10 +23,7 @@ import Disclaimer from "./components/Legal/Disclaimer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminSystemLogs from "./components/Admin/AdminSystemLogs";
 import ApplicationManager from "./components/Admin/ApplicationManager";
-<<<<<<< HEAD
 import LocalApplicationViewer from "./components/Admin/LocalApplicationViewer";
-=======
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import LoginRegister from "./components/Auth/LoginRegister";
 import Dashboard from "./components/Dashboard/Dashboard";
