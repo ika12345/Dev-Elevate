@@ -467,11 +467,16 @@ const PlacementPrep: React.FC = () => {
                     Deadline: {job.deadline}
                   </p>
                 </div>
-                <button
+                <button 
                   onClick={() => {
                     console.log(`Applying to ${job.position} at ${job.company}`);
-                    // Navigate to our ApplyPage with job details
-                    navigate('/placement/apply', { state: { job } });
+                    if (job.applyUrl && job.applyUrl !== '#') {
+                      // Open real job application URL in new tab
+                      window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
+                    } else {
+                      // Fallback for mock data or invalid URLs
+                      alert(`🚧 Coming Soon!\n\nJob application feature for ${job.position} at ${job.company} will be available soon.\n\nFor now, please visit the company's career page directly.`);
+                    }
                   }}
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors"
                 >
@@ -694,31 +699,6 @@ const PlacementPrep: React.FC = () => {
           <p className={`text-lg sm:text-xl ${state.darkMode ? 'text-gray-300' : 'text-gray-700'} max-w-3xl`}>
             Everything you need to ace your job interviews and land your dream job
           </p>
-        </div>
-
-        {/* Apply Call-to-Action Section */}
-        <div className={`mb-8 p-6 rounded-2xl border-2 border-dashed transition-all ${
-          state.darkMode
-            ? 'bg-gray-800 border-blue-500/30 hover:border-blue-500/50'
-            : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 hover:border-blue-300'
-        }`}>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-center sm:text-left">
-              <h2 className={`text-xl font-bold mb-2 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
-                🎯 Ready to Apply for Your Dream Job?
-              </h2>
-              <p className={`text-sm ${state.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Submit your application with our comprehensive form. All tracks available: Frontend, Backend, Fullstack, and Data Science.
-              </p>
-            </div>
-            <button
-              onClick={() => navigate('/placement/apply')}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
-            >
-              <ExternalLink className="w-5 h-5" />
-              <span>Apply Now</span>
-            </button>
-          </div>
         </div>
         {/* Tabs */}
         <div className="mb-8">
