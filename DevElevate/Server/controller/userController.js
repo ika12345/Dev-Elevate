@@ -12,40 +12,6 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // Basic validation
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "Name, email, and password are required" });
-    }
-
-    if (!role || !['user', 'admin'].includes(role)) {
-      return res.status(400).json({ message: "Valid role (user or admin) is required" });
-    }
-
-    // Check if MongoDB is connected
-    if (!process.env.MONGO_URI) {
-      console.log("Registration attempt in dev mode:", { name, email, role });
-
-      try {
-        // Fallback for development without MongoDB
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const token = jwt.sign({ email, role }, process.env.JWT_SECRET || 'fallback-secret', { expiresIn: '3d' });
-
-        return res.status(201).json({
-          message: "User registered successfully (dev mode)",
-          user: {
-            name,
-            email,
-            role,
-            id: Date.now().toString()
-          },
-          token
-        });
-      } catch (fallbackError) {
-        console.error("Fallback registration error:", fallbackError);
-        return res.status(500).json({ message: "Registration failed in dev mode", error: fallbackError.message });
-      }
-    }
-
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser)
@@ -74,35 +40,15 @@ export const registerUser = async (req, res) => {
       send: "Mali send successfully",
     });
   } catch (error) {
-    console.error("Registration error:", error);
     res
       .status(500)
-      .json({ message: "Registration failed", error: error.message });
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Check if MongoDB is connected
-    if (!process.env.MONGO_URI) {
-      // Fallback for development without MongoDB
-      const token = jwt.sign({ email, role: 'user' }, process.env.JWT_SECRET || 'fallback-secret', { expiresIn: '3d' });
-
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: false, // false for localhost
-        sameSite: "Lax",
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-      });
-
-      return res.status(200).json({
-        message: "Login successful (dev mode)",
-        user: { email, role: 'user', name: 'Dev User' },
-        token
-      });
-    }
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
