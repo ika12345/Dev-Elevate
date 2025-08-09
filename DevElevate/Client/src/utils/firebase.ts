@@ -1,9 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-<<<<<<< HEAD
 import { getAnalytics } from "firebase/analytics";
-=======
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -19,7 +17,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-<<<<<<< HEAD
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
@@ -42,11 +39,11 @@ if (typeof window !== 'undefined' && import.meta.env.PROD) {
 }
 
 export { auth, provider, db, storage, analytics };
-=======
+
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
 export { auth, provider, db, storage };
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+

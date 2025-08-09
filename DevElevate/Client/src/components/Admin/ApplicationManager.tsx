@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
+
 import { motion } from 'framer-motion';
 import { 
   Users, 
@@ -41,7 +41,7 @@ const ApplicationManager: React.FC = () => {
       setApplications(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch applications');
-=======
+
 import { 
   FileText, 
   Download, 
@@ -89,13 +89,13 @@ const ApplicationManager: React.FC = () => {
       setApplications(apps);
     } catch (error) {
       console.error('Error loading applications:', error);
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+
     } finally {
       setLoading(false);
     }
   };
 
-<<<<<<< HEAD
+
   const filteredApplications = applications.filter(app => {
     const matchesSearch = 
       app.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -158,7 +158,7 @@ const ApplicationManager: React.FC = () => {
     if (resumeUrl) {
       window.open(resumeUrl, '_blank');
     }
-=======
+
   const handleStatusUpdate = async (applicationId: string, newStatus: ApplicationSubmission['status']) => {
     try {
       await updateApplicationStatus(applicationId, newStatus);
@@ -177,13 +177,13 @@ const ApplicationManager: React.FC = () => {
     if (!timestamp) return 'N/A';
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-<<<<<<< HEAD
+
         <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -203,16 +203,16 @@ const ApplicationManager: React.FC = () => {
         >
           Try Again
         </button>
-=======
+
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         <span className="ml-2 text-gray-600">Loading applications...</span>
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+
       </div>
     );
   }
 
   return (
-<<<<<<< HEAD
+
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -410,7 +410,7 @@ const ApplicationManager: React.FC = () => {
           )}
         </div>
       </div>
-=======
+
     <div className="p-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Application Manager</h1>
@@ -675,7 +675,6 @@ const ApplicationManager: React.FC = () => {
           </div>
         </div>
       )}
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
     </div>
   );
 };

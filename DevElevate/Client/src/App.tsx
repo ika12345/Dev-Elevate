@@ -37,11 +37,9 @@ import ProjectRecommender from "./components/ProjectRecommender/ProjectRecommend
 import Layout from "./components/Layout/Layout";
 import CommunityForum from "./components/Community/CommunityForum";
 import LandingPage from "./pages/Landing/LandingPage";
-<<<<<<< HEAD
 import ApplyPage from "./pages/Apply/ApplyPage";
-=======
 import ApplyPage from "./components/Apply/ApplyPage.tsx";
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+
 
 function App() {
   return (
@@ -149,7 +147,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-<<<<<<< HEAD
               <Route
                 path="/admin/local-applications"
                 element={
@@ -160,8 +157,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-=======
->>>>>>> f2cd3fd5 (Added the feature of apply page in placement prep)
+
             </Routes>
           </Router>
         </NotificationProvider>
