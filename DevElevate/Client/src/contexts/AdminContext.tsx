@@ -72,7 +72,7 @@ const deleteUserByAdmin = async (userId: string) => {
   try {
     const data = await deleteUser({ userId });
 
-    // Optional: update context state so UI changes without re-fetch
+  
     setUsers(prev => prev.filter(user => user._id !== userId));
 
     return data;
