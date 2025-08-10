@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import moment from "moment";
-// import sendWelcomeEmail from "../utils/mailer.js";
+import sendWelcomeEmail from "../utils/mailer.js";
 import generateWelcomeEmail from "../utils/welcomeTemplate.js";
 dotenv.config();
 import { createNotification } from "./notificationController.js";
