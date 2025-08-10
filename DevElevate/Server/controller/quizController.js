@@ -1,5 +1,6 @@
 import Quiz from "../model/Quiz.js";
 
+import { createNotification } from "./notificationController.js";
 
 // Create a quiz with questions
 export const createQuiz = async (req, res) => {
@@ -16,6 +17,14 @@ export const createQuiz = async (req, res) => {
     });
 
     await quiz.save();
+    // Create notification for quiz creation
+    if (createdBy) {
+      await createNotification(
+        createdBy,
+        `Quiz '${title}' created successfully!`,
+        "milestone"
+      );
+    }
     res.status(201).json({ message: "Quiz created successfully", quiz });
   } catch (error) {
     console.error("Error creating quiz:", error);
@@ -40,7 +49,7 @@ export const getQuizById = async (req, res) => {
     const quiz = await Quiz.findById(quizId)
       .populate("questions")
       .populate("createdBy", "username email");
-      
+
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
@@ -56,7 +65,7 @@ export const getQuizById = async (req, res) => {
 export const updateQuizInfo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, topic, difficulty} = req.body;
+    const { title, topic, difficulty } = req.body;
 
     const quiz = await Quiz.findById(id);
     if (!quiz) {
