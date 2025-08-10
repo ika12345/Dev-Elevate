@@ -2,6 +2,7 @@ import express from "express";
 import { 
   addUser,
   createAdminLog, 
+  deleteUserById, 
   getAdminLogs,getAllUserRegister
 } from "../controller/adminController.js";
 import { authenticateToken, requireAdmin } from "../middleware/authMiddleware.js";
@@ -14,9 +15,9 @@ router.post("/system-log",authenticateToken,requireAdmin, createAdminLog);
 
 router.get("/system-logs",authenticateToken,requireAdmin, getAdminLogs);
 
-router.get("/all-users",authenticateToken,requireAdmin,getAllUserRegister)
-
 router.post("/add-user",authenticateToken,requireAdmin,addUser)
+router.get("/all-users",authenticateToken,requireAdmin,getAllUserRegister)
+router.delete("/",authenticateToken,requireAdmin, deleteUserById)
 
 
 
