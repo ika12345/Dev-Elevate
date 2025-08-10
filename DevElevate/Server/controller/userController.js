@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
 
     const html = generateWelcomeEmail(newUser.name);
 
-    // await sendWelcomeEmail(newUser.email, html);
+    await sendWelcomeEmail(newUser.email, html);
 
     await newUser.save();
 
