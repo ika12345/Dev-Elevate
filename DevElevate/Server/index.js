@@ -11,19 +11,19 @@ import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from "./routes/adminFeedbackRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
+import atsRoutes from './routes/atsRoutes.js'
 import notificationRoutes from "./routes/notificationRoutes.js";
+
+// Load environment variables first
+dotenv.config();
 
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
   connectDB();
 } else {
-  console.log(
-    "MongoDB connection skipped - PDF routes will work without database"
-  );
+  console.log('MongoDB connection skipped - ATS and PDF routes will work without database');
+  console.log('NOTE: Authentication features require MongoDB to work properly');
 }
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -31,9 +31,19 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: function(origin, callback) {
+      // Allow requests from any localhost port for ATS feature
+      if (!origin || origin.startsWith('http://localhost:')) {
+        // When using credentials, we need to return the actual origin, not a boolean
+        callback(null, origin);
+      } else if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) {
+        callback(null, origin);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Content-Length', 'X-Requested-With']
   })
 );
 app.use(express.json());
@@ -53,6 +63,7 @@ app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profil
 app.use("/api/v1/admin/courses", courseRoutes); // course create/delete/edit
 app.use("/api/v1/admin/feedback", adminFeedbackRoutes); // feedback-related
 app.use("/api/v1/admin/quiz", quizRoutes); //quiz-related
+app.use("/api/v1/ats", atsRoutes); // ATS resume scanner
 
 // Sample Usage of authenticate and authorize middleware for roleBased Features
 app.get(
