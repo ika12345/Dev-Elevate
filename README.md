@@ -22,7 +22,7 @@
 
 ***⚠ Skipping this step can cause merge conflicts and your PR may be rejected.***
 
-***🚧 Important Note: The backend is already deployed on Render and the frontend is live on Vercel — everything is working properly.***
+***🚧 Important Note: login, registration, or Google authentication system  Everything is working properly.***
 
 ***⚠ Do NOT remove or change any existing code unrelated to your issue! If your PR modifies or deletes any core code without a valid reason, it will not be merged.***
 
