@@ -11,6 +11,7 @@ import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
 import communityRoutes from './routes/communityRoutes.js';
 import quizRoutes from './routes/quizRoutes.js'
+import atsRoutes from './routes/atsRoutes.js';
 import notificationRoutes from "./routes/notificationRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js"
 
@@ -48,6 +49,9 @@ app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1", userRoutes);
 
 app.use("/api/v1/community", communityRoutes); // Community routes for questions and answers
+
+// ATS Scanner Route
+app.use("/api/v1/ats", atsRoutes); // ATS resume scanner functionality
 
 // ADMIN ROUTES
 app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profile
