@@ -11,25 +11,31 @@ import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
 import communityRoutes from './routes/communityRoutes.js';
 import quizRoutes from './routes/quizRoutes.js'
+import atsRoutes from './routes/atsRoutes.js'
 
-// Connect to MongoDB only if MONGO_URI is available
-if (process.env.MONGO_URI) {
-  connectDB();
-} else {
-  console.log('MongoDB connection skipped - PDF routes will work without database');
-}
-
-// Load environment variables
+// Load environment variables first
 dotenv.config();
 
+// Skip MongoDB connection for local development
+console.log('MongoDB connection skipped - ATS routes will work without database');
+console.log('NOTE: Authentication features require MongoDB to work properly');
+
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: function(origin, callback) {
+    // Allow requests from any localhost port
+    if (!origin || origin.startsWith('http://localhost:')) {
+      // When using credentials, we need to return the actual origin, not a boolean
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Content-Length', 'X-Requested-With']
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -50,6 +56,7 @@ app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profil
 app.use("/api/v1/admin/courses", courseRoutes); // course create/delete/edit
 app.use("/api/v1/admin/feedback", adminFeedbackRoutes); // feedback-related
 app.use("/api/v1/admin/quiz", quizRoutes); //quiz-related
+app.use("/api/v1/ats", atsRoutes); // ATS resume scanner
 
 
 
