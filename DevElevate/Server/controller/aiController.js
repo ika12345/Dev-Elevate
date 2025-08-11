@@ -1,4 +1,6 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const getAIReply = async (req, res) => {
   const { message, category } = req.body;
@@ -27,7 +29,9 @@ export const getAIReply = async (req, res) => {
         },
       }
     );
-    const aiText = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No reply received";
+    const aiText =
+      response.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No reply received";
     console.log("[Gemini Response]", { aiText });
     res.status(200).json({ reply: aiText });
   } catch (error) {
@@ -35,7 +39,11 @@ export const getAIReply = async (req, res) => {
     let errorMsg = error.response?.data || error.message;
     console.error("Gemini API error:", errorMsg);
     if (status === 429) {
-      return res.status(429).json({ error: "Gemini API rate limit exceeded. Please try again later." });
+      return res
+        .status(429)
+        .json({
+          error: "Gemini API rate limit exceeded. Please try again later.",
+        });
     }
     res.status(500).json({ error: "AI service is unavailable" });
   }
