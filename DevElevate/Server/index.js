@@ -11,11 +11,8 @@ import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
 import communityRoutes from './routes/communityRoutes.js';
 import quizRoutes from './routes/quizRoutes.js'
-import aiRoutes from './routes/aiRoutes.js';
-import adminFeedbackRoutes from "./routes/adminFeedbackRoutes.js";
-import communityRoutes from "./routes/communityRoutes.js";
-import quizRoutes from "./routes/quizRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js"
 
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
