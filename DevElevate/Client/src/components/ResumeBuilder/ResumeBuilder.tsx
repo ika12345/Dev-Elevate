@@ -7,7 +7,7 @@ import EducationForm from './EducationForm';
 import ProjectsForm from './ProjectsForm';
 import SkillsForm from './SkillsForm';
 import ResumePreview from './ResumePreview';
-import ATSScanner from './ATSScannerNew';
+import ATSScanner from './ATSScanner';
 import jsPDF from 'jspdf';
 
 const ResumeBuilder: React.FC = () => {
