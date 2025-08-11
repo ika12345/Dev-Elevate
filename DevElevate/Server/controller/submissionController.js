@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Submission from "../model/Submission.js";
 import Quiz from "../model/Quiz.js";
 
