@@ -11,6 +11,7 @@ import courseRoutes from "./routes/courseRoutes.js";
 import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
 import communityRoutes from './routes/communityRoutes.js';
 import quizRoutes from './routes/quizRoutes.js'
+import atsRoutes from './routes/atsRoutes.js';
 
 // Connect to MongoDB only if MONGO_URI is available
 if (process.env.MONGO_URI) {
@@ -42,6 +43,9 @@ app.set('trust proxy', true);
 app.use("/api/v1", userRoutes);
 
 app.use("/api/v1/community", communityRoutes); // Community routes for questions and answers
+
+// ATS Scanner Route
+app.use("/api/v1/ats", atsRoutes); // ATS resume scanner functionality
 
 
 
