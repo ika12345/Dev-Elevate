@@ -5,7 +5,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { getAllUsers, addUser } from "../api/adminApi";
+import { getAllUsers, addUser, deleteUser } from "../api/adminApi";
 import { User } from "../types/User";
 
 // Define the structure of user input for creation
@@ -23,6 +23,7 @@ interface AdminContextType {
   loading: boolean;
   fetchAllUsers: () => void;
   addUserByAdmin: (userData: NewUserInput) => Promise<void>;
+  deleteUserByAdmin: (userId: string) => Promise<void>;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -61,9 +62,26 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
       console.log("✅ User added:", data.user);
     } catch (error) {
       console.error("❌ Error adding user:", error);
-      throw error; // ⬅️ Re-throw so the modal can display the error
+      throw error;
     }
   };
+
+const deleteUserByAdmin = async (userId: string) => {
+  console.log(userId);
+  
+  try {
+    const data = await deleteUser({ userId });
+
+  
+    setUsers(prev => prev.filter(user => user._id !== userId));
+
+    return data;
+  } catch (error) {
+    console.error("❌ Error deleting user:", error);
+    throw error;
+  }
+};
+
 
   useEffect(() => {
     fetchAllUsers();
@@ -78,6 +96,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
         loading,
         fetchAllUsers,
         addUserByAdmin,
+        deleteUserByAdmin,
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import Course from "../model/Course.js";
 import LearningModule from "../model/LearningModule.js";
+import { createNotification } from "./notificationController.js";
 
 export const createCourse = async (req, res) => {
   try {
@@ -16,6 +17,13 @@ export const createCourse = async (req, res) => {
       tags,
       createdBy: req.id,
     });
+
+    // Create notification for course creation
+    await createNotification(
+      req.id,
+      `Course '${courseTitle}' created successfully!`,
+      "milestone"
+    );
 
     return res.status(201).json({
       course,
@@ -42,7 +50,7 @@ export const editCourse = async (req, res) => {
       moduleTitle,
       videoUrl,
       resourceLinks,
-      duration
+      duration,
     } = req.body;
 
     let course = await Course.findById(courseId);
@@ -61,9 +69,13 @@ export const editCourse = async (req, res) => {
       courseThumbnail,
     };
 
-    const updatedCourse = await Course.findByIdAndUpdate(courseId, updatedCourseData, {
-      new: true,
-    });
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseId,
+      updatedCourseData,
+      {
+        new: true,
+      }
+    );
 
     let updatedModule = null;
     if (moduleId) {
@@ -73,9 +85,13 @@ export const editCourse = async (req, res) => {
         resourceLinks,
         duration,
       };
-      updatedModule = await LearningModule.findByIdAndUpdate(moduleId, moduleData, {
-        new: true,
-      });
+      updatedModule = await LearningModule.findByIdAndUpdate(
+        moduleId,
+        moduleData,
+        {
+          new: true,
+        }
+      );
     }
 
     return res.status(200).json({
@@ -83,7 +99,6 @@ export const editCourse = async (req, res) => {
       module: updatedModule,
       message: "Course updated successfully.",
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
