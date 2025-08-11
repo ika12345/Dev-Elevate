@@ -8,6 +8,10 @@ import cookieParser from "cookie-parser";
 import authorize from "./middleware/authorize.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import courseRoutes from "./routes/courseRoutes.js";
+import adminFeedbackRoutes from './routes/adminFeedbackRoutes.js';
+import communityRoutes from './routes/communityRoutes.js';
+import quizRoutes from './routes/quizRoutes.js'
+import aiRoutes from './routes/aiRoutes.js';
 import adminFeedbackRoutes from "./routes/adminFeedbackRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
@@ -53,6 +57,8 @@ app.use("/api/v1/admin", adminRoutes); // general admin stuff like login, profil
 app.use("/api/v1/admin/courses", courseRoutes); // course create/delete/edit
 app.use("/api/v1/admin/feedback", adminFeedbackRoutes); // feedback-related
 app.use("/api/v1/admin/quiz", quizRoutes); //quiz-related
+app.use("/api/v1", aiRoutes);
+
 
 // Sample Usage of authenticate and authorize middleware for roleBased Features
 app.get(
