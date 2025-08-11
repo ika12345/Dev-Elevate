@@ -16,19 +16,25 @@ import atsRoutes from './routes/atsRoutes.js'
 // Load environment variables first
 dotenv.config();
 
-// Skip MongoDB connection for local development
-console.log('MongoDB connection skipped - ATS routes will work without database');
-console.log('NOTE: Authentication features require MongoDB to work properly');
+// Connect to MongoDB only if MONGO_URI is available
+if (process.env.MONGO_URI) {
+  connectDB();
+} else {
+  console.log('MongoDB connection skipped - ATS routes will work without database');
+  console.log('NOTE: Authentication features require MongoDB to work properly');
+}
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests from any localhost port
+    // Allow requests from any localhost port for ATS feature
     if (!origin || origin.startsWith('http://localhost:')) {
       // When using credentials, we need to return the actual origin, not a boolean
+      callback(null, origin);
+    } else if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) {
       callback(null, origin);
     } else {
       callback(new Error('Not allowed by CORS'));
