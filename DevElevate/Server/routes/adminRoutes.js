@@ -17,7 +17,7 @@ router.get("/system-logs",authenticateToken,requireAdmin, getAdminLogs);
 
 router.post("/add-user",authenticateToken,requireAdmin,addUser)
 router.get("/all-users",authenticateToken,requireAdmin,getAllUserRegister)
-router.delete("/",authenticateToken,requireAdmin, deleteUserById)
+router.delete("/delete-user",authenticateToken,requireAdmin, deleteUserById)
 
 
 
