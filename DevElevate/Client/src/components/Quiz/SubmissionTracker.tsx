@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Eye, X } from 'lucide-react';
-import instance from '../../utils/axiosinstance';
+import instance from '../../api/axiosinstance.ts';
 
 interface DetailedAnswer {
   questionText: string;
@@ -42,9 +42,7 @@ const SubmissionTracker: React.FC<SubmissionTrackerProps> = ({ darkMode }) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await instance.get('/admin/quiz/submissions', {
-          
-        });
+        const res = await instance.get('/api/v1/admin/quiz/submission')
         setData(res.data);
       } catch (err: any) {
         setError(err.response?.data?.message || 'Failed to fetch submissions');
