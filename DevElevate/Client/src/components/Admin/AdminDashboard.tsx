@@ -68,12 +68,11 @@ type NewsArticle = {
 };
 
 const AdminDashboard: React.FC = () => {
-  const { state: authState, loadUsers, deleteUser, logout } = useAuth();
+  const { state: authState, loadUsers, logout } = useAuth();
   const { state: globalState, dispatch } = useGlobalState();
-  const { users, totalUsers, totalAdmins, loading, addUserByAdmin } =
+  const { users, totalUsers, totalAdmins, loading, addUserByAdmin,deleteUserByAdmin } =
     useAdmin();
 
-  console.log(addUserByAdmin);
 
   const [activeTab, setActiveTab] = useState("overview");
   const [searchTerm, setSearchTerm] = useState("");
@@ -147,7 +146,17 @@ const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const handleAddUser = (userData: AddUserForm) => {
-    addUserByAdmin(userData); // 👈 form data from modal
+    addUserByAdmin(userData); 
+  };
+
+  interface DeleteUserData {
+    userId: string;
+  }
+
+  const handleDeleteUser = (userId: DeleteUserData) => {
+    
+    deleteUserByAdmin(userId)
+    console.log("pass-1");
   };
 
   useEffect(() => {
@@ -377,8 +386,7 @@ const AdminDashboard: React.FC = () => {
   ];
 
   // Filter logic
-  const filteredUsers = authState.users
-    .filter(
+  const filteredUsers=authState.users.filter(
       (user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -1248,7 +1256,7 @@ const AdminDashboard: React.FC = () => {
                           <Mail className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => deleteUser(user._id)}
+                          onClick={()=>handleDeleteUser(user._id)}
                           className="text-red-600 hover:text-red-900"
                           title="Delete"
                         >

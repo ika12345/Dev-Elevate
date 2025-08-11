@@ -5,9 +5,10 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import moment from "moment";
-// import sendWelcomeEmail from "../utils/mailer.js";
+import sendWelcomeEmail from "../utils/mailer.js";
 import generateWelcomeEmail from "../utils/welcomeTemplate.js";
 dotenv.config();
+import { createNotification } from "./notificationController.js";
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -30,10 +31,16 @@ export const registerUser = async (req, res) => {
 
     const html = generateWelcomeEmail(newUser.name);
 
-    // await sendWelcomeEmail(newUser.email, html);
+    await sendWelcomeEmail(newUser.email, html);
 
     await newUser.save();
 
+    // Create notification for registration success
+    await createNotification(
+      newUser._id,
+      "Welcome! Your account has been created.",
+      "success"
+    );
     res.status(201).json({
       message: "User registered successfully",
       newUser,
@@ -65,26 +72,31 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(payLode, JWT_SECRET, { expiresIn: JWT_EXPIRES });
 
     // Set token in cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true, // Always true in production (Render is HTTPS)
-        sameSite: "None", // ✅ Needed for cross-origin cookies (Vercel ↔ Render)
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-      })
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // Always true in production (Render is HTTPS)
+      sameSite: "None", // ✅ Needed for cross-origin cookies (Vercel ↔ Render)
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    });
 
-      .status(200)
-      .json({
-        message: "Login successful",
-        userId: user._id,
-        token: token,
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
-      });
+    // Create notification for login success
+    await createNotification(
+      user._id,
+      "Login successful! Welcome back.",
+      "success"
+    );
+
+    res.status(200).json({
+      message: "Login successful",
+      userId: user._id,
+      token: token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     res
       .status(500)
@@ -107,6 +119,13 @@ export const googleUser = async (req, res) => {
         role,
         password: "google-oauth", // Dummy password for Google users because in MongoDB User Schema requires a password
       });
+
+      // Create notification for login success
+      await createNotification(
+        user._id,
+        "Login successful! Welcome back.",
+        "success"
+      );
       await user.save();
       console.log("New Google user created:", user);
     }
@@ -249,7 +268,6 @@ export const currentStreak = async (req, res) => {
   }
 };
 
-
 export const feedback = async (req, res) => {
   try {
     const { message } = req.body;
@@ -297,11 +315,12 @@ export const latestNews = async (req, res) => {
 
     const data = await response.json();
     console.log(data);
-    
 
     res.json(data);
   } catch (error) {
     console.error("Error fetching latest news:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 };

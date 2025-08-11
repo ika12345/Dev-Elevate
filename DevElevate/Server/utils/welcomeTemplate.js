@@ -33,7 +33,7 @@ const generateWelcomeEmail = (name) => {
         </p>
         <hr style="margin: 30px 0; border: none; border-top: 1px solid #ddd;" />
         <p style="text-align: center;">
-          🌐 <a href="https://develevate.in" style="color: #4f46e5; text-decoration: none;">https://develevate.in</a>  
+          🌐 <a href="https://develevate-ai.vercel.app/" style="color: #4f46e5; text-decoration: none;">https://develevate.in</a>  
         </p>
       </div>
     </div>
