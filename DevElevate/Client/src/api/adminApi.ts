@@ -27,3 +27,18 @@ export const addUser = async (userData: AddUserForm): Promise<{ user: AddUserFor
   const response = await axiosInstance.post<{ user: AddUserForm }>(adminApi.addUser, userData);
   return response.data;
 };
+
+interface DeleteUser {
+  _id: string;
+}
+
+export const deleteUser = async (
+  userData: DeleteUser
+): Promise<{ user: DeleteUser }> => {
+  const response = await axiosInstance.delete<{ user: DeleteUser }>(
+    adminApi.deleteUser,
+    { data: userData } 
+  );
+  return response.data;
+};
+

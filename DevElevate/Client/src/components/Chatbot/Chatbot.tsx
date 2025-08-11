@@ -11,8 +11,8 @@ import {
   MessageCircleQuestion ,
 } from "lucide-react";
 import { useGlobalState } from "../../contexts/GlobalContext";
-import { generateGeminiResponse } from "../../utils/helperAI";
-// import { toast } from "sonner";
+import axios from "axios";
+import { toast } from "sonner";
 
 const Chatbot: React.FC = () => {
   const { state, dispatch } = useGlobalState();
@@ -78,7 +78,7 @@ const Chatbot: React.FC = () => {
     if (state.chatHistory.length > 0) {
       scrollToBottom();
     }
-  }, [state.chatHistory]); // 👈 This should match what you're rendering
+  }, [state.chatHistory]); //This should match what you're rendering
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -95,34 +95,32 @@ const Chatbot: React.FC = () => {
     setMessage("");
     setIsTyping(true);
 
+    let success = false;
+    let aiReply = "";
+  for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const aiReply = await generateGeminiResponse(message, selectedCategory);
-      console.log("AI Response:", aiReply);
-
-      const botMessage = {
-        id: Date.now().toString() + "_bot",
-        type: "ai" as const,
-        content: aiReply?.trim() || "No response 🤖",
-        timestamp: new Date().toISOString(),
+      const res = await axios.post("/api/v1/gemini", {
+        message,
         category: selectedCategory,
-      };
-
-      dispatch({ type: "ADD_CHAT_MESSAGE", payload: botMessage });
-    } catch (error) {
-      console.error("Error sending message:", error);
-      dispatch({
-        type: "ADD_CHAT_MESSAGE",
-        payload: {
-          id: Date.now().toString() + "_bot_error",
-          type: "ai" as const,
-          content: "No response due to an error",
-          timestamp: new Date().toISOString(),
-          category: selectedCategory,
-        },
       });
-    } finally {
-      setIsTyping(false);
+      aiReply = (res.data as { reply?: string }).reply || "No response 🤖";
+      success = true;
+      break;
+    } catch (error) {
+      if (attempt === 2) {
+        toast.error("AI is not responding. Please try again later.");
+      }
     }
+  }
+    const botMessage = {
+      id: Date.now().toString() + (success ? "_bot" : "_bot_error"),
+      type: "ai" as const,
+      content: success ? aiReply.trim() : "No response due to an error",
+      timestamp: new Date().toISOString(),
+      category: selectedCategory,
+    };
+    dispatch({ type: "ADD_CHAT_MESSAGE", payload: botMessage });
+    setIsTyping(false);
   };
 
   const handleSuggestedQuestion = (question: string) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
-import instance from '../../utils/axiosinstance';
+import axiosInstance from "../../api/axiosinstance.ts";
 import QuizForm from './QuizForm';
 
 export interface Quiz {
@@ -25,7 +25,7 @@ const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
 
   const fetchQuizzes = async () => {
     try {
-      const res = await instance.get('/api/v1/admin/quiz', {
+      const res = await axiosInstance.get('/api/v1/admin/quiz', {
         headers: {
        
         },
@@ -45,7 +45,7 @@ const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
   const handleDelete = async (id: string) => {
     try {
       setDeletingId(id);
-      await instance.delete(`/api/v1/admin/quiz/${id}`, {
+      await axiosInstance.delete(`/api/v1/admin/quiz/${id}`, {
         headers: {
         
         },

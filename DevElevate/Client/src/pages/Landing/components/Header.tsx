@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Rocket } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Menu, X, Rocket } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,24 +10,26 @@ const Header: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
-    { label: 'Features', href: '#features' },
-    { label: 'Learning', href: '#learning' },
-    { label: 'AI Assistant', href: '#ai' },
-    { label: 'Placement', href: '#placement' },
-    { label: 'About', href: '#about' }
+    { label: "Features", href: "#features" },
+    { label: "Learning", href: "#learning" },
+    { label: "AI Assistant", href: "#ai" },
+    { label: "Placement", href: "#placement" },
+    { label: "About", href: "#about" },
   ];
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-      scrolled 
-        ? 'bg-black/80 backdrop-blur-xl border-b border-purple-500/20' 
-        : 'bg-transparent'
-    }`}>
+    <header
+      className={`fixed top-0 w-full z-50 transition-all duration-500  bg-black ${
+        scrolled
+          ? "bg-black/80 backdrop-blur-xl border-b border-purple-500/20"
+          : ""
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
@@ -97,13 +99,21 @@ const Header: React.FC = () => {
                   {item.label}
                 </a>
               ))}
-              <div className="flex flex-col space-y-2 pt-4">
-                <button className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Sign In
-                </button>
-                <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-2 rounded-lg">
-                  Get Started
-                </button>
+              <div className="flex flex-col justify-center items-center w-full space-y-2 pt-4">
+                <div className=" w-full">
+                  <Link to="/dashboard">
+                    <button className="text-gray-900  rounded-lg bg-gray-300 w-full px-6 py-2  hover:text-white transition-colors duration-300">
+                      Sign In
+                    </button>
+                  </Link>
+                </div>
+                <div className="w-full">
+                  <Link to="/dashboard">
+                    <button className="bg-gradient-to-r w-full from-purple-500 to-blue-500 text-white px-6 py-2 rounded-lg">
+                      Get Started
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

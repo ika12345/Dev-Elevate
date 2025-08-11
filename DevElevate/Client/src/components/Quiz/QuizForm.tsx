@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import instance from '../../utils/axiosinstance';
+import axiosInstance from "../../api/axiosinstance.ts";
 
 export interface QuizQuestion {
   id?: string;
@@ -45,7 +45,7 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
 
   useEffect(() => {
     if (initialData) {
-      instance.get(`/admin/quiz/${initialData.id}`, {
+      axiosInstance.get(`/admin/quiz/${initialData.id}`, {
        
         
       }).then(res => {
@@ -92,11 +92,11 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
     try {
       let quizId = initialData?.id;
       if (initialData) {
-        await instance.put(`/api/v1/admin/quiz/${quizId}`, { title, topic, difficulty, type, level }, {
+        await axiosInstance.put(`/api/v1/admin/quiz/${quizId}`, { title, topic, difficulty, type, level }, {
         
         });
       } else {
-        const res = await instance.post('/api/v1/admin/quiz', { title, topic, difficulty, type, level }, {
+        const res = await axiosInstance.post('/api/v1/admin/quiz', { title, topic, difficulty, type, level }, {
         
         });
         quizId = res.data.quiz._id;
@@ -104,15 +104,15 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
 
       for (const q of questions) {
         if (q.isDeleted && q.id) {
-          await instance.delete(`/api/v1/admin/quiz/${quizId}/questions/${q.id}`, {
+          await axiosInstance.delete(`/api/v1/admin/quiz/${quizId}/questions/${q.id}`, {
             
           });
         } else if (q.isNew) {
-          await instance.post(`/api/v1/admin/quiz/${quizId}/questions`, q, {
+          await axiosInstance.post(`/api/v1/admin/quiz/${quizId}/questions`, q, {
             
           });
         } else if (q.id) {
-          await instance.put(`/api/v1/admin/quiz/${quizId}/questions/${q.id}`, q, {
+          await axiosInstance.put(`/api/v1/admin/quiz/${quizId}/questions/${q.id}`, q, {
             
           });
         }
