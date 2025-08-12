@@ -216,40 +216,54 @@ export const currentStreak = async (req, res) => {
         visit: true,
       });
 
-      user.dayStreak.push(visit._id);
+      user.dayStreak.push(visit);
     }
-
-    await user.populate("dayStreak");
 
     const sortedVisits = user.dayStreak
       .map((v) => moment(v.dateOfVisiting).startOf("day"))
       .sort((a, b) => a.valueOf() - b.valueOf());
 
-    let currentStreak = 1;
-    let maxStreak = 1;
-    let startDate = sortedVisits[0];
-    let tempStartDate = sortedVisits[0];
-    let endDate = sortedVisits[0];
+    let currentStreakCount = 0;
+    let longestStreakCount = 0;
 
-    for (let i = 1; i < sortedVisits.length; i++) {
-      const diff = sortedVisits[i].diff(sortedVisits[i - 1], "days");
-      if (diff === 1) {
-        currentStreak++;
-        if (currentStreak > maxStreak) {
-          maxStreak = currentStreak;
-          startDate = tempStartDate;
-          endDate = sortedVisits[i];
+    if(sortedVisits.length>0){
+      const lastVisit = sortedVisits[sortedVisits.length-1];
+      const daysSinceLastVisit=today.diff(lastVisit,"days");
+      
+      if (daysSinceLastVisit <= 1) {
+        currentStreakCount = 1;
+        for (let i = sortedVisits.length - 2; i >= 0; i--) {
+          const diff = sortedVisits[i + 1].diff(sortedVisits[i], "days");
+          if (diff === 1) {
+            currentStreakCount++;
+          } else if (diff > 1) {
+            break;
+          }
         }
-      } else if (diff > 1) {
-        currentStreak = 1;
-        tempStartDate = sortedVisits[i];
+      } else {
+        currentStreakCount = 0;
+      }
+
+      longestStreakCount = 1;
+      let runningStreak = 1;
+      for (let i = 1; i < sortedVisits.length; i++) {
+        const diff = sortedVisits[i].diff(sortedVisits[i - 1], "days");
+        if (diff === 1) {
+          runningStreak++;
+        } else if (diff > 1) {
+          if (runningStreak > longestStreakCount) {
+            longestStreakCount = runningStreak;
+          }
+          runningStreak = 1;
+        }
+      }
+      if (runningStreak > longestStreakCount) {
+        longestStreakCount = runningStreak;
       }
     }
 
-    user.currentStreak = currentStreak;
-    user.longestStreak = Math.max(user.longestStreak || 0, maxStreak);
-    user.streakStartDate = startDate;
-    user.streakEndDate = endDate;
+    user.currentStreak = currentStreakCount;
+    user.longestStreak = Math.max(user.longestStreak || 0, longestStreakCount);
     await user.save();
 
     return res.status(200).json({
@@ -258,8 +272,6 @@ export const currentStreak = async (req, res) => {
         currentStreak: user.currentStreak,
         longestStreak: user.longestStreak,
         totalDays: user.dayStreak.length,
-        streakStartDate: user.streakStartDate,
-        streakEndDate: user.streakEndDate,
         dayStreak: user.dayStreak,
       },
     });
