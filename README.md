@@ -12,21 +12,21 @@
 
 **Your Personalized Smart Learning & Placement Hub**
 
-***Frontend is fully working***
-***Backend is fully working***
-***Google Authentication is fully working***
+**_Frontend is fully working_**
+**_Backend is fully working_**
+**_Google Authentication is fully working_**
 
-***🚧 Important Note: Before you start working, check the GitHub repository branch.***
-***🔄 First: Sync (pull) to the latest merged code from the main branch.***
-***✅ Then: Start working on your assigned issue or feature.***
+**_🚧 Important Note: Before you start working, check the GitHub repository branch._**
+**_🔄 First: Sync (pull) to the latest merged code from the main branch._**
+**_✅ Then: Start working on your assigned issue or feature._**
 
-***⚠ Skipping this step can cause merge conflicts and your PR may be rejected.***
+**_⚠ Skipping this step can cause merge conflicts and your PR may be rejected._**
 
-***🚧 Important Note: login, registration, or Google authentication system  Everything is working properly.***
+**_🚧 Important Note: login, registration, or Google authentication system Everything is working properly._**
 
-***⚠ Do NOT remove or change any existing code unrelated to your issue! If your PR modifies or deletes any core code without a valid reason, it will not be merged.***
+**_⚠ Do NOT remove or change any existing code unrelated to your issue! If your PR modifies or deletes any core code without a valid reason, it will not be merged._**
 
-***🚫 Strict Rule: Do NOT bypass the login, registration, or Google authentication system. If any such activity is found, you will be removed and reported from this project.***
+**_🚫 Strict Rule: Do NOT bypass the login, registration, or Google authentication system. If any such activity is found, you will be removed and reported from this project._**
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
@@ -87,12 +87,11 @@ Let’s build, learn, and grow together — one commit at a time. 🔥👨‍�
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
+## 🔁 Project Flowchart (DevElevate Platform)
 
-##  🔁 Project Flowchart (DevElevate Platform)
-  
 <img width="3840" height="432" alt="Flowchart" src="https://github.com/user-attachments/assets/8b39e8b4-fb7c-46c4-844b-e17b9d22c725" />
 
-##  🔁 Project ER Diagram (DevElevate Platform)
+## 🔁 Project ER Diagram (DevElevate Platform)
 
 <img width="3840" height="664" alt="ER Diagram" src="https://github.com/user-attachments/assets/acc7745e-06a1-4d01-a452-55ec8ceea2bc" />
 
@@ -120,16 +119,16 @@ Click the link below to explore the complete guide:
 
 🚀 The **Login/Sign Up** flow is now fully integrated and appears first for both:
 
-* 👤 **Users**
-* 🛡️ **Admins**
+- 👤 **Users**
+- 🛡️ **Admins**
 
 ---
 
 ### ✅ **What Works:**
 
-* 🔄 You can now **register and log in** using role-based access.
-* 🧭 Full **navigation** and **role-based dashboards** are active.
-* 🖥️ **Frontend and Backend are now successfully connected**.
+- 🔄 You can now **register and log in** using role-based access.
+- 🧭 Full **navigation** and **role-based dashboards** are active.
+- 🖥️ **Frontend and Backend are now successfully connected**.
 
 ---
 
@@ -142,9 +141,7 @@ Click the link below to explore the complete guide:
 
 ❗ If your PR alters core logic without a valid reason, it **will not be merged**.
 
-
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-
 
 ⚠️ **🚨 Attention Contributors!** 🚨
 📖 Please make sure to **thoroughly read the entire `README.md`** to understand:
@@ -159,11 +156,9 @@ Click the link below to explore the complete guide:
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
-
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8b804ec3-1390-4acb-84c7-adf1050fd54c" alt="logo" width="200" height="200">
 </p>
-
 
 **DevElevate is a full-stack, AI-powered smart education and career advancement platform built to empower students, developers, and job seekers. It centralizes learning resources, personalized roadmaps, job updates, resume tools, and much more — all in one powerful dashboard.**
 
@@ -298,10 +293,10 @@ For both **Admin** and **User** registrations, we've got a sleek email + databas
 📧 **After Signup – Auto Welcome Mail**
 Every time a new **user** or **admin** signs up, they’ll receive an instant welcome email 💌 that includes:
 
-* 🧾 Their **username**
-* 🔐 A **default password** (for admins only)
-* 💬 A friendly greeting and motivation to explore the platform
-* 🔁 Reset password option (via email)
+- 🧾 Their **username**
+- 🔐 A **default password** (for admins only)
+- 💬 A friendly greeting and motivation to explore the platform
+- 🔁 Reset password option (via email)
 
 ---
 
@@ -407,6 +402,68 @@ Includes:
 - 🧠 Study Buddy Access
 - 🧰 Tools: Resume, Notepad, Roadmaps
 - 💬 Discord + Forum Integration
+
+---
+
+## 🆕 New Features In Client
+
+### 1. Tasks Management
+
+- **Location**: `/tasks`
+- **Features**:
+  - Create, edit, and delete tasks
+  - Task status management (Todo, In Progress, Done)
+  - Priority levels (Low, Medium, High, Urgent)
+  - Due date tracking
+  - Task assignment and tagging
+  - List and Kanban view modes
+  - Search and filtering capabilities
+
+### 2. Notes Management
+
+- **Location**: `/notes`
+- **Features**:
+  - Create and edit rich text notes
+  - AI-powered tag generation
+  - AI text summarization
+  - Note categorization with tags
+  - Search and filtering
+  - Export and sharing options
+
+### 3. Calendar View
+
+- **Location**: `/calendar`
+- **Features**:
+  - Monthly, weekly, and daily views
+  - Task integration with calendar
+  - Create tasks directly from calendar
+  - Visual task representation
+  - Date navigation and today highlighting
+
+### 4. Budget & Expense Tracking
+
+- **Location**: `/budget`
+- **Features**:
+  - Create and manage budgets by category
+  - Track expenses and spending
+  - Visual charts and progress indicators
+  - AI-powered budget optimization
+  - Expense categorization
+  - Budget vs. actual spending analysis
+
+---
+
+### 🔒 _Strict Contribution Guidelines (Must Follow):_
+
+❗ *YOU ARE *NOT ALLOWED TO:\*\*
+
+🔴 *❌ You are *NOT allowed to change or update any existing backend files or original code.\*\*
+
+🔴 *❌ You are *NOT allowed to update or modify any existing routes or their logic in any form.\*\*
+
+🔴 *❌ You are *NOT allowed to change the project structure or delete/edit core files without permission.\*\*
+
+🔴 *❌ You are *NOT allowed to add or push any .env, .env.local, or sensitive environment files to the frontend OR backend.\*\*
 
 ---
 
@@ -617,7 +674,6 @@ Includes:
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
-
 ### 🙌 **Thank You, Contributors!**
 
 > Thank you once again to all our contributors! Your efforts are truly appreciated. 💖👏
@@ -641,7 +697,6 @@ Includes:
 ---
 
 ### 🍴 Forkers
-
 
 <div align="center">
   <a href="https://github.com/abhisek2004/Dev-Elevate/network/members">
@@ -667,16 +722,15 @@ Includes:
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
-
 ### 👥 Project Admin & 👨‍🏫 Mentors – DevElevate (GSSoC'25)
 
-| Role       | Name               | GitHub Profile                                      | LinkedIn Profile                                              |
-|------------|--------------------|-----------------------------------------------------|----------------------------------------------------------------|
-| Project Admin | Abhisek Panda     | [abhisek2004](https://github.com/abhisek2004)       | [Abhisek Panda](http://www.linkedin.com/in/abhisekpanda2004)   |
-| Mentor 1   | Jay Sandeep Sawant | [Jay2006sawant](https://github.com/Jay2006sawant)   | [Jay Sandeep Sawant](https://www.linkedin.com/in/jay-sawant-4b59aa324/) |
-| Mentor 1   | Avansh Yadav       | [Avansh2006](https://github.com/Avansh2006)         | [Avansh Yadav](https://www.linkedin.com/in/avanshyadav/)       |
-| Mentor 2   | Afifa Fatima       | [afifaFatima786](https://github.com/afifaFatima786) | [Afifa Fatima](https://www.linkedin.com/in/afifa-fatima-b16a23289/) |
-| Mentor 2   | Amisha Gupta       | [amishagupta31](https://github.com/amishagupta31)   | [Amisha Gupta](https://www.linkedin.com/in/amishagupta31/)     |
+| Role          | Name               | GitHub Profile                                      | LinkedIn Profile                                                        |
+| ------------- | ------------------ | --------------------------------------------------- | ----------------------------------------------------------------------- |
+| Project Admin | Abhisek Panda      | [abhisek2004](https://github.com/abhisek2004)       | [Abhisek Panda](http://www.linkedin.com/in/abhisekpanda2004)            |
+| Mentor 1      | Jay Sandeep Sawant | [Jay2006sawant](https://github.com/Jay2006sawant)   | [Jay Sandeep Sawant](https://www.linkedin.com/in/jay-sawant-4b59aa324/) |
+| Mentor 1      | Avansh Yadav       | [Avansh2006](https://github.com/Avansh2006)         | [Avansh Yadav](https://www.linkedin.com/in/avanshyadav/)                |
+| Mentor 2      | Afifa Fatima       | [afifaFatima786](https://github.com/afifaFatima786) | [Afifa Fatima](https://www.linkedin.com/in/afifa-fatima-b16a23289/)     |
+| Mentor 2      | Amisha Gupta       | [amishagupta31](https://github.com/amishagupta31)   | [Amisha Gupta](https://www.linkedin.com/in/amishagupta31/)              |
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
