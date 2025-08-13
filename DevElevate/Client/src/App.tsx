@@ -33,9 +33,10 @@ import ProjectRecommender from "./components/ProjectRecommender/ProjectRecommend
 import Layout from "./components/Layout/Layout";
 import CommunityForum from "./components/Community/CommunityForum";
 import LandingPage from "./pages/Landing/LandingPage";
-import { TasksView } from "./components/Tasks/TasksView";
-import { NotesView } from "./components/Notes/NotesView";
-import { CalendarView } from "./components/Calendar/CalendarView";
+import TasksView from "./components/Tasks/TasksView";
+import NotesView from "./components/Notes/NotesView";
+import CalendarView from "./components/Calendar/CalendarView";
+
 
 
 function App() {
@@ -108,8 +109,8 @@ function App() {
                                 />
                               </Routes>
                             </main>
+                            <Footer /> 
                           </div>
-                            <Footer />
                         </Layout>
                       </AppProvider>
                     </ProtectedRoute>

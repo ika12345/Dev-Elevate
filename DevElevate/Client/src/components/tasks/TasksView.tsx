@@ -7,7 +7,7 @@ import { Dropdown } from '../ui/Dropdown';
 import { Task, useTasks } from '../../contexts/AppContext';
 import { formatDate, generateId, getPriorityColor, getStatusColor } from '../../utils/helperAI';
 
-export const TasksView: React.FC = () => {
+const TasksView: React.FC = () => {
   const { tasks, addTask, updateTask, deleteTask } = useTasks();
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
@@ -451,3 +451,4 @@ export const TasksView: React.FC = () => {
     </div>
   );
 };
+export default TasksView;

@@ -7,7 +7,7 @@ import { Note, useNotes } from '../../contexts/AppContext';
 import { AIService } from '../../services/aiService';
 import { formatDate, generateId } from '../../utils/helperAI';
 
-export const NotesView: React.FC = () => {
+ const NotesView: React.FC = () => {
   const { notes, addNote, updateNote, deleteNote } = useNotes();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -399,3 +399,4 @@ export const NotesView: React.FC = () => {
     </div>
   );
 };
+export default NotesView;

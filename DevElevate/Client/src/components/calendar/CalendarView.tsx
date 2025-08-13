@@ -26,7 +26,7 @@ const getWeekDays = (date: Date) => {
   return Array.from({ length: 7 }, (_, i) => addDays(start, i));
 };
 
-export const CalendarView: React.FC = () => {
+ const CalendarView: React.FC = () => {
   const { tasks, addTask, updateTask, deleteTask } = useTasks();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -335,3 +335,4 @@ export const CalendarView: React.FC = () => {
     </div>
   );
 }; 
+export default CalendarView;
