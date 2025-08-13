@@ -12,10 +12,12 @@ html {
   scroll-behavior: smooth;
 }
 
+
 /* Scroll offset to account for fixed header */
 section[id] {
   scroll-margin-top: 100px;
 }
+
 
 /* Custom smooth scroll animation */
 @keyframes smoothScroll {

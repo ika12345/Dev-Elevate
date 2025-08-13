@@ -258,7 +258,7 @@ export const CalendarView: React.FC = () => {
           {hours.map(hour => {
             const hourTasks = getTasksForDayAndHour(currentDate, hour);
             return (
-              <div key={hour} className="flex items-center border-b border-gray-200 dark:border-gray-700 min-h-[40px]">
+              <div key={hour} className="flex items-center border-b border-gray-900 dark:border-gray-700 min-h-[40px]">
                 <div className="pr-2 w-16 text-xs text-right text-gray-400">{format(setHours(currentDate, hour), 'HH:00')}</div>
                 <div className="flex-1">
                   {hourTasks.map(task => (

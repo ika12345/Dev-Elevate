@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
   const { notifications } = useNotificationContext();
 
   const navItems = [
-    { path: "/", icon: Home, label: "Dashboard" },
+    { path: "/dashboard", icon: Home, label: "Dashboard" },
     { path: "/learning", icon: BookOpen, label: "Learning Hub" },
     { path: "/chatbot", icon: MessageSquare, label: "Study Buddy" },
     { path: "/news", icon: Newspaper, label: "Tech Feed" },
@@ -44,8 +44,6 @@ const Sidebar: React.FC = () => {
     { path: "/tasks", icon: CheckSquare, label: "Tasks" },
     { path: "/notes", icon: StickyNote, label: "Notes" },
     { path: "/calendar", icon: Calendar, label: "Calendar" },
-    { path: "/budget", icon: DollarSign, label: "Budget" },
-
     { path: "/payment", icon: CreditCard, label: "Pricing" },
   ];
 

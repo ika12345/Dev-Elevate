@@ -11,7 +11,7 @@ const Disclaimer: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <AlertTriangle className="w-12 h-12 text-yellow-500" />
+            <AlertTriangle className="w-12 h-12 text-yellow-900" />
           </div>
           <h1 className={`text-4xl font-bold mb-4 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
             ⚠️ Disclaimer & Acknowledgement 💻🌐
