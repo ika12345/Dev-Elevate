@@ -18,10 +18,11 @@ export const registerUser = async (req, res) => {
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
-   if (!password || password.length < 8) {
-      return res.status(400).json({ message: "Password must be at least 8 characters long" });
+    if (!password || password.length < 8) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 8 characters long" });
     }
-    
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -64,6 +65,7 @@ export const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
+ 
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
@@ -231,10 +233,10 @@ export const currentStreak = async (req, res) => {
     let currentStreakCount = 0;
     let longestStreakCount = 0;
 
-    if(sortedVisits.length>0){
-      const lastVisit = sortedVisits[sortedVisits.length-1];
-      const daysSinceLastVisit=today.diff(lastVisit,"days");
-      
+    if (sortedVisits.length > 0) {
+      const lastVisit = sortedVisits[sortedVisits.length - 1];
+      const daysSinceLastVisit = today.diff(lastVisit, "days");
+
       if (daysSinceLastVisit <= 1) {
         currentStreakCount = 1;
         for (let i = sortedVisits.length - 2; i >= 0; i--) {
