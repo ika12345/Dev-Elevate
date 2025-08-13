@@ -2,6 +2,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { GlobalProvider } from "./contexts/GlobalContext";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { AdminProvider } from "./contexts/AdminContext";
+import { AppProvider } from "./contexts/AppContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -32,103 +33,115 @@ import ProjectRecommender from "./components/ProjectRecommender/ProjectRecommend
 import Layout from "./components/Layout/Layout";
 import CommunityForum from "./components/Community/CommunityForum";
 import LandingPage from "./pages/Landing/LandingPage";
+import { TasksView } from "./components/tasks/TasksView";
+import { NotesView } from "./components/notes/NotesView";
+import { CalendarView } from "./components/calendar/CalendarView";
+import { BudgetView } from "./components/budget/BudgetView";
+
 
 function App() {
   return (
     <AuthProvider>
       <GlobalProvider>
         <NotificationProvider>
-          <Router>
-            <ScrollToTop />
-            <Routes>
-              {/* Public Routes */}
-              <Route
-                path="/login"
-                element={
-                  <ProtectedRoute requireAuth={false}>
-                    <LoginRegister />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/" element={<LandingPage />} />
+            <Router>
+              <ScrollToTop />
+              <Routes>
+                {/* Public Routes */}
+                <Route
+                  path="/login"
+                  element={
+                    <ProtectedRoute requireAuth={false}>
+                      <LoginRegister />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/" element={<LandingPage />} />
 
-              {/* Protected Routes */}
-              <Route
-                path="/*"
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <div className="flex-1 bg-white dark:bg-gray-900">
-                        <main className="flex-1">
-                          <Routes>
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route
-                              path="*"
-                              element={<Navigate to="/dashboard" replace />}
-                            />
-                            <Route path="/learning" element={<LearningHub />} />
-                            <Route path="/chatbot" element={<Chatbot />} />
-                            <Route path="/news" element={<TechFeed />} />
-                            <Route
-                              path="/community/*"
-                              element={<CommunityForum />}
-                            />
+                {/* Protected Routes */}
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute>
+                      <AppProvider>
+                        <Layout>
+                          <div className="flex-1 bg-white dark:bg-gray-900">
+                            <main className="flex-1">
+                              <Routes>
+                                <Route path="dashboard" element={<Dashboard />} />
+                                <Route
+                                  path="*"
+                                  element={<Navigate to="/dashboard" replace />}
+                                />
+                                <Route path="/learning" element={<LearningHub />} />
+                                <Route path="/chatbot" element={<Chatbot />} />
+                                <Route path="/news" element={<TechFeed />} />
+                                <Route
+                                  path="/community/*"
+                                  element={<CommunityForum />}
+                                />
 
-                            <Route path="/resume" element={<ResumeBuilder />} />
-                            <Route
-                              path="/placement"
-                              element={<PlacementPrep />}
-                            />
-                            <Route
-                              path="/projects"
-                              element={<ProjectRecommender />}
-                            />
-                            <Route path="/settings" element={<Settings />} />
-                            <Route path="/premium" element={<PremiumPage />} />
-                            <Route path="/payment" element={<PaymentPage />} />
-                            <Route path="/profile" element={<UserProfile />} />
-                            <Route
-                              path="/privacy"
-                              element={<PrivacyPolicy />}
-                            />
-                            <Route path="/terms" element={<TermsOfService />} />
-                            <Route path="/creator" element={<CreatorPage />} />
-                            <Route
-                              path="/disclaimer"
-                              element={<Disclaimer />}
-                            />
-                          </Routes>
-                        </main>
-                        <Footer />
-                      </div>
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
+                                <Route path="/resume" element={<ResumeBuilder />} />
+                                <Route
+                                  path="/placement"
+                                  element={<PlacementPrep />}
+                                />
+                                <Route
+                                  path="/projects"
+                                  element={<ProjectRecommender />}
+                                />
+                                <Route path="/tasks" element={<TasksView />} />
+                                <Route path="/notes" element={<NotesView />} />
+                                <Route path="/calendar" element={<CalendarView />} />
+                                <Route path="/budget" element={<BudgetView />} />
 
-              {/* Admin Routes */}
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute requireAdmin={true}>
-                    <AdminProvider>
-                      <AdminDashboard />
-                    </AdminProvider>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/logs"
-                element={
-                  <ProtectedRoute requireAdmin={true}>
-                    <AdminProvider>
-                      <AdminSystemLogs />
-                    </AdminProvider>
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </Router>
+                                <Route path="/settings" element={<Settings />} />
+                                <Route path="/premium" element={<PremiumPage />} />
+                                <Route path="/payment" element={<PaymentPage />} />
+                                <Route path="/profile" element={<UserProfile />} />
+                                <Route
+                                  path="/privacy"
+                                  element={<PrivacyPolicy />}
+                                />
+                                <Route path="/terms" element={<TermsOfService />} />
+                                <Route path="/creator" element={<CreatorPage />} />
+                                <Route
+                                  path="/disclaimer"
+                                  element={<Disclaimer />}
+                                />
+                              </Routes>
+                            </main>
+                            <Footer />
+                          </div>
+                        </Layout>
+                      </AppProvider>
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Admin Routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute requireAdmin={true}>
+                      <AdminProvider>
+                        <AdminDashboard />
+                      </AdminProvider>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/logs"
+                  element={
+                    <ProtectedRoute requireAdmin={true}>
+                      <AdminProvider>
+                        <AdminSystemLogs />
+                      </AdminProvider>
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </Router>
         </NotificationProvider>
       </GlobalProvider>
     </AuthProvider>

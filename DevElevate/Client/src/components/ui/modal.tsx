@@ -11,12 +11,20 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 'md' }) => {
+  const sizeClasses = {
+    sm: 'max-w-md',
+    md: 'max-w-lg',
+    lg: 'max-w-2xl',
+    xl: 'max-w-4xl',
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <DialogContent>
+      <DialogContent className={sizeClasses[size]}>
         {title ? (
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -27,7 +35,3 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
     </Dialog>
   );
 };
-
-export default Modal;
-
-

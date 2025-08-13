@@ -79,3 +79,45 @@ User: ${message}
     return "Something went wrong. Please try again.";
   }
 };
+
+// Utility functions for the new features
+export const formatDate = (date: Date | string): string => {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
+export const generateId = (): string => {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
+export const getPriorityColor = (priority: string): string => {
+  switch (priority) {
+    case 'urgent':
+      return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300';
+    case 'high':
+      return 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-300';
+    case 'medium':
+      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300';
+    case 'low':
+      return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
+    default:
+      return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+  }
+};
+
+export const getStatusColor = (status: string): string => {
+  switch (status) {
+    case 'todo':
+      return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+    case 'in-progress':
+      return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300';
+    case 'done':
+      return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
+    default:
+      return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+  }
+};

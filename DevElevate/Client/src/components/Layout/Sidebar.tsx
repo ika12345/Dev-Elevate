@@ -10,6 +10,10 @@ import {
   Target,
   CreditCard,
   Lightbulb,
+  CheckSquare,
+  StickyNote,
+  Calendar,
+  DollarSign,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useGlobalState } from "../../contexts/GlobalContext";
@@ -37,6 +41,11 @@ const Sidebar: React.FC = () => {
     { path: "/resume", icon: FileText, label: "Resume Builder" },
     { path: "/placement", icon: Target, label: "Placement Prep" },
     { path: "/projects", icon: Lightbulb, label: "AI Projects" },
+    { path: "/tasks", icon: CheckSquare, label: "Tasks" },
+    { path: "/notes", icon: StickyNote, label: "Notes" },
+    { path: "/calendar", icon: Calendar, label: "Calendar" },
+    { path: "/budget", icon: DollarSign, label: "Budget" },
+
     { path: "/payment", icon: CreditCard, label: "Pricing" },
   ];
 
@@ -47,7 +56,6 @@ const Sidebar: React.FC = () => {
   const handleSearchOpen = () => {
     setShowSearch(true);
     setShowNotifications(false);
-    setShowProfile(false);
   };
 
 
@@ -61,7 +69,7 @@ const Sidebar: React.FC = () => {
           : "bg-white border-gray-200"
           }`}
       >
-        <div className="flex flex-col h-full p-4 space-y-6">
+        <div className="flex flex-col p-4 space-y-6 h-full">
           {/* Navigation Items */}
           <div className="flex flex-col space-y-1">
             {navItems.map((item) => {
