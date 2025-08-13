@@ -455,15 +455,15 @@ Includes:
 
 ### 🔒 _Strict Contribution Guidelines (Must Follow):_
 
-❗ *YOU ARE *NOT ALLOWED TO:\*\*
+❗ YOU ARE *NOT ALLOWED TO:
 
-🔴 *❌ You are *NOT allowed to change or update any existing backend files or original code.\*\*
+🔴 ❌ You are NOT allowed to change or update any existing backend files or original code.
 
-🔴 *❌ You are *NOT allowed to update or modify any existing routes or their logic in any form.\*\*
+🔴 ❌ You are NOT allowed to update or modify any existing routes or their logic in any form.
 
-🔴 *❌ You are *NOT allowed to change the project structure or delete/edit core files without permission.\*\*
+🔴 ❌ You are NOT allowed to change the project structure or delete/edit core files without permission.
 
-🔴 *❌ You are *NOT allowed to add or push any .env, .env.local, or sensitive environment files to the frontend OR backend.\*\*
+🔴 ❌ You are NOT allowed to add or push any .env, .env.local, or sensitive environment files to the frontend OR backend.
 
 ---
 
