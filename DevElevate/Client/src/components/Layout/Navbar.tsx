@@ -13,6 +13,10 @@ import {
   Menu,
   X,
   Lightbulb,
+  CheckSquare,
+  StickyNote,
+  Calendar,
+  Globe,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useGlobalState } from "../../contexts/GlobalContext";
@@ -32,14 +36,19 @@ const Navbar: React.FC = () => {
   const { notifications } = useNotificationContext();
 
   const navItems = [
-    { path: "/", icon: Home, label: "Dashboard" },
+ { path: "/dashboard", icon: Home, label: "Dashboard" },
     { path: "/learning", icon: BookOpen, label: "Learning Hub" },
     { path: "/chatbot", icon: MessageSquare, label: "Study Buddy" },
     { path: "/news", icon: Newspaper, label: "Tech Feed" },
+    { path: "/community", icon: Globe, label: "Community" },
     { path: "/resume", icon: FileText, label: "Resume Builder" },
     { path: "/placement", icon: Target, label: "Placement Prep" },
     { path: "/projects", icon: Lightbulb, label: "AI Projects" },
+    { path: "/tasks", icon: CheckSquare, label: "Tasks" },
+    { path: "/notes", icon: StickyNote, label: "Notes" },
+    { path: "/calendar", icon: Calendar, label: "Calendar" },
     { path: "/payment", icon: CreditCard, label: "Pricing" },
+
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -136,11 +145,7 @@ const Navbar: React.FC = () => {
               <div className="relative">
                 <button
                   onClick={handleProfileToggle}
-                  className={`flex items-center space-x-2 p-1 rounded-lg transition-colors ${
-                    showProfile
-                      ? "bg-blue-100 dark:bg-blue-900"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                  }`}
+                  className={`flex items-center space-x-2 p-1 rounded-lg transition-colors`}
                 >
                   <img
                     src={

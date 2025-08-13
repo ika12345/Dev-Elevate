@@ -86,65 +86,7 @@ const Footer: React.FC = () => {
       } border-t border-opacity-40 transition-colors duration-200`}
     >
       <div className="px-4 pt-6 pb-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Disclaimer Section */}
-        <div
-          className={`p-6 rounded-xl border mb-8 ${
-            state.darkMode
-              ? "bg-gray-800 border-gray-700"
-              : "bg-yellow-50 border-yellow-200"
-          }`}
-        >
-          <div className="flex items-start space-x-3">
-    <span className="text-2xl">⚠️</span>
-    <div>
-      <h3
-        className={`text-lg font-bold mb-2 ${
-          state.darkMode ? "text-white" : "text-gray-900"
-        }`}
-      >
-        Disclaimer & Acknowledgement 💻🌐
-      </h3>
-      <div
-        className={`text-sm space-y-2 ${
-          state.darkMode ? "text-gray-300" : "text-gray-700"
-        }`}
-      >
-        <p>
-          <strong>👨‍💻 Website Creator:</strong> Abhisek Panda
-        </p>
-        <p>
-          <strong>🌍 Portfolio:</strong>
-          <a
-            href="https://abhisekpanda072.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 text-blue-500 hover:underline"
-          >
-            abhisekpanda072.vercel.app
-          </a>
-          <br />
-          <strong>🟢 Live Link:</strong>{" "}
-          <a
-            href="https://develevate-ai.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 text-blue-500 hover:underline"
-          >
-            develevate-ai.vercel.app
-          </a>
-        </p>
-        <p>
-          <strong>🚧 Important Note:</strong> The backend is already deployed on Render and the frontend is live on Vercel — everything is working properly.
-        </p>
-        <div className="mt-4">
-          <p className="font-semibold text-red-500">
-            ⚠️ Do not remove or change any existing code unrelated to your issue! If your PR modifies or deletes any core code without purpose, it will not be merged.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-        </div>
+  
 
         {/* Contributors Section */}
         <div className="mb-12">

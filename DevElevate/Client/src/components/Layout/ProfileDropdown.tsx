@@ -92,7 +92,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isOpen, onClose }) =>
       ref={dropdownRef}
       className={`absolute right-0 top-full mt-2 w-80 ${
         state.darkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
-      } border rounded-xl shadow-2xl z-50 overflow-hidden`}
+      } border rounded-xl shadow-2xl z-50 overflow-hidden fancy`}
     >
       {/* User Info Header */}
       <div className={`p-4 border-b ${state.darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'}`}>
