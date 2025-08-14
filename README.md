@@ -4,7 +4,17 @@
 
 <h1 align="center">🚀 Dev_Elevate_GSSoC-2025 </h1>
 
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/55ca587c-6019-449a-9409-0aea0cfcba13" alt="logo" width="200" height="200">
+</p>
+
+**DevElevate is a full-stack, AI-powered smart education and career advancement platform built to empower students, developers, and job seekers. It centralizes learning resources, personalized roadmaps, job updates, resume tools, and much more — all in one powerful dashboard.**
+
 <!--- Welcome back, Developer! 👋 Ready to continue your learning journey? -->
+
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 <div align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=0000FF&center=true&vCenter=true&width=700&lines=Welcome+to+Open+Source+Contribution!;GirlScript+Summer+of+Code+GSSoC+2025!+🎉;Start+this+repo+now!;Fork+it+🚀;Contribute+to+it+🛠️;Commit+to+your+forked+repo+💾;Create+a+Pull+Request+without+conflicts+✅" alt="Typing SVG" />
@@ -165,14 +175,6 @@ https://github.com/user-attachments/assets/cadea16d-4c59-4e4a-8f80-5c6cc15aa272
 🔁 This will help avoid confusion, reduce merge conflicts, and ensure your PR gets accepted faster!
 
 🎯 Let’s build DevElevate together — stronger, smarter, and open for all! 💖🚀
-
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/55ca587c-6019-449a-9409-0aea0cfcba13" alt="logo" width="200" height="200">
-</p>
-
-**DevElevate is a full-stack, AI-powered smart education and career advancement platform built to empower students, developers, and job seekers. It centralizes learning resources, personalized roadmaps, job updates, resume tools, and much more — all in one powerful dashboard.**
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
