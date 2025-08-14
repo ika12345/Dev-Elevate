@@ -17,7 +17,6 @@ export interface QuizQuestion {
 
 export interface Quiz {
   id: string;
-  _id?: string;
   title: string;
   topic?: string;
   difficulty?: 'Easy' | 'Medium' | 'Hard';
@@ -30,12 +29,12 @@ export interface Quiz {
 type QuizFormProps = {
   initialData?: Quiz | null;
   onClose: () => void;
-  onSaved?: (data: Omit<Quiz, "id" | "createdAt">) => void;
+  onSaved?: () => void;
   darkMode: boolean;
   token: string;
 };
 
-const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, darkMode, token }) => {
+const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, darkMode }) => {
   const [title, setTitle] = useState(initialData?.title || '');
   const [topic, setTopic] = useState(initialData?.topic || '');
   const [difficulty, setDifficulty] = useState<'Easy' | 'Medium' | 'Hard' | ''>(initialData?.difficulty || '');
@@ -51,9 +50,8 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
         
       }).then(res => {
         const fullQuiz = res.data;
-  const quiz = fullQuiz as Quiz;
-  setQuestions((quiz.questions || []).map((q: any) => ({ ...q, id: q._id })));
-  setLevel(quiz.level || '');
+        setQuestions((fullQuiz.questions || []).map((q: any) => ({ ...q, id: q._id })));
+        setLevel(fullQuiz.level || '');
       });
     } else {
       setQuestions([
@@ -101,8 +99,7 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
         const res = await axiosInstance.post('/api/v1/admin/quiz', { title, topic, difficulty, type, level }, {
         
         });
-  const data = res.data as { quiz: Quiz };
-  quizId = data.quiz._id;
+        quizId = res.data.quiz._id;
       }
 
       for (const q of questions) {
@@ -124,14 +121,7 @@ const QuizForm: React.FC<QuizFormProps> = ({ initialData, onClose, onSaved, dark
       
       window.dispatchEvent(new CustomEvent('quiz-updated'));
 
-      onSaved?.({
-        title,
-        topic,
-        difficulty,
-        type,
-        level,
-        questions,
-      });
+      onSaved?.();
       onClose();
     } catch (err: any) {
       alert(err.response?.data?.message || err.message);

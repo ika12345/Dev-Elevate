@@ -26,20 +26,11 @@ interface QuizSubmissions {
   submissions: Submission[];
 }
 
-interface Quiz {
-  quiz: string;
-  quizId: string;
-  topic?: string;
-  message?: string;
-  submissions: Submission[];
-}
-
 interface SubmissionTrackerProps {
-  quizzes: Quiz[];
   darkMode: boolean;
 }
 
-const SubmissionTracker: React.FC<SubmissionTrackerProps> = ({ quizzes, darkMode }) => {
+const SubmissionTracker: React.FC<SubmissionTrackerProps> = ({ darkMode }) => {
   const [data, setData] = useState<QuizSubmissions[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,8 +42,8 @@ const SubmissionTracker: React.FC<SubmissionTrackerProps> = ({ quizzes, darkMode
       setLoading(true);
       setError(null);
       try {
-        const res = await instance.get('/api/v1/admin/quiz/submission');
-        setData(res.data as QuizSubmissions[]);
+        const res = await instance.get('/api/v1/admin/quiz/submission')
+        setData(res.data);
       } catch (err: any) {
         setError(err.response?.data?.message || 'Failed to fetch submissions');
       } finally {

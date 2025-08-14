@@ -1,21 +1,3 @@
-// Get current authenticated user
-export const getCurrentUser = async (req, res) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
-    // Return user info (no password)
-    const user = {
-      id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      role: req.user.role,
-    };
-    return res.status(200).json({ user });
-  } catch (error) {
-    return res.status(500).json({ message: "Error fetching user", error: error.message });
-  }
-};
 import VisitingWebsite from "../model/VisitingWebsite.js";
 import User from "../model/UserModel.js";
 import Feedback from "../model/Feedback.js";
@@ -91,11 +73,10 @@ export const loginUser = async (req, res) => {
     const JWT_SECRET = process.env.JWT_SECRET;
     const JWT_EXPIRES = "3d";
     // Create JWT token
-      const payLode = {
-        userId: user._id,
-        role: user.role,
-      };
-      const token = jwt.sign(payLode, JWT_SECRET, { expiresIn: JWT_EXPIRES });
+    const payLode = {
+      userId: user._id,
+    };
+    const token = jwt.sign(payLode, JWT_SECRET, { expiresIn: JWT_EXPIRES });
 
     // Set token in cookie
     res.cookie("token", token, {

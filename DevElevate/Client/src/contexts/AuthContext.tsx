@@ -197,31 +197,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         console.error("Error parsing saved auth state:", error);
       }
     }
-    // Hydrate from backend using cookie
-    hydrateUserFromBackend();
   }, []);
-
-  // Fetch user from backend using cookie
-  const hydrateUserFromBackend = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/api/v1/auth/me`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      if (response.ok && data.user) {
-        dispatch({
-          type: "LOGIN_SUCCESS",
-          payload: { user: data.user, token: data.token || null },
-        });
-      }
-    } catch (error) {
-      // Ignore if not logged in
-    }
-  };
 
   // Save auth state to localStorage
   useEffect(() => {

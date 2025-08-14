@@ -23,7 +23,6 @@ import CreatorPage from "./components/Legal/CreatorPage";
 import Disclaimer from "./components/Legal/Disclaimer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminSystemLogs from "./components/Admin/AdminSystemLogs";
-import ContentUploadManager from "./pages/Admin/ContentUploadManager";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import LoginRegister from "./components/Auth/LoginRegister";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -129,14 +128,6 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                  <Route
-                    path="/admin/content-upload"
-                    element={
-                      <ProtectedRoute requireAdmin={true}>
-                        <ContentUploadManager />
-                      </ProtectedRoute>
-                    }
-                  />
                 <Route
                   path="/admin/logs"
                   element={
