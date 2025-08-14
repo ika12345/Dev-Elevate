@@ -59,18 +59,19 @@ const CreatorPage: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${state.darkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="px-4 py-12 mx-auto max-w-6xl sm:px-6 lg:px-8">
         {/* Hero Section */}
+        
         <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
-          <div className="flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
+          <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
             <div className="relative">
               <img
                 src="https://github.com/abhisek2004.png"
                 alt="Abhisek Panda"
                 className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg"
               />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800 flex items-center justify-center">
-                <span className="text-white text-xs">✨</span>
+              <div className="flex absolute -right-2 -bottom-2 justify-center items-center w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800">
+                <span className="text-xs text-white">✨</span>
               </div>
             </div>
             
@@ -79,19 +80,19 @@ const CreatorPage: React.FC = () => {
                 Abhisek Panda 👨‍💻
               </h1>
               <p className={`text-xl mb-4 ${state.darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                Full-Stack Developer & AI Enthusiast
+                Full-Stack Developer (Project Admin)
               </p>
               <p className={`text-lg mb-6 ${state.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 Passionate about creating innovative solutions that empower developers and students. 
                 Building the future of education technology, one line of code at a time. ☕💡💻
               </p>
               
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <a
                   href="https://github.com/abhisek2004"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-gray-800 rounded-lg transition-colors hover:bg-gray-700"
                 >
                   <Github className="w-5 h-5" />
                   <span>GitHub</span>
@@ -100,7 +101,7 @@ const CreatorPage: React.FC = () => {
                   href="https://www.linkedin.com/in/abhisekpanda2004/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
                 >
                   <Linkedin className="w-5 h-5" />
                   <span>LinkedIn</span>
@@ -109,7 +110,64 @@ const CreatorPage: React.FC = () => {
                   href="https://abhisekpanda072.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-purple-600 rounded-lg transition-colors hover:bg-purple-700"
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>Portfolio</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
+          <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
+            <div className="relative">
+              <img
+                src="https://avatars.githubusercontent.com/u/180097366?v=4"
+                alt="Gobinda Gagan"
+                className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg"
+              />
+              <div className="flex absolute -right-2 -bottom-2 justify-center items-center w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800">
+                <span className="text-xs text-white">✨</span>
+              </div>
+            </div>
+            
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className={`text-4xl font-bold mb-2 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Gobinda Gagan Dey👨‍💻
+              </h1>
+              <p className={`text-xl mb-4 ${state.darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                Backend Developer (🤝 Major Contributor 50+ PR)
+              </p>
+              <p className={`text-lg mb-6 ${state.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Passionate about creating innovative solutions that empower developers and students. 
+                Building the future of education technology, one line of code at a time. ☕💡💻
+              </p>
+              
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <a
+                  href="https://github.com/GOBINDA-GAGAN"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-gray-800 rounded-lg transition-colors hover:bg-gray-700"
+                >
+                  <Github className="w-5 h-5" />
+                  <span>GitHub</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/gobinda-gagan-dey/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href="https://gobinda-gagan-dey.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-purple-600 rounded-lg transition-colors hover:bg-purple-700"
                 >
                   <Globe className="w-5 h-5" />
                   <span>Portfolio</span>
@@ -122,7 +180,7 @@ const CreatorPage: React.FC = () => {
         {/* Disclaimer & Acknowledgement Section */}
         <div className={`${state.darkMode ? 'bg-yellow-900/20 border-yellow-800' : 'bg-yellow-50 border-yellow-200'} rounded-xl p-8 border mb-8`}>
           <div className="flex items-start space-x-3">
-            <AlertTriangle className="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1" />
+            <AlertTriangle className="flex-shrink-0 mt-1 w-6 h-6 text-yellow-500" />
             <div>
               <h2 className={`text-2xl font-bold mb-4 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
                 ⚠️ Disclaimer & Acknowledgement 💻🌐
@@ -135,19 +193,19 @@ const CreatorPage: React.FC = () => {
                   </p>
                   <p className="mb-2">
                     <strong>🌍 Portfolio:</strong> 
-                    <a href="https://abhisekpanda072.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline ml-1">
+                    <a href="https://abhisekpanda072.vercel.app/" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-500 hover:underline">
                       https://abhisekpanda072.vercel.app/
                     </a>
                   </p>
                   <p className="mb-2">
                     <strong>🐙 GitHub:</strong> 
-                    <a href="https://github.com/abhisek2004" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline ml-1">
+                    <a href="https://github.com/abhisek2004" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-500 hover:underline">
                       https://github.com/abhisek2004
                     </a>
                   </p>
                   <p className="mb-4">
                     <strong>💼 LinkedIn:</strong> 
-                    <a href="https://www.linkedin.com/in/abhisekpanda2004/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline ml-1">
+                    <a href="https://www.linkedin.com/in/abhisekpanda2004/" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-500 hover:underline">
                       https://www.linkedin.com/in/abhisekpanda2004/
                     </a>
                   </p>
@@ -158,24 +216,24 @@ const CreatorPage: React.FC = () => {
                     <strong>🚧 Important Note:</strong> This website has been developed as a personal learning project to sharpen my skills in full-stack web development — specifically using the MERN stack:
                   </p>
                   
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="grid grid-cols-2 gap-4 mb-6 md:grid-cols-4">
                     <div className={`p-4 rounded-lg ${state.darkMode ? 'bg-gray-800' : 'bg-white'} text-center`}>
-                      <div className="text-2xl mb-2">🧠</div>
+                      <div className="mb-2 text-2xl">🧠</div>
                       <div className={`font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>MongoDB</div>
                       <div className={`text-sm ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>for the database</div>
                     </div>
                     <div className={`p-4 rounded-lg ${state.darkMode ? 'bg-gray-800' : 'bg-white'} text-center`}>
-                      <div className="text-2xl mb-2">🚀</div>
+                      <div className="mb-2 text-2xl">🚀</div>
                       <div className={`font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>Express.js</div>
                       <div className={`text-sm ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>for the backend</div>
                     </div>
                     <div className={`p-4 rounded-lg ${state.darkMode ? 'bg-gray-800' : 'bg-white'} text-center`}>
-                      <div className="text-2xl mb-2">⚛️</div>
+                      <div className="mb-2 text-2xl">⚛️</div>
                       <div className={`font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>React.js</div>
                       <div className={`text-sm ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>for the frontend</div>
                     </div>
                     <div className={`p-4 rounded-lg ${state.darkMode ? 'bg-gray-800' : 'bg-white'} text-center`}>
-                      <div className="text-2xl mb-2">🛠️</div>
+                      <div className="mb-2 text-2xl">🛠️</div>
                       <div className={`font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>Node.js</div>
                       <div className={`text-sm ${state.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>as the runtime engine</div>
                     </div>
@@ -185,7 +243,7 @@ const CreatorPage: React.FC = () => {
                 <div>
                   <p className="mb-2"><strong>🎯 Purpose of this Project:</strong></p>
                   <p className="mb-4">This is not an official ICC product. I built this clone project as a part of my journey into professional web development. The goal was to:</p>
-                  <ul className="list-disc list-inside space-y-1 mb-4">
+                  <ul className="mb-4 space-y-1 list-disc list-inside">
                     <li>Explore real-world web scraping using Puppeteer, Axios, and Cheerio 🕷️</li>
                     <li>Practice routing, dynamic UI rendering, and API integration 🧩</li>
                     <li>Experiment with clean UI/UX practices and responsiveness 📱💻🖥️</li>
@@ -209,7 +267,7 @@ const CreatorPage: React.FC = () => {
                 <div>
                   <p className="mb-4"><strong>🧠 Calling Developers, Learners & Recruiters!</strong></p>
                   <p className="mb-2">If you're someone who's into:</p>
-                  <ul className="list-disc list-inside space-y-1 mb-4">
+                  <ul className="mb-4 space-y-1 list-disc list-inside">
                     <li>Learning the MERN stack</li>
                     <li>Working with real-time data APIs and scraping</li>
                     <li>Exploring frontend or backend architecture</li>
@@ -233,7 +291,7 @@ const CreatorPage: React.FC = () => {
           <h2 className={`text-2xl font-bold mb-6 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
             🏆 Achievements & Recognition
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {achievements.map((achievement, index) => {
               const Icon = achievement.icon;
               return (
@@ -243,7 +301,7 @@ const CreatorPage: React.FC = () => {
                     state.darkMode ? 'border-gray-700 bg-gray-700/50' : 'border-gray-200 bg-gray-50'
                   }`}
                 >
-                  <Icon className="w-8 h-8 mx-auto mb-3 text-blue-500" />
+                  <Icon className="mx-auto mb-3 w-8 h-8 text-blue-500" />
                   <h3 className={`font-semibold mb-2 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {achievement.title}
                   </h3>
@@ -261,7 +319,7 @@ const CreatorPage: React.FC = () => {
           <h2 className={`text-2xl font-bold mb-6 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
             💼 Featured Projects
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, index) => (
               <div
                 key={index}
@@ -269,7 +327,7 @@ const CreatorPage: React.FC = () => {
                   state.darkMode ? 'border-gray-700 hover:border-gray-600' : 'border-gray-200 hover:border-gray-300'
                 } transition-colors hover:shadow-md`}
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className={`font-semibold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {project.name}
                   </h3>
@@ -302,7 +360,7 @@ const CreatorPage: React.FC = () => {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-600 text-sm font-medium"
+                  className="text-sm font-medium text-blue-500 hover:text-blue-600"
                 >
                   View Project →
                 </a>
@@ -322,12 +380,12 @@ const CreatorPage: React.FC = () => {
               return (
                 <div key={index} className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                    <div className="flex justify-center items-center w-10 h-10 bg-blue-100 rounded-full dark:bg-blue-900">
                       <Icon className="w-5 h-5 text-blue-600 dark:text-blue-300" />
                     </div>
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-1">
+                    <div className="flex items-center mb-1 space-x-2">
                       <span className={`font-bold ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {item.year}
                       </span>
@@ -348,7 +406,7 @@ const CreatorPage: React.FC = () => {
 
         {/* Philosophy & Quote */}
         <div className={`${state.darkMode ? 'bg-gradient-to-r from-blue-900 to-purple-900' : 'bg-gradient-to-r from-blue-50 to-purple-50'} rounded-xl p-8 text-center`}>
-          <Coffee className="w-12 h-12 mx-auto mb-4 text-blue-500" />
+          <Coffee className="mx-auto mb-4 w-12 h-12 text-blue-500" />
           <h2 className={`text-2xl font-bold mb-4 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
             My Philosophy
           </h2>
