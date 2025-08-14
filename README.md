@@ -110,17 +110,19 @@ Click the link below to explore the complete guide:
 
 > ⚠️ **📢 Important Note – Must Read Before You Contribute!** ⚠️
 
+https://github.com/user-attachments/assets/05618403-7b9a-4b04-91fa-c46d72e8e674
+
+---
+
+https://github.com/user-attachments/assets/76b1d004-0dbf-4f18-ba26-60dd66429305
+
+---
+
+https://github.com/user-attachments/assets/cadea16d-4c59-4e4a-8f80-5c6cc15aa272
+
+---
+
 <!-- New Login Flow GIF -->
-
-<video src="https://github.com/user-attachments/assets/386495be-3c21-41d4-9cb6-416c987bd5ea"
-       autoplay
-       loop
-       muted
-       controls
-       controlslist="nodownload"
-       playsinline>
-</video>
-
 <img src="DevElevate/login-flow.gif" alt="Login Flow Demo" width="100%">
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
