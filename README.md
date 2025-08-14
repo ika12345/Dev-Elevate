@@ -112,7 +112,13 @@ Click the link below to explore the complete guide:
 
 <!-- New Login Flow GIF -->
 
-https://github.com/user-attachments/assets/386495be-3c21-41d4-9cb6-416c987bd5ea
+<video src="https://github.com/user-attachments/assets/386495be-3c21-41d4-9cb6-416c987bd5ea"
+       autoplay
+       loop
+       controlslist="nodownload"
+       controls
+       playsinline>
+</video>
 
 <img src="DevElevate/login-flow.gif" alt="Login Flow Demo" width="100%">
 
