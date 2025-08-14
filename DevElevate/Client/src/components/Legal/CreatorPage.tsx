@@ -157,7 +157,7 @@ const CreatorPage: React.FC = () => {
                   <span>GitHub</span>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/jay-sawant-4b59aa324/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
@@ -215,7 +215,7 @@ const CreatorPage: React.FC = () => {
                   <span>GitHub</span>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/avanshyadav/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
@@ -273,7 +273,7 @@ const CreatorPage: React.FC = () => {
                   <span>GitHub</span>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/amishagupta31/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
