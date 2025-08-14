@@ -9,10 +9,7 @@ import {
   feedback,
   googleUser,
   latestNews,
-  getCurrentUser,
 } from "../controller/userController.js";
-// Get current authenticated user
-router.get("/auth/me", authenticateToken, getCurrentUser);
 import { authenticateToken } from "../middleware/authMiddleware.js";
 
 router.post("/auth/signup", registerUser);
