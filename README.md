@@ -115,8 +115,9 @@ Click the link below to explore the complete guide:
 <video src="https://github.com/user-attachments/assets/386495be-3c21-41d4-9cb6-416c987bd5ea"
        autoplay
        loop
-       controlslist="nodownload"
+       muted
        controls
+       controlslist="nodownload"
        playsinline>
 </video>
 
