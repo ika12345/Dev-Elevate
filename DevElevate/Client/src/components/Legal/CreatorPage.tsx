@@ -62,6 +62,7 @@ const CreatorPage: React.FC = () => {
       <div className="px-4 py-12 mx-auto max-w-6xl sm:px-6 lg:px-8">
         {/* Hero Section */}
         
+        {/* Abhisek Panda Section */}
         <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
           <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
             <div className="relative">
@@ -119,6 +120,181 @@ const CreatorPage: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* Jay Sawant Section */}
+        <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
+          <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
+            <div className="relative">
+              <img
+                src="https://github.com/Jay2006sawant.png"
+                alt="Jay Sawant"
+                className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg"
+              />
+              <div className="flex absolute -right-2 -bottom-2 justify-center items-center w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800">
+                <span className="text-xs text-white">✨</span>
+              </div>
+            </div>
+            
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className={`text-4xl font-bold mb-2 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Jay Sawant 👨‍💻
+              </h1>
+              <p className={`text-xl mb-4 ${state.darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                Full-Stack Developer (👨‍🏫 🤝 Project Mentor)
+              </p>
+              <p className={`text-lg mb-6 ${state.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Passionate about creating innovative solutions that empower developers and students. 
+                Building the future of education technology, one line of code at a time. ☕💡💻
+              </p>
+              
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <a
+                  href="https://github.com/Jay2006sawant"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-gray-800 rounded-lg transition-colors hover:bg-gray-700"
+                >
+                  <Github className="w-5 h-5" />
+                  <span>GitHub</span>
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-purple-600 rounded-lg transition-colors hover:bg-purple-700"
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>Portfolio</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Avansh Yadav Section */}
+        <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
+          <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
+            <div className="relative">
+              <img
+                src="https://avatars.githubusercontent.com/u/92374411?v=4"
+                alt="Avansh Yadav"
+                className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg"
+              />
+              <div className="flex absolute -right-2 -bottom-2 justify-center items-center w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800">
+                <span className="text-xs text-white">✨</span>
+              </div>
+            </div>
+            
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className={`text-4xl font-bold mb-2 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Avansh Yadav 👨‍💻
+              </h1>
+              <p className={`text-xl mb-4 ${state.darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                Full-Stack Developer (👨‍🏫 🤝 Project Mentor)
+              </p>
+              <p className={`text-lg mb-6 ${state.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Passionate about creating innovative solutions that empower developers and students. 
+                Building the future of education technology, one line of code at a time. ☕💡💻
+              </p>
+              
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <a
+                  href="https://github.com/Avansh2006"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-gray-800 rounded-lg transition-colors hover:bg-gray-700"
+                >
+                  <Github className="w-5 h-5" />
+                  <span>GitHub</span>
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-purple-600 rounded-lg transition-colors hover:bg-purple-700"
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>Portfolio</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Amisha Gupta Section */}
+        <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
+          <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
+            <div className="relative">
+              <img
+                src="https://avatars.githubusercontent.com/u/154073004?v=4"
+                alt="Amisha Gupta"
+                className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg"
+              />
+              <div className="flex absolute -right-2 -bottom-2 justify-center items-center w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800">
+                <span className="text-xs text-white">✨</span>
+              </div>
+            </div>
+            
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className={`text-4xl font-bold mb-2 ${state.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Amisha Gupta 👨‍💻
+              </h1>
+              <p className={`text-xl mb-4 ${state.darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                MERN , Next.js Developer (👨‍🏫 🤝 Project Mentor)
+              </p>
+              <p className={`text-lg mb-6 ${state.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Passionate about creating innovative solutions that empower developers and students. 
+                Building the future of education technology, one line of code at a time. ☕💡💻
+              </p>
+              
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <a
+                  href="https://github.com/amishagupta31"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-gray-800 rounded-lg transition-colors hover:bg-gray-700"
+                >
+                  <Github className="w-5 h-5" />
+                  <span>GitHub</span>
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center px-4 py-2 space-x-2 text-white bg-purple-600 rounded-lg transition-colors hover:bg-purple-700"
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>Portfolio</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Gobinda Gagan Dey Section */}
         <div className={`${state.darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border shadow-lg mb-12`}>
           <div className="flex flex-col items-center space-y-6 lg:flex-row lg:space-y-0 lg:space-x-8">
             <div className="relative">
