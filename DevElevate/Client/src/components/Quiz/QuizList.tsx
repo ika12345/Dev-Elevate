@@ -15,12 +15,13 @@ export interface Quiz {
 }
 
 type QuizListProps = {
+  quizzes: Quiz[];
   darkMode: boolean;
   onEdit: (quiz: Quiz) => void;
+  onDelete: (id: string) => void;
 };
 
-const QuizList: React.FC<QuizListProps> = ({ darkMode, onEdit }) => {
-  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+const QuizList: React.FC<QuizListProps> = ({ quizzes, darkMode, onEdit, onDelete }) => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchQuizzes = async () => {

@@ -80,6 +80,25 @@ const AdminDashboard: React.FC = () => {
   const [showAddNews, setShowAddNews] = useState(false);
   const [showQuizForm, setShowQuizForm] = useState(false);
   const [editingQuiz, setEditingQuiz] = useState<Quiz | null>(null);
+  interface Quiz {
+    id: string;
+    title: string;
+    topic?: string;
+    difficulty?: 'Easy' | 'Medium' | 'Hard';
+    level?: string;
+    type: 'MCQ' | 'Code';
+    description?: string;
+    questions: any[];
+    createdAt: string;
+    [key: string]: any;
+  }
+
+// Move QuizFormProps type to top-level scope
+
+  type SubmissionTrackerProps = {
+    quizzes: Quiz[];
+    darkMode: boolean;
+  };
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [showAddUser, setShowAddUser] = useState(false);
 
@@ -106,6 +125,7 @@ const AdminDashboard: React.FC = () => {
       streak: number;
       level: string;
     };
+    longestStreak?: number;
   };
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -149,13 +169,8 @@ const AdminDashboard: React.FC = () => {
     addUserByAdmin(userData); 
   };
 
-  interface DeleteUserData {
-    userId: string;
-  }
-
-  const handleDeleteUser = (userId: DeleteUserData) => {
-    
-    deleteUserByAdmin(userId)
+  const handleDeleteUser = (userId: string) => {
+    deleteUserByAdmin(userId);
     console.log("pass-1");
   };
 
@@ -185,9 +200,13 @@ const AdminDashboard: React.FC = () => {
       setEditingQuiz(null);
     } else {
       const newQuiz: Quiz = {
-        ...data,
         id: Date.now().toString(),
         createdAt: new Date().toISOString(),
+        title: data.title,
+        description: data.description,
+        questions: data.questions,
+        type: data.type, // <-- Add this line to include the required 'type' property
+        ...data,
       };
       const newList = [...quizzes, newQuiz];
       setQuizzes(newList);
@@ -226,6 +245,8 @@ const AdminDashboard: React.FC = () => {
             setShowQuizForm(false);
             setEditingQuiz(null);
           }}
+          darkMode={globalState.darkMode}
+          token={authState.token}
         />
       ) : (
         <>
@@ -386,35 +407,7 @@ const AdminDashboard: React.FC = () => {
   ];
 
   // Filter logic
-  const filteredUsers=authState.users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((user) => {
-      // Role filter
-      if (filter.role && user.role !== filter.role) return false;
-      // Date filter
-      if (
-        filter.dateFrom &&
-        new Date(user.joinDate) < new Date(filter.dateFrom)
-      )
-        return false;
-      if (filter.dateTo && new Date(user.joinDate) > new Date(filter.dateTo))
-        return false;
-      // Progress filter
-      if (
-        filter.minProgress &&
-        user.progress.totalPoints < Number(filter.minProgress)
-      )
-        return false;
-      if (
-        filter.maxProgress &&
-        user.progress.totalPoints > Number(filter.maxProgress)
-      )
-        return false;
-      return true;
-    });
+  // Removed unused filteredUsers variable
 
   const addCourse = (
     courseData: Omit<
@@ -1217,7 +1210,7 @@ const AdminDashboard: React.FC = () => {
                       <div>
                         Current:{" "}
                         <span className="font-medium">
-                          {user.currentStreak ?? 0}
+                          {user.progress?.streak ?? 0}
                         </span>
                       </div>
                       <div>
