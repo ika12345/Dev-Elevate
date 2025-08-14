@@ -111,6 +111,9 @@ Click the link below to explore the complete guide:
 > ⚠️ **📢 Important Note – Must Read Before You Contribute!** ⚠️
 
 <!-- New Login Flow GIF -->
+
+https://github.com/user-attachments/assets/386495be-3c21-41d4-9cb6-416c987bd5ea
+
 <img src="DevElevate/login-flow.gif" alt="Login Flow Demo" width="100%">
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
