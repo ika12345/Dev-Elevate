@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import CodeEditor from '../Components/CodeEditor/CodeEditor';
 import ProblemDescription from '../Components/ProblemDetail/ProblemDescription';
-import { problems } from '../data/problems';
+import { problems } from '../Data/problems';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Play, Zap, CheckCircle, XCircle, Clock } from 'lucide-react';

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, BookOpen, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { problems } from '../data/problems';
+import { problems } from '../Data/problems';
 
 const ProblemsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');

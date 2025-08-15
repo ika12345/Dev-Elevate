@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Play, Save, Lightbulb, Zap, Settings } from 'lucide-react';
 import { languages } from '../../Data/languages';
-import type { Language } from '../../types';
+import type { Language } from '../../Types';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface CodeEditorProps {
