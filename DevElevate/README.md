@@ -94,20 +94,28 @@ Get a glimpse of our **fully functional, AI-powered learning & career platform**
 <img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (18)" src="https://github.com/user-attachments/assets/758664e4-e31c-4ebb-95ea-171115951c02" />
 <img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (19)" src="https://github.com/user-attachments/assets/3456594c-7439-4142-b1cd-e8c2f51ea782" />
 <img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (20)" src="https://github.com/user-attachments/assets/8931a33b-aece-4ded-b462-063b09ee52db" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (21)" src="https://github.com/user-attachments/assets/9a5e1a38-0d66-424a-9f55-2b9cbadbb2fe" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (22)" src="https://github.com/user-attachments/assets/669d604f-3b2c-4480-abf4-a577b1668c2b" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (23)" src="https://github.com/user-attachments/assets/289506ff-d08a-48ac-b471-52ac6a1ae653" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (24)" src="https://github.com/user-attachments/assets/68c95302-2463-47e3-a926-2f724f5fe9bb" />
+<img width="2530" height="1336" alt="buy stripe com_test_cNi4gydlib1j8AW8S23F600" src="https://github.com/user-attachments/assets/4d4018f2-4325-4386-bbe3-2e268d60c843" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (26)" src="https://github.com/user-attachments/assets/e4e76b7e-4a79-401a-9b4e-64d9754434c8" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (27)" src="https://github.com/user-attachments/assets/c6ac64a3-8ec9-4c4d-adf5-0224a633f0c4" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (28)" src="https://github.com/user-attachments/assets/059167e3-9a52-475a-8bce-4e73f4323c44" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (29)" src="https://github.com/user-attachments/assets/4a720d6f-7b2e-4442-98e8-f9b615a99f88" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (30)" src="https://github.com/user-attachments/assets/1a68a33a-1164-47e8-86f7-deb5f0e13a60" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_chatbot (31)" src="https://github.com/user-attachments/assets/4eba8f34-d79a-4f74-bce7-efa23af7390f" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (37)" src="https://github.com/user-attachments/assets/dece1baa-2573-478a-8638-d775072ab410" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (42)" src="https://github.com/user-attachments/assets/a0725814-6a94-4b69-bd0a-51123e890463" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (44)" src="https://github.com/user-attachments/assets/ddcc058b-e53d-42b5-bf76-ff19521c4ec3" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (45)" src="https://github.com/user-attachments/assets/5fe230b7-da5d-4cc3-b360-24a3d6353723" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (46)" src="https://github.com/user-attachments/assets/d84b5cf4-d7d3-46d3-88f8-15b2f8de33bc" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (47)" src="https://github.com/user-attachments/assets/a0d3e280-c2a2-4fc6-a851-93f305056bc1" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (48)" src="https://github.com/user-attachments/assets/c0e7edbc-a81b-4e2f-a2fa-0845b99a282e" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (49)" src="https://github.com/user-attachments/assets/2ced1b79-c1e2-40f3-bbbb-2d4f20d22034" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (50)" src="https://github.com/user-attachments/assets/0185d555-0595-4968-a3c4-67721d77c754" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (51)" src="https://github.com/user-attachments/assets/856c130d-afbc-458c-b1fb-908b29d12e43" />
+<img width="2450" height="1336" alt="develevate-ai vercel app_chatbot (55)" src="https://github.com/user-attachments/assets/59953f5f-7168-43be-a2d9-0aa0eaab8e85" />
 
 
 <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" height="80%" width="100%">
@@ -152,6 +160,7 @@ I’m *poised* to contribute my skills and enthusiasm to *projects that make a d
 <p>
   <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=65&section=footer" width="100%">
 </p>
+
 
 
 
