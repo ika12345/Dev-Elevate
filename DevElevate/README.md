@@ -27,12 +27,11 @@ Please make sure to follow all the contribution guidelines carefully to avoid de
 
 If you’re stuck or need help, feel free to reach out.
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" height="80%" width="100%">
 
 🖼️ **Sneak Peek of DevElevate in Action** 🚀✨
 Get a glimpse of our **fully functional, AI-powered learning & career platform** — clean UI, smart tools, and everything you need to **learn, grow, and get hired**! 💻📚🌟
 
----
 
 
 
@@ -40,7 +39,8 @@ Get a glimpse of our **fully functional, AI-powered learning & career platform**
 
 
 
----
+
+<img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" height="80%" width="100%">
 
 # 👋 Hey there, tech fam!
 
@@ -82,4 +82,3 @@ I’m *poised* to contribute my skills and enthusiasm to *projects that make a d
 <p>
   <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=65&section=footer" width="100%">
 </p>
-
