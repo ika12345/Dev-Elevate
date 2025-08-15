@@ -30,10 +30,49 @@ If you’re stuck or need help, feel free to reach out.
 🖼️ **Sneak Peek of DevElevate in Action** 🚀✨
 Get a glimpse of our **fully functional, AI-powered learning & career platform** — clean UI, smart tools, and everything you need to **learn, grow, and get hired**! 💻📚🌟
 
+---
+
+
+
+
 
 
 
 ---
 
+# 👋 Hey there, tech fam!
 
+I'm *Abhisek Panda* 👨‍🎓, currently pursuing my *Bachelor of Technology (B.Tech)* in *Computer Science* 💻 *Final Year* 🎓.
 
+💡 My tech journey is driven by a *passion* for mastering the *✨ MERN Stack, along with strong skills in **☕ Java* and *📊 Data Structures & Algorithms (DSA)*.
+I’m also an *🌍 Open Source Contributor*, always eager to learn, build, and share knowledge with the community.
+
+---
+
+## 💻 What I Love to Do
+
+- 🎨 Craft *immersive user experiences* through *Frontend Development*.
+- 🚀 Build *scalable web applications* using *MERN Stack*.
+- 🧠 Solve *algorithmic challenges* to sharpen problem-solving skills.
+- 🤝 Contribute to *impactful open-source projects*.
+
+---
+
+## 🌟 My Mindset
+
+> ✨ "Embrace challenges, keep learning, and grow through every experience."
+
+💪 I thrive on *taking challenges head-on, refining my craft, and **delivering meaningful solutions*.
+I’m *poised* to contribute my skills and enthusiasm to *projects that make a difference*.
+
+---
+
+## 📬 Let’s Connect & Collaborate
+
+🌐 *Portfolio:* [abhisekpanda072.vercel.app](https://abhisekpanda072.vercel.app/)
+💼 *LinkedIn:* [linkedin.com/in/abhisekpanda2004](https://www.linkedin.com/in/abhisekpanda2004/)
+🐙 *GitHub:* [github.com/abhisek2004](https://github.com/abhisek2004)
+
+---
+
+🔥 Let’s code, collaborate, and create something amazing together! 🚀💻
