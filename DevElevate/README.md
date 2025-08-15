@@ -32,11 +32,10 @@ If you’re stuck or need help, feel free to reach out.
 🖼️ **Sneak Peek of DevElevate in Action** 🚀✨
 Get a glimpse of our **fully functional, AI-powered learning & career platform** — clean UI, smart tools, and everything you need to **learn, grow, and get hired**! 💻📚🌟
 
-
-
-
-
-
+<img width="2530" height="1336" alt="develevate-ai vercel app_" src="https://github.com/user-attachments/assets/e2e758ac-6200-473e-be98-da0d25c645dc" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_ (1)" src="https://github.com/user-attachments/assets/3ffc7e98-9ce5-41b1-ba24-26ce09d27194" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_ (2)" src="https://github.com/user-attachments/assets/f2547026-06bd-4f9c-8ce1-18a1baec5f0d" />
+<img width="2530" height="1336" alt="develevate-ai vercel app_ (3)" src="https://github.com/user-attachments/assets/12e77352-2977-4751-9fb7-e8484fc00ddd" />
 
 
 
@@ -82,3 +81,4 @@ I’m *poised* to contribute my skills and enthusiasm to *projects that make a d
 <p>
   <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=65&section=footer" width="100%">
 </p>
+
