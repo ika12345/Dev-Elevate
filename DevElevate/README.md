@@ -76,3 +76,5 @@ I’m *poised* to contribute my skills and enthusiasm to *projects that make a d
 ---
 
 🔥 Let’s code, collaborate, and create something amazing together! 🚀💻
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=65&section=footer"/>
