@@ -36,6 +36,7 @@ import LandingPage from "./pages/Landing/LandingPage";
 import TasksView from "./components/tasks/TasksView";
 import NotesView from "./components/notes/NotesView";
 import CalendarView from "./components/calendar/CalendarView";
+import Coding from "./pages/Coding/Coding";
 
 
 
@@ -69,43 +70,44 @@ function App() {
                             <main className="flex-1">
                               <Routes>
                                 <Route path="dashboard" element={<Dashboard />} />
+                                <Route path="learning" element={<LearningHub />} />
+                                <Route path="coding/*" element={<Coding />} />
+                                <Route path="chatbot" element={<Chatbot />} />
+                                <Route path="news" element={<TechFeed />} />
                                 <Route
-                                  path="*"
-                                  element={<Navigate to="/dashboard" replace />}
-                                />
-                                <Route path="/learning" element={<LearningHub />} />
-                                <Route path="/chatbot" element={<Chatbot />} />
-                                <Route path="/news" element={<TechFeed />} />
-                                <Route
-                                  path="/community/*"
+                                  path="community/*"
                                   element={<CommunityForum />}
                                 />
 
-                                <Route path="/resume" element={<ResumeBuilder />} />
+                                <Route path="resume" element={<ResumeBuilder />} />
                                 <Route
-                                  path="/placement"
+                                  path="placement"
                                   element={<PlacementPrep />}
                                 />
                                 <Route
-                                  path="/projects"
+                                  path="projects"
                                   element={<ProjectRecommender />}
                                 />
-                                <Route path="/tasks" element={<TasksView />} />
-                                <Route path="/notes" element={<NotesView />} />
-                                <Route path="/calendar" element={<CalendarView />} />
-                                <Route path="/settings" element={<Settings />} />
-                                <Route path="/premium" element={<PremiumPage />} />
-                                <Route path="/payment" element={<PaymentPage />} />
-                                <Route path="/profile" element={<UserProfile />} />
+                                <Route path="tasks" element={<TasksView />} />
+                                <Route path="notes" element={<NotesView />} />
+                                <Route path="calendar" element={<CalendarView />} />
+                                <Route path="settings" element={<Settings />} />
+                                <Route path="premium" element={<PremiumPage />} />
+                                <Route path="payment" element={<PaymentPage />} />
+                                <Route path="profile" element={<UserProfile />} />
                                 <Route
-                                  path="/privacy"
+                                  path="privacy"
                                   element={<PrivacyPolicy />}
                                 />
-                                <Route path="/terms" element={<TermsOfService />} />
-                                <Route path="/creator" element={<CreatorPage />} />
+                                <Route path="terms" element={<TermsOfService />} />
+                                <Route path="creator" element={<CreatorPage />} />
                                 <Route
-                                  path="/disclaimer"
+                                  path="disclaimer"
                                   element={<Disclaimer />}
+                                />
+                                <Route
+                                  path="*"
+                                  element={<Navigate to="/dashboard" replace />}
                                 />
                               </Routes>
                             </main>

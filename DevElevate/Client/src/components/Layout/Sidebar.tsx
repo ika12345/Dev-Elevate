@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
   Home,
   BookOpen,
+  Code2,
   MessageSquare,
   Newspaper,
   Globe,
@@ -35,6 +36,7 @@ const Sidebar: React.FC = () => {
   const navItems = [
     { path: "/dashboard", icon: Home, label: "Dashboard" },
     { path: "/learning", icon: BookOpen, label: "Learning Hub" },
+    { path: "/coding", icon: Code2, label: "Coding" },
     { path: "/chatbot", icon: MessageSquare, label: "Study Buddy" },
     { path: "/news", icon: Newspaper, label: "Tech Feed" },
     { path: "/community", icon: Globe, label: "Community" },
