@@ -37,6 +37,7 @@ import TasksView from "./components/tasks/TasksView";
 import NotesView from "./components/notes/NotesView";
 import CalendarView from "./components/calendar/CalendarView";
 import Coding from "./pages/Coding/Coding";
+import InterviewPage from "./pages/Interview/InterviewPage";
 
 
 
@@ -72,6 +73,7 @@ function App() {
                                 <Route path="dashboard" element={<Dashboard />} />
                                 <Route path="learning" element={<LearningHub />} />
                                 <Route path="coding/*" element={<Coding />} />
+                                <Route path="interview" element={<InterviewPage />} />
                                 <Route path="chatbot" element={<Chatbot />} />
                                 <Route path="news" element={<TechFeed />} />
                                 <Route
